@@ -1,20 +1,41 @@
 from tkinter import *
 
+def check_number(value:str):
+    value = value.replace(" ", "")
+    # return value.removeprefix("-").replace(".", "", 1).isdigit()
+    if value.removeprefix("-").replace(".", "", 1).isdigit():
+        print(value)
+        if value.find(".") > -1:
+            return float(value)
+        else:
+            return int(value)
+    else:
+        return None
+
+def check_zero(value:str):
+    value = value.replace(" ", "")
+    return value.find("0") != -1 and len(value.removeprefix("-").strip("0")) < 2
+
+
+
 
 def sum_numbers():
-    if value_sum_1.get().isnumeric() and value_sum_2.get().isnumeric():
-        result_sum.delete(0, "end")
-        result_sum.insert(0, int(value_sum_1.get()) + int(value_sum_2.get()))
+    result_sum.delete(0, "end")
+    value_1 = check_number(value_sum_1.get())
+    value_2 = check_number(value_sum_2.get())
+    if value_1 and value_2 is not None:
+        result_sum.insert(0, value_1 + value_2)
     else:
         result_sum.insert(0, "Error")
 
-
 def subtract_numbers():
-    if value_subtract_1.get().isnumeric() and value_subtract_2.get().isnumeric():
-        result_subtract.delete(0, "end")
-        result_subtract.insert(0, int(value_subtract_1.get()) - int(value_subtract_2.get()))
+    result_subtract.delete(0, "end")
+    value_1 = check_number(value_subtract_1.get())
+    value_2 = check_number(value_subtract_2.get())
+    if value_1 and value_2 is not None:
+        result_subtract.insert(0, value_1 - value_2)
     else:
-        result_subtract.insert(0, "Error")
+        result_subtract.insert(0,"Error")
 
 
 def multiplication_numbers():
