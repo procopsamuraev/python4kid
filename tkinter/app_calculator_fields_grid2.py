@@ -2,30 +2,6 @@ from tkinter import *
 
 error_message_general = "Enter numbers only"
 error_message_zero = "Can't divide a number by 0"
-#
-# normalizacia, proverka
-# def normalizia
-# def is_number()
-# def
-
-
-# def normalisation(line:str):
-#     line = line.replace(" ", "").replace(",", ".")
-
-
-def check_number(line:str):
-    return line.removeprefix("-").replace(".", "", 1).isdigit()
-def is_number(line:str):
-    return line.removeprefix("-").replace(".", "", 1).isdigit()
-
-
-        # return float(value) if value.find(".") > -1 else int(value)
-    # one liner:
-    # return float(value) if value.find(".") > -1 else int(value) if value.removeprefix("-").replace(".", "", 1).isdigit() else None
-
-def check_zero(value:str):
-    value = value.replace(" ", "")
-    return value.find("0") != -1 and len(value.removeprefix("-").strip("0")) < 2
 
 
 # def sum_numbers():
