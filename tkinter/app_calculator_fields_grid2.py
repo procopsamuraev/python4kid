@@ -2,83 +2,142 @@ from tkinter import *
 
 error_message_general = "Enter numbers only"
 error_message_zero = "Can't divide a number by 0"
+#
+# normalizacia, proverka
+# def normalizia
+# def is_number()
+# def
 
-def check_number(value:str):
-    value = value.replace(" ", "").replace(",", ".")
-    if value.removeprefix("-").replace(".", "", 1).isdigit():
-        return float(value) if value.find(".") > -1 else int(value)
-    else:
-        return None
 
+# def normalisation(line:str):
+#     line = line.replace(" ", "").replace(",", ".")
+
+
+def check_number(line:str):
+    return line.removeprefix("-").replace(".", "", 1).isdigit()
+def is_number(line:str):
+    return line.removeprefix("-").replace(".", "", 1).isdigit()
+
+
+        # return float(value) if value.find(".") > -1 else int(value)
+    # one liner:
+    # return float(value) if value.find(".") > -1 else int(value) if value.removeprefix("-").replace(".", "", 1).isdigit() else None
 
 def check_zero(value:str):
     value = value.replace(" ", "")
     return value.find("0") != -1 and len(value.removeprefix("-").strip("0")) < 2
 
 
+# def sum_numbers():
+#     result_sum.delete(0, "end")
+#     value_clean_1 = value_sum_1.get().replace(" ", "").replace(",", ".")
+#     value_clean_2 = value_sum_2.get().replace(" ", "").replace(",", ".")
+#     number_1 = float(value_clean_1) if value_clean_1.removeprefix("-").replace(".", "", 1).isdigit() \
+#         else result_sum.insert(0, error_message_general)
+#     number_2 = float(value_clean_2) if value_clean_2.removeprefix("-").replace(".", "", 1).isdigit() \
+#         else result_sum.insert(0, error_message_general)
+#     result = number_1 + number_2
+#     result_sum.insert(0, int(result)) if result.is_integer() \
+#         else result_sum.insert(0, result)
+
 def sum_numbers():
     result_sum.delete(0, "end")
-    value_1 = check_number(value_sum_1.get())
-    value_2 = check_number(value_sum_2.get())
-    if value_1 and value_2 is not None:
-        result_sum.insert(0, value_1 + value_2)
-    else:
-        result_sum.insert(0, error_message_general)
+    numbers=list()
+    for value in [value_sum_1, value_sum_2]:
+        value_clean = value.get().replace(" ", "").replace(",", ".")
+        number = float(value_clean) if value_clean.removeprefix("-").replace(".", "", 1).isdigit() \
+            else result_sum.insert(0, error_message_general)
+        numbers.append(number)
+    result = numbers[0] + numbers[1]
+    result = int(result) if result.is_integer() else result
+    result_sum.insert(0, str(result))
 
 
 def subtract_numbers():
     result_subtract.delete(0, "end")
-    value_1 = check_number(value_subtract_1.get())
-    value_2 = check_number(value_subtract_2.get())
-    if value_1 and value_2 is not None:
-        result_subtract.insert(0, value_1 - value_2)
-    else:
-        result_subtract.insert(0,"Error")
+    value_clean_1 = value_subtract_1.get().replace(" ", "").replace(",", ".")
+    value_clean_2 = value_subtract_2.get().replace(" ", "").replace(",", ".")
+    number_1 = float(value_clean_1) if value_clean_1.removeprefix("-").replace(".", "", 1).isdigit() \
+        else result_subtract.insert(0, error_message_general)
+    number_2 = float(value_clean_2) if value_clean_2.removeprefix("-").replace(".", "", 1).isdigit() \
+        else result_subtract.insert(0, error_message_general)
+    result = number_1 - number_2
+    result = int(result) if result.is_integer() else result
+    result_subtract.insert(0, str(result))
 
 
 def multiplication_numbers():
     result_multiplication.delete(0, "end")
-    value_1 = check_number(value_multiplication_1.get())
-    value_2 = check_number(value_multiplication_2.get())
-    result_multiplication.insert(0, value_1 * value_2) if value_1 and value_2 is not None else result_multiplication.insert(0, "Error")
+    value_clean_1 = value_multiplication_1.get().replace(" ", "").replace(",", ".")
+    value_clean_2 = value_multiplication_2.get().replace(" ", "").replace(",", ".")
+    number_1 = float(value_clean_1) if value_clean_1.removeprefix("-").replace(".", "", 1).isdigit() \
+        else result_multiplication.insert(0, error_message_general)
+    number_2 = float(value_clean_2) if value_clean_2.removeprefix("-").replace(".", "", 1).isdigit() \
+        else result_multiplication.insert(0, error_message_general)
+    result = number_1 * number_2
+    result = int(result) if result.is_integer() else result
+    result_multiplication.insert(0, str(result))
 
 
 def exponentiation_numbers():
     result_exponentiation.delete(0, "end")
-    value_1 = check_number(value_exponentiation_1.get())
-    value_2 = check_number(value_exponentiation_2.get())
-    print(value_1, value_2)
-    result_exponentiation.insert(0, value_1 ** value_2) if value_1 and value_2 is not None else result_exponentiation.insert(0, "Error")
+    value_clean_1 = value_exponentiation_1.get().replace(" ", "").replace(",", ".")
+    value_clean_2 = value_exponentiation_2.get().replace(" ", "").replace(",", ".")
+    number_1 = float(value_clean_1) if value_clean_1.removeprefix("-").replace(".", "", 1).isdigit() \
+        else result_exponentiation.insert(0, error_message_general)
+    number_2 = float(value_clean_2) if value_clean_2.removeprefix("-").replace(".", "", 1).isdigit() \
+        else result_exponentiation.insert(0, error_message_general)
+    result = number_1 ** number_2
+    result = int(result) if result.is_integer() else result
+    result_exponentiation.insert(0, str(result))
 
 
 def division_numbers():
     result_division.delete(0, "end")
-    value_1 = check_number(value_division_1.get())
-    value_2 = check_number(value_division_2.get())
-    if check_zero(str(value_2)):
-        result_division.insert(0, "Error:cant divide to '0'")
+    value_clean_1 = value_division_1.get().replace(" ", "").replace(",", ".")
+    value_clean_2 = value_division_2.get().replace(" ", "").replace(",", ".")
+    number_1 = float(value_clean_1) if value_clean_1.removeprefix("-").replace(".", "", 1).isdigit() \
+        else result_division.insert(0, error_message_general)
+    number_2 = float(value_clean_2) if value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()  \
+        else result_division.insert(0, error_message_general)
+    if number_2 == 0.0:
+        result_division.insert(0, error_message_zero) if number_2 == 0.0 else number_2
     else:
-        result_division.insert(0, value_1 / value_2) if value_1 and value_2 is not None else result_division.insert(0, "Error")
+        result = number_1 / number_2
+        result = int(result) if result.is_integer() else result
+        result_division.insert(0, str(result))
 
 
 def floor_division_numbers():
     result_floor_division.delete(0, "end")
-    value_1 = check_number(value_floor_division_1.get())
-    value_2 = check_number(value_floor_division_2.get())
-    if check_zero(str(value_2)):
-        result_floor_division.insert(0, "Error: cant divide to 0")
+    value_clean_1 = value_floor_division_1.get().replace(" ", "").replace(",", ".")
+    value_clean_2 = value_floor_division_2.get().replace(" ", "").replace(",", ".")
+    number_1 = float(value_clean_1) if value_clean_1.removeprefix("-").replace(".", "", 1).isdigit() \
+        else result_floor_division.insert(0, error_message_general)
+    number_2 = float(value_clean_2) if value_clean_2.removeprefix("-").replace(".", "", 1).isdigit() \
+        else result_floor_division.insert(0, error_message_general)
+    if number_2 == 0.0:
+        result_floor_division.insert(0, error_message_zero) if number_2 == 0.0 else number_2
     else:
-        result_floor_division.insert(0, value_1 // value_2) if value_1 and value_2 is not None else result_floor_division.insert(0, "Error")
+        result = number_1 // number_2
+        result = int(result) if result.is_integer() else result
+        result_floor_division.insert(0, str(result))
 
 
 def modulus_numbers():
     result_modulus.delete(0, "end")
-    value_1 = check_number(value_modulus_1.get())
-    value_2 = check_number(value_modulus_2.get())
-    if check_zero(str(value_2)):
-        result_modulus.insert(0, "Error: cant divide to 0")
+    value_clean_1 = value_modulus_1.get().replace(" ", "").replace(",", ".")
+    value_clean_2 = value_modulus_2.get().replace(" ", "").replace(",", ".")
+    number_1 = float(value_clean_1) if value_clean_1.removeprefix("-").replace(".", "", 1).isdigit() \
+        else result_modulus.insert(0, error_message_general)
+    number_2 = float(value_clean_2) if value_clean_2.removeprefix("-").replace(".", "", 1).isdigit() \
+        else result_modulus.insert(0, error_message_general)
+    if number_2 == 0.0:
+        result_modulus.insert(0, error_message_zero) if number_2 == 0.0 else number_2
     else:
-        result_modulus.insert(0, value_1 % value_2) if value_1 and value_2 is not None else result_modulus.insert(0, error_message_zero)
+        result = number_1 % number_2
+        result = int(result) if result.is_integer() else result
+        result_modulus.insert(0, str(result))
 
 
 root = Tk()

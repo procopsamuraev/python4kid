@@ -2,8 +2,11 @@ from tkinter import *
 
 
 def print_button_address(address):
-    print(text.get(1.0))
-    text.insert(END,f', {address}') if text.get(1.0).isprintable() else text.insert(END, address)
+    # print(text.get(1.0))
+    # text.insert(END,f', {address}') if text.get(1.0).isprintable() else text.insert(END, address)
+    # print(f'{text.get(1.0, END)=}')
+    # text.insert(END,f', {address}') if text.get(1.0).isprintable() else text.insert(END, address)
+    text.insert(END,f', {address}') if text.get(1.0, END).strip() else text.insert(END, address)
 
 
 root = Tk()
@@ -22,7 +25,9 @@ button.grid(column=4, row=0)
 
 button = Button(root, text="8", bg="yellow")
 button.grid(column=0, row=1)
-button = Button(root, text="A8", bg="yellow", fg="yellow", activebackground="yellow", activeforeground="yellow", command=lambda: print_button_address("A8"))
+command=lambda: text.insert(END, f', A8') if text.get(1.0).isprintable() else text.insert(END, "A8")
+button = Button(root, text="A8", bg="yellow", fg="yellow", activebackground="yellow", activeforeground="yellow", command=command)
+# button = Button(root, text="A8", bg="yellow", fg="yellow", activebackground="yellow", activeforeground="yellow", command=lambda: print_button_address("A8"))
 button.grid(column=1, row=1)
 button = Button(root, text="B8", bg="brown", fg="brown", activebackground="brown", activeforeground="brown", command=lambda: print_button_address("B8"))
 button.grid(column=2, row=1)
