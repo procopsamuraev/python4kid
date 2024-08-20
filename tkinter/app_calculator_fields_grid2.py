@@ -1,7 +1,7 @@
 from tkinter import *
 
-error_message_general = "Enter numbers only"
-error_message_zero = "Can't divide a number by 0"
+error_general = "Enter numbers only"
+error_zero = "Can't divide a number by 0"
 
 
 # def sum_numbers():
@@ -45,14 +45,11 @@ def subtract_numbers():
 def multiplication_numbers():
     result_multiplication.delete(0, "end")
     value_clean_1 = value_multiplication_1.get().replace(" ", "").replace(",", ".")
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
     value_clean_2 = value_multiplication_2.get().replace(" ", "").replace(",", ".")
-    number_1 = float(value_clean_1) if value_clean_1.removeprefix("-").replace(".", "", 1).isdigit() \
-        else result_multiplication.insert(0, error_message_general)
-    number_2 = float(value_clean_2) if value_clean_2.removeprefix("-").replace(".", "", 1).isdigit() \
-        else result_multiplication.insert(0, error_message_general)
-    result = number_1 * number_2
-    result = int(result) if result.is_integer() else result
-    result_multiplication.insert(0, str(result))
+    number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
+    result = str(float(value_clean_1) * float(value_clean_2)) if number_1_true and number_2_true else error_general
+    result_multiplication.insert(0, result.rstrip("0").removesuffix("."))
 
 
 def exponentiation_numbers():
