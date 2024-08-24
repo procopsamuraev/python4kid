@@ -3,18 +3,25 @@ from tkinter import *
 import time
 
 
+def adjust_hour(hour):
+    hour = hour % 24 if hour >= 24 else hour
+    return hour
+
+
 def show_time():
     time_local = time.strftime('%H:%M:%S:%Z')
     # calculate value of hour in UTC
+    # time_local = "05:15:01:+8" # testing
     hour_utc = int(time_local.split(":")[0]) - int(time_local.split(":")[-1])
     hour_utc = 24 + hour_utc if hour_utc < 0 else hour_utc
     minute = time_local.split(":")[1]
     second = time_local.split(":")[2]
-    time_moscow = f"{hour_utc + 3}:{minute}:{second}"
+
+    time_moscow = f"{adjust_hour(hour_utc + 3)}:{minute}:{second}"
     label_moscow.config(text=time_moscow)
-    time_london = f"{hour_utc + 1}:{minute}:{second}"
+    time_london = f"{adjust_hour(hour_utc + 1)}:{minute}:{second}"
     label_london.config(text=time_london)
-    time_tokyo = f"{hour_utc + 9}:{minute}:{second}"
+    time_tokyo = f"{adjust_hour(hour_utc + 9)}:{minute}:{second}"
     label_tokyo.config(text=time_tokyo)
     label_tokyo.after(500, show_time)
 
