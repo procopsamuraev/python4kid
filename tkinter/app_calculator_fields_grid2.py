@@ -1,27 +1,26 @@
 from tkinter import *            
-                                             
-error = "Enter numbers only and not 0"                                                     
-error_zero = "Can't divide a number by 0"   
-                                                                                           
-                                             
-def sum_numbers():        
-    result_sum.delete(0, "end")                                                            
+error = "Enter numbers only0"
+error_zero = "Enter numbers only and not 0"
+
+
+def sum_numbers():
     value_clean_1 = value_sum_1.get().replace(" ", "").replace(",", ".")
     number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
     value_clean_2 = value_sum_2.get().replace(" ", "").replace(",", ".")
     number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
     result = str(float(value_clean_1) + float(value_clean_2)) if number_1_true and number_2_true else error
-    result_sum.insert(0, result.strip("0").removesuffix("."))
-                                             
+    value_result_sum.set(result.rstrip("0").removesuffix("."))
+
                                              
 def subtract_numbers():             
     result_subtract.delete(0, "end")                                                       
     value_clean_1 = value_subtract_1.get().replace(" ", "").replace(",", ".")
-    number_1_true = value_clean_1.removeprefix("-").replace(".","", 1).isdigit()
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
     value_clean_2 = value_subtract_2.get().replace(" ", "").replace(",", ".")
     number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
-    result = str(float(value_clean_1) - float(value_clean_2)) if number_1_true and number_2_true else error
-    result_subtract.insert(0, result.strip("0").removesuffix("."))
+    numbers_true = number_1_true and number_2_true
+    result = str(float(value_clean_1) - float(value_clean_2)) if numbers_true else error
+    result_subtract.insert(0, result.rstrip("0").removesuffix("."))
 
                                              
 def multiplication_numbers():       
@@ -30,55 +29,56 @@ def multiplication_numbers():
     number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
     value_clean_2 = value_multiplication_2.get().replace(" ", "").replace(",", ".")
     number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
-    result = str(float(value_clean_1) * float(value_clean_2)) if number_1_true and number_2_true else error
+    numbers_true = number_1_true and number_2_true
+    result = str(float(value_clean_1) * float(value_clean_2)) if numbers_true else error
     result_multiplication.insert(0, result.rstrip("0").removesuffix("."))
                                                                                            
                                              
 def exponentiation_numbers():
     result_exponentiation.delete(0, "end")                                                 
-    result_multiplication.delete(0, "end")                                                 
     value_clean_1 = value_exponentiation_1.get().replace(" ", "").replace(",", ".")
     number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
     value_clean_2 = value_exponentiation_2.get().replace(" ", "").replace(",", ".")
     number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
-    result = str(float(value_clean_1) ** float(value_clean_2)) if number_1_true and number_2_true else error
+    numbers_true = number_1_true and number_2_true
+    result = str(float(value_clean_1) ** float(value_clean_2)) if numbers_true else error
     result_exponentiation.insert(0, result.rstrip("0").removesuffix("."))
-                                             
+
+
 def division_numbers():       
     result_division.delete(0, "end")                                                       
     value_clean_1 = value_division_1.get().replace(" ", "").replace(",", ".")
-    number_1_true = value_clean_1.removeprefix("-").replace(".","", 1).isdigit()
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
     value_clean_2 = value_division_2.get().replace(" ", "").replace(",", ".")
     number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
     numbers_true = number_1_true and number_2_true and int(value_clean_2) != 0
-    result = str(float(value_clean_1) / float(value_clean_2)) if numbers_true else error
-    result_division.insert(0, result.strip("0").removesuffix("."))
+    result = str(float(value_clean_1) / float(value_clean_2)) if numbers_true else error_zero
+    result_division.insert(0, result.rstrip("0").removesuffix("."))
                                              
                                              
 def floor_division_numbers():                                                              
     result_division.delete(0, "end")                                                       
     value_clean_1 = value_floor_division_1.get().replace(" ", "").replace(",", ".")
-    number_1_true = value_clean_1.removeprefix("-").replace(".","", 1).isdigit()
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
     value_clean_2 = value_floor_division_2.get().replace(" ", "").replace(",", ".")
     number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit() 
     numbers_true = number_1_true and number_2_true and int(value_clean_2) != 0
-    result = str(float(value_clean_1) / float(value_clean_2)) if numbers_true else error
-    result_floor_division.insert(0, result.strip("0").removesuffix("."))
+    result = str(float(value_clean_1) / float(value_clean_2)) if numbers_true else error_zero
+    result_floor_division.insert(0, result.rstrip("0").removesuffix("."))
                                              
                                                                                            
 def modulus_numbers():                                                                     
     result_modulus.delete(0, "end")
     value_clean_1 = value_modulus_1.get().replace(" ", "").replace(",", ".")
-    number_1_true = value_clean_1.removeprefix("-").replace(".","", 1).isdigit()
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
     value_clean_2 = value_modulus_2.get().replace(" ", "").replace(",", ".")
     number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
-    numbers_true = number_1_true and number_2_true and int(value_clean_2) != 0
-    result = str(float(value_clean_1) / float(value_clean_2)) if numbers_true else error
-    result_modulus.insert(0, result.strip("0").removesuffix("."))
+    number_2_zero = value_clean_2.find("0") != -1 and len(value_clean_2.removeprefix("-").strip("0")) < 2
+    numbers_true = number_1_true and number_2_true and not number_2_zero
+    # line_check.removeprefix("-").replace(".", "", 1).replace("0", "", line_check.count("0") - 1) == "0"
+    result = str(float(value_clean_1) % float(value_clean_2)) if numbers_true else error_zero
+    result_modulus.insert(0, result.rstrip("0").removesuffix("."))
                                                                                            
-                                             
-
-
 
 root = Tk()
 root.title("Ex_1")
@@ -94,9 +94,9 @@ field_sum_2 = Entry(root, width=5, textvariable=value_sum_2)
 field_sum_2.grid(column=2, row=row_num)
 button_equal = Button(root, text="=", command=sum_numbers)
 button_equal.grid(column=3, row=row_num)
-value_result = StringVar()
-result_sum = Entry(root, width=10, textvariable=value_result)
-result_sum.grid(column=4, row=row_num)
+value_result_sum = StringVar()
+entry_result_sum = Entry(root, width=10, textvariable=value_result_sum)
+entry_result_sum.grid(column=4, row=row_num)
 
 row_num = 1
 value_subtract_1 = StringVar()
