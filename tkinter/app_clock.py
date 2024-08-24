@@ -1,4 +1,4 @@
-# ex.1
+# ex.2
 from tkinter import *
 import time
 
@@ -9,14 +9,14 @@ def show_time():
     hour_utc = int(time_local.split(":")[0]) - int(time_local.split(":")[-1])
     hour_utc = 24 + hour_utc if hour_utc < 0 else hour_utc
     minute = time_local.split(":")[1]
-    second = time_local.split(":")[1]
+    second = time_local.split(":")[2]
     time_moscow = f"{hour_utc + 3}:{minute}:{second}"
     label_moscow.config(text=time_moscow)
     time_london= f"{hour_utc + 1}:{minute}:{second}"
     label_london.config(text=time_london)
     time_tokyo= f"{hour_utc + 9}:{minute}:{second}"
     label_tokyo.config(text=time_tokyo)
-    label_tokyo.after(500, show_time)
+    label_tokyo.after(200, show_time)
 
 
 root = Tk()
