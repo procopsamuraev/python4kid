@@ -12,11 +12,11 @@ def show_time():
     second = time_local.split(":")[2]
     time_moscow = f"{hour_utc + 3}:{minute}:{second}"
     label_moscow.config(text=time_moscow)
-    time_london= f"{hour_utc + 1}:{minute}:{second}"
+    time_london = f"{hour_utc + 1}:{minute}:{second}"
     label_london.config(text=time_london)
-    time_tokyo= f"{hour_utc + 9}:{minute}:{second}"
+    time_tokyo = f"{hour_utc + 9}:{minute}:{second}"
     label_tokyo.config(text=time_tokyo)
-    label_tokyo.after(200, show_time)
+    label_tokyo.after(500, show_time)
 
 
 root = Tk()
@@ -27,12 +27,12 @@ label_moscow.pack(fill="both", expand=1, side="left")
 
 frame_london = LabelFrame(text="London time")
 frame_london.pack(side="right")
-label_london= Label(frame_london, width=10, font=('Fira Code', 13), bg='green')
+label_london = Label(frame_london, width=10, font=('Fira Code', 13), bg='green')
 label_london.pack(fill="both", expand=1, side="right")
 
-frame_tokyo= LabelFrame(text="Tokyo time")
+frame_tokyo = LabelFrame(text="Tokyo time")
 frame_tokyo.pack(side="right")
-label_tokyo= Label(frame_tokyo, width=10, font=('Fira Code', 13), bg='green')
+label_tokyo = Label(frame_tokyo, width=10, font=('Fira Code', 13), bg='green')
 label_tokyo.pack(fill="both", expand=1, side="right")
 
 
