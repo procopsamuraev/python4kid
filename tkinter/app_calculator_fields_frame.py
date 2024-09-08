@@ -1,7 +1,8 @@
-from tkinter import *            
+from tkinter import *
+import operator
 error = "error"
 
-
+"""
 def calculation_numbers(number_1, number_2, operation, value_result):
     value_clean_1 = number_1.get().replace(" ", "").replace(",", ".")
     number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
@@ -27,8 +28,9 @@ def calculation_numbers(number_1, number_2, operation, value_result):
         number_2_zero = value_clean_2.find("0") != -1 and len(value_clean_2.removeprefix("-").strip("0")) < 2
         number_2_true = number_2_true and not number_2_zero
         result = str(float(value_clean_1) % float(value_clean_2)) if number_1_true and number_2_true else error
+    else:
+        result = error
     value_result.set(result.rstrip("0").removesuffix("."))
-
 
 """
 def sum_numbers():
@@ -41,17 +43,15 @@ def sum_numbers():
 
                                              
 def subtract_numbers():             
-    result_subtract.delete(0, "end")                                                       
     value_clean_1 = value_subtract_1.get().replace(" ", "").replace(",", ".")
     number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
     value_clean_2 = value_subtract_2.get().replace(" ", "").replace(",", ".")
     number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
-    numbers_true = number_1_true and number_2_true
-    result = str(float(value_clean_1) - float(value_clean_2)) if numbers_true else error
-    result_subtract.insert(0, result.rstrip("0").removesuffix("."))
+    result = str(float(value_clean_1) - float(value_clean_2)) if number_1_true and number_2_true else error
+    value_result_subtract.set(result.rstrip("0").removesuffix("."))
 
-                                             
-def multiplication_numbers():       
+
+def multiplication_numbers():
     result_multiplication.delete(0, "end")                                                 
     value_clean_1 = value_multiplication_1.get().replace(" ", "").replace(",", ".")
     number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
@@ -106,7 +106,6 @@ def modulus_numbers():
     # line_check.removeprefix("-").replace(".", "", 1).replace("0", "", line_check.count("0") - 1) == "0"
     result = str(float(value_clean_1) % float(value_clean_2)) if numbers_true else error_zero
     result_modulus.insert(0, result.rstrip("0").removesuffix("."))
-"""
 
 root = Tk()
 root.title("Ex_1")
