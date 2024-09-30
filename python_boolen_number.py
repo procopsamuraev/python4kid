@@ -530,7 +530,9 @@ print(line, check_line(line))
 def check_line(line_check):
     line_check = line_check.replace(" ", "")
     # return line_check.find("0") != -1 and line_check.find("-", 1) == -1 and line_check.replace(".", "", 1).replace("-", "", 1).replace("0", " ").isspace()
-    return line_check.find("0") != -1 and len(line_check.removeprefix("-").strip("0")) < 2
+    # return line_check.find("0") != -1 and len(line_check.removeprefix("-").strip("0")) < 2
+    # return  line_check.count("0") > 0 and len(line_check.removeprefix("-").strip(".0")) == 0
+    return line_check.removeprefix("-").replace(".", "", 1).replace("0", "", line_check.count("0") - 1) == "0"
 
 print("#### True ####")
 line = " 00 0000"

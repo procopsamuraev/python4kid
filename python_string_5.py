@@ -101,7 +101,7 @@ print(f'{city = } {year = }')
 print([city, year])
 
 city = "Msk 1988"
-year = ""
+year = "\t \n"
 print(city, year)
 print(f'city={city} year={year}')
 print(f'{city = } {year = }')
