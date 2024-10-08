@@ -18,62 +18,82 @@ true: before we press enter
  
 """
 
+# fixme:
+#  if = then clear all
+#  and clear only till last operator
+
 
 def backspace():
-    string = num.get()
-    string = string.removesuffix(string[-1])
-    num.set(string if string else "0")
+    line = num.get()
+    line = '0' if line.rfind('=') >=0 else line
+    line = line[:-1] if line[-1] not in operators else line
+    num.set(line if line else "0")
+
+# fixme: check string true before calculation
+# delenie na null
 
 
 def calculation():
-    clean_string()
-    result = str(eval(num.get()))
-    result = result.rstrip('0').removesuffix('.') if '.' in result else result
+    normalization_last_value()
+    line = num.get()
+    operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
+    line_tail = line.rpartition(f"{operator_last}")[-1] if operator_last else ''
+    num.set(line) if line.replace(operators, '').replace('.', '').isdigit() else "Error in the line"
+    num.set(f"{line} = Error(division by 0)") if operator_last == "/" and line_tail == "0" else line
+    result = str(eval(line)).removesuffix('.0')
+    result = result.removesuffix('.0') # if '.' in result else result
+    # result = result.rstrip('0').removesuffix('.') if '.' in result else result
     num.set(f"{num.get()}={result}")
 
 
-def clean_string():
-    string = num.get()
-    tail_string = string.rpartition(f"{current_operator}")[-1] if current_operator else ''
-    string = string.rstrip('0').rstrip('.') if '.' in tail_string else string
-    num.set(string)
+def tail_line():
+    line = num.get()
+    operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
+    line_tail = line.rpartition(f"{operator_last}")[-1] if operator_last else ''
+    return line_tail
+
+
+def toggle():
+    line  = num.get()
+    operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
+    head, _sep, tail = line.rpartition(operator_last)
+    num.set(f'{head}{_sep}-{tail}'.replace('--', '+').replace('+-', '-').replace('-+', '-').replace('*+', '*').replace('/+', '/'))
+
+
+def normalization_last_value():
+    line = num.get()
+    operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
+    line_tail = line.rpartition(f"{operator_last}")[-1] if operator_last else ''
+    line = line.rstrip('0').rstrip('.') if '.' in line_tail else line
+    num.set(line)
 
 
 def set_operator(operator):
-    # to avoid for iterations
-    global current_operator
-    clean_string()
-    string = num.get()
-    string = f"{string.rstrip(operators)}{operator}"
-    num.set(string)
-    current_operator = operator
+    normalization_last_value()
+    num.set(f"{num.get().rstrip(operators)}{operator}")
 
 
 def set_number(number):
-    string = num.get()
-    # remove heading zeros at the beginning
-    string = string.lstrip('0') if not string.replace('0', '') else string
-    # remove zeros
-    if current_operator:
-        tail = string.rpartition(f"{current_operator}0")[-1]
-        string = string.replace(f"{current_operator}0", f"{current_operator}") if not tail else string
-    num.set(f"{string}{number}")
+    line = num.get()
+    operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
+    line_tail = line.rpartition(operator_last)[-1] if operator_last else line
+    num.set(number if line_tail == '0' else f"{line}{number}")
 
 
-# clear entry, clear last number till next operator
-def clear_entry():
-    string = num.get()
-    string = string.rstrip('1234567890,.')
-    num.set(string if string else "0")
+# clear end, clear last number till next operator
+def clear_end():
+    line = num.get()
+    line = line.rstrip('1234567890,.')
+    num.set(line if line else "0")
 
 
 def set_dot():
-    string = f"{num.get().rstrip('.')}."
-    # adding 0 before "dot"
-    for operator in operators:
-        string = string.replace(f"{operator}.", f"{operator}0.")
-    num.set(string)
+    line = num.get()
+    operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
+    line = f"{line}."
+    num.set(line.replace(f"{operator_last}.", f"{operator_last}0."))
 
+# fixme: after = when continue typing do not breake code - just delete till last string
 
 root = Tk()
 root.title("Calculator")
@@ -99,11 +119,11 @@ button_m_subtract = Button(frame_buttons, width=4, text="M-")
 button_m_subtract.grid(column=4, row=1)
 button_backspace = Button(frame_buttons, width=4, text=chr(8592), command=backspace)
 button_backspace.grid(column=0, row=2)
-button_ce = Button(frame_buttons, width=4, text="CE", command=clear_entry)
+button_ce = Button(frame_buttons, width=4, text="CE", command=clear_end)
 button_ce.grid(column=1, row=2)
 button_c = Button(frame_buttons, width=4, text="C", command=lambda: num.set('0'))
 button_c.grid(column=2, row=2)
-button_toggle = Button(frame_buttons, width=4, text=chr(177))
+button_toggle = Button(frame_buttons, width=4, text=chr(177), command=toggle)
 button_toggle.grid(column=3, row=2)
 button_square_root = Button(frame_buttons, width=4, text=chr(8730))
 button_square_root.grid(column=4, row=2)
