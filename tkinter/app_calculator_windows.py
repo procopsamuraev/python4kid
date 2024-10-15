@@ -99,12 +99,15 @@ def normalization_last_value():
 
     num.set(line)
 
-
 def set_operator(operator):
     normalization_last_value()
     line = num.get()
     operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
-    num.set(f"{num.get().rstrip(operators)}{operator}")
+    if operator_last == '/' and eval(line.rpartition(f"{operator_last}")[-1]) == 0:
+        num.set(f"{line}E0")
+    else:
+        num.set(f"{line.rstrip(operators)}{operator}")
+
 
 # account =
 def set_number(number):
