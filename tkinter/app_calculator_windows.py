@@ -67,16 +67,16 @@ def return_calculation():
     # result = result.rstrip('0').removesuffix('.') if '.' in result else result
 
 
-def number_right(line):
-    index_roperator = max(line.rfind('/'), line.rfind('*'), line.rfind('+'), line.rfind('-'))
-    if index_roperator > 1 and line[index_roperator-1] in operators:
-        index_roperator = index_roperator-1
-    return(line[index_roperator+1:] if index_roperator > 0 else line)
+def find_rnumber(line):
+    index_operator = max(line.rfind('/'), line.rfind('*'), line.rfind('+'), line.rfind('-'))
+    if index_operator > 1 and line[index_operator-1] in operators:
+        index_operator = index_operator-1
+    return(line[index_operator+1:] if index_operator > 0 else line)
 
 
 def toggle():
     line = num.get()
-    number_last = number_right(line)
+    number_last = find_rnumber(line)
     line = line.removesuffix(number_last)
     if number_last.startswith('-'):
         line = f"{line}{number_last.removeprefix('-')}"
