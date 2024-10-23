@@ -38,131 +38,73 @@ def backspace():
     num.set(line)
 
 
-# fixme: check string true before calculation
-# delenie na null
-
-
-def calculation():
-    normalization_last_value()
-    line = num.get()
-    operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
-    line_tail = line.rpartition(f"{operator_last}")[-1] if operator_last else ''
-    num.set(line) if line.replace(operators, '').replace('.', '').isdigit() else "Error in the line"
-    num.set(f"{line} = Error(division by 0)") if operator_last == "/" and line_tail == "0" else line
-    result = str(eval(line)).removesuffix('.0')
-    result = result.removesuffix('.0') # if '.' in result else result
-    # result = result.rstrip('0').removesuffix('.') if '.' in result else result
-    num.set(f"{num.get()}={result}")
-
-
-def return_calculation():
-    normalization_last_value()
-    line = num.get()
-    operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
-    line_tail = line.rpartition(f"{operator_last}")[-1] if operator_last else ''
-    num.set(line) if line.replace(operators, '').replace('.', '').isdigit() else "Error in the line"
-    num.set(f"{line} = Error(division by 0)") if operator_last == "/" and line_tail == "0" else line
-    result = str(eval(line)).removesuffix('.0')
-    return(result.removesuffix('.0')) # if '.' in result else result
-    # result = result.rstrip('0').removesuffix('.') if '.' in result else result
+# def calculation():
+#     normalization_last_value()
+#     line = num.get()
+#     operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
+#     line_tail = line.rpartition(f"{operator_last}")[-1] if operator_last else ''
+#     num.set(line) if line.replace(operators, '').replace('.', '').isdigit() else "Error in the line"
+#     num.set(f"{line} = Error(division by 0)") if operator_last == "/" and line_tail == "0" else line
+#     result = str(eval(line)).removesuffix('.0')
+#     result = result.removesuffix('.0') # if '.' in result else result
+#     # result = result.rstrip('0').removesuffix('.') if '.' in result else result
+#     num.set(f"{num.get()}={result}")
 
 
 def find_rnumber(line):
-    index_operator = max(line.rfind('/'), line.rfind('*'), line.rfind('+'), line.rfind('-'))
-    if index_operator > 1 and line[index_operator-1] in operators:
-        index_operator = index_operator-1
-    return(line[index_operator+1:] if index_operator > 0 else line)
+    index_operator = max(line.rfind('/'), line.rfind('*'), line.rfind('+'), line.rfind('-'), line.rfind('='))
+    if line.removeprefix('-').replace('.', '').isdigit():
+        return line
+    elif line[index_operator] == "-" and line[index_operator - 1] in operators:
+        return line[index_operator:]
+    else:
+        return line[index_operator + 1:]
 
 
 def toggle():
     line = num.get()
-    number_last = find_rnumber(line)
-    line = line.removesuffix(number_last)
-    if number_last.startswith('-'):
-        line = f"{line}{number_last.removeprefix('-')}"
+    rnumber = find_rnumber(line)
+    line = line.removesuffix(rnumber)
+    if rnumber.startswith('-'):
+        line = f"{line}{rnumber.removeprefix('-')}"
     else:
-        line = f"{line}-{number_last}"
-    num.set(line)
+        line = f"{line}-{rnumber}"
+    num.set(line) if rnumber.removeprefix('-').replace('.', '').isdigit() else None
 
 
-
-# def toggle():
-#     line = num.get()
-#     operator_last = line.rstrip('1234567890.')[-1] if not line.replace('.', '').isdigit() else ''
-#     if operator_last and not line.removeprefix('-').replace('.', '').isdigit():
-#         head, _sep, tail = line.rpartition(operator_last)
-#         line = f"{head}{_sep}-{tail}"
-#         if head and head[-1] in operators:
-#             num.set(line.replace('--', ''))
-#         elif head:
-#             num.set(line)
-#     else:
-#         num.set(f'-{line}'.replace('--', ''))
-
-# def toggle():
-#     line = num.get()
-#     operator_last = line.rstrip('1234567890.')[-1] if not line.replace('.', '').isdigit() else ''
-#     line_tail = line.rpartition(f"{operator_last}")[-1] if operator_last else line
-#     if operator_last and not line.removeprefix('-').replace('.', '').isdigit():
-#         head, _sep, tail = line.rpartition(operator_last)
-#         line = f"{head}{_sep}-{tail}"
-#         if head and head[-1] in operators:
-#             num.set(line.replace('--', ''))
-#         elif head:
-#             num.set(line)
-#     else:
-#         num.set(f'-{line}'.replace('--', ''))
-
-
-def normalization_last_value():
+def set_dot():
     line = num.get()
-    operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
-    line_tail = line.rpartition(f"{operator_last}")[-1] if operator_last else ''
-    line = line.rstrip('0').rstrip('.') if '.' in line_tail else line
+    rnumber = find_rnumber(line)
+    if not rnumber:
+        line = f"{line}0."
+    elif '.' not in rnumber:
+        line = f"{line}."
     num.set(line)
-
-
-# def normalization_last_value():
-#     line = num.get()
-#     operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
-#     head, sep, tail = line.rpartition(operator_last) if operator_last else '', '', line
-#     print(f"{head=}{sep=}{tail=}")
-#     tail = line.rpartition(f"{operator_last}")[-1] if operator_last else ''
-#     line = f"{head}{_sep}Error0" if operator_last == '/' and eval(tail) == 0 else line
-#     line = line.rstrip('0').rstrip('.') if '.' in tail else line
-#     num.set(line)
 
 
 def set_operator(operator):
-    normalization_last_value()
     line = num.get()
-    operator_last = line.rstrip('1234567890.')[-1] if not line.replace('.', '').isdigit() else ''
-    if operator_last == '/' and line.rpartition(operator_last)[-1] == '0':
+    rnumber = find_rnumber(line)
+    if rnumber == '0' and line.replace(rnumber, '').endswith('/'):
         num.set(f"Error: division by 0")
     else:
         num.set(f"{line.rstrip(operators)}{operator}")
 
 
-# account = - done
 def set_number(number):
     line = num.get()
-    operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
-    number_last = line.rpartition(operator_last)[-1] if operator_last else line
-    num.set(number if number_last == '0' or '=' in line else f"{line}{number}")
+    if '=' in line:
+        line = number
+    elif find_rnumber(line).removeprefix('-') == "0":
+        line = f"{line.removesuffix('0')}{number}"
+    else:
+        line = f"{line}{number}"
+    num.set(line)
 
 
 def clear_end():
     line = num.get().rstrip('1234567890.')
     num.set('0' if not line or '=' in line else line)
-
-
-def set_dot():
-    line = num.get()
-    line = f"{line}0" if line.endswith(tuple(operators)) else line
-    operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
-    line_tail = line.rpartition(f"{operator_last}")[-1] if operator_last else line
-    line = f"{line}." if '.' not in line_tail else line
-    num.set(line.replace(f"{operator_last}.", f"{operator_last}0.") if operator_last else line)
 
 
 def rational():
