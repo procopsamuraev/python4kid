@@ -1,6 +1,7 @@
 import tkinter.ttk
 from tkinter import *
 from tkinter.ttk import *
+import math
 
 error = "error"
 operators = "+-*/="
@@ -42,11 +43,12 @@ def calculation():
     if rnumber == '0' and line.replace(rnumber, '').endswith('/'):
         num.set(f"Error: division by 0")
     else:
-        return str(eval(line)).removesuffix('.0')
+        # return str(eval(line)).removesuffix('.0')
+        return eval(line)
 
 
 def display_result():
-    num.set(calculation())
+    num.set(str(calculation()).removesuffix('.0'))
 
 
 def find_rnumber(line):
@@ -107,7 +109,12 @@ def clear_end():
 
 def rational():
     line = calculation()
-    num.set(f"Error: division by 0") if line == "0" else num.set(str(eval(f"1/{line}")).removesuffix('.0'))
+    num.set(f"Error: division by 0") if line == 0 else num.set(str(eval(f"1/{line}")).removesuffix('.0'))
+
+
+def sqrt():
+    line = calculation()
+    num.set(f"Error: sqrt from negative") if line < 0 else num.set(str(math.sqrt(line)).removesuffix(".0"))
 
 
 root = Tk()
@@ -140,7 +147,7 @@ button_c = Button(frame_buttons, width=4, text="C", command=lambda: num.set('0')
 button_c.grid(column=2, row=2)
 button_toggle = Button(frame_buttons, width=4, text=chr(177), command=toggle)
 button_toggle.grid(column=3, row=2)
-button_square_root = Button(frame_buttons, width=4, text=chr(8730))
+button_square_root = Button(frame_buttons, width=4, text=chr(8730), command=sqrt)
 button_square_root.grid(column=4, row=2)
 button_7 = Button(frame_buttons, width=4, text="7", command=lambda: set_number("7"))
 button_7.grid(column=0, row=3)
