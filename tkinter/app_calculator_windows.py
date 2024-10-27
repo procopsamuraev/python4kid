@@ -6,7 +6,6 @@ error = "error"
 operators = "+-*/="
 current_operator = "="
 """
-
 true: before we press enter
 000 -> 0
 01001 -> 1001
@@ -25,7 +24,6 @@ true: before we press enter
 2--3
 2+-3
 2+-8--5*-3/-0.8 => 2+-8--5*-3/-0.8=12.75
-
 """
 
 
@@ -38,17 +36,17 @@ def backspace():
     num.set(line)
 
 
-# def calculation():
-#     normalization_last_value()
-#     line = num.get()
-#     operator_last = line.rstrip('1234567890,.')[-1] if not line.replace('.', '').isdigit() else ''
-#     line_tail = line.rpartition(f"{operator_last}")[-1] if operator_last else ''
-#     num.set(line) if line.replace(operators, '').replace('.', '').isdigit() else "Error in the line"
-#     num.set(f"{line} = Error(division by 0)") if operator_last == "/" and line_tail == "0" else line
-#     result = str(eval(line)).removesuffix('.0')
-#     result = result.removesuffix('.0') # if '.' in result else result
-#     # result = result.rstrip('0').removesuffix('.') if '.' in result else result
-#     num.set(f"{num.get()}={result}")
+def calculation():
+    line = num.get()
+    rnumber = find_rnumber(line)
+    if rnumber == '0' and line.replace(rnumber, '').endswith('/'):
+        num.set(f"Error: division by 0")
+    else:
+        return str(eval(line)).removesuffix('.0')
+
+
+def display_result():
+    num.set(calculation())
 
 
 def find_rnumber(line):
@@ -108,10 +106,9 @@ def clear_end():
 
 
 def rational():
-    line = return_calculation()
-    num.set(eval(1/line) if line != 0  else 'error: division by zero' )
+    line = calculation()
+    num.set(f"Error: division by 0") if line == "0" else num.set(str(eval(f"1/{line}")).removesuffix('.0'))
 
-# fixme: after = when continue typing do not breake code - just delete till last string
 
 root = Tk()
 root.title("Calculator")
@@ -163,7 +160,7 @@ button_6 = Button(frame_buttons, width=4, text="6", command=lambda: set_number("
 button_6.grid(column=2, row=4)
 button_multiplication = Button(frame_buttons, width=4, text="*", command=lambda: set_operator("*"))
 button_multiplication.grid(column=3, row=4)
-button_rational = Button(frame_buttons, width=4, text="1/x", command=lambda: rational)
+button_rational = Button(frame_buttons, width=4, text="1/x", command=rational)
 button_rational.grid(column=4, row=4)
 button_1 = Button(frame_buttons, width=4, text="1", command=lambda: set_number("1"))
 button_1.grid(column=0, row=5)
@@ -173,7 +170,7 @@ button_3 = Button(frame_buttons, width=4, text="3", command=lambda: set_number("
 button_3.grid(column=2, row=5)
 button_subtract = Button(frame_buttons, width=4, text="-", command=lambda: set_operator("-"))
 button_subtract.grid(column=3, row=5)
-button_equal = Button(frame_buttons, width=4, text="=", command=calculation)
+button_equal = Button(frame_buttons, width=4, text="=", command=display_result)
 button_equal.grid(column=4, row=5, rowspan=2, sticky=NS)
 button_0 = Button(frame_buttons, width=4, text="0", command=lambda: set_number("0"))
 button_0.grid(column=0, columnspan=2, row=6, sticky=EW)
