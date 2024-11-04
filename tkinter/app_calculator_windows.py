@@ -6,6 +6,8 @@ import math
 error = "error"
 operators = "+-*/="
 current_operator = "="
+error0 = "Er0: division by zero"
+
 """
 true: before we press enter
 000 -> 0
@@ -37,14 +39,10 @@ def backspace():
     num.set(line)
 
 
-def calculation():
+def calculation() -> str:
     line = num.get()
     rnumber = find_rnumber(line)
-    if rnumber == '0' and line.replace(rnumber, '').endswith('/'):
-        num.set(f"Error: division by 0")
-    else:
-        # return str(eval(line)).removesuffix('.0')
-        return eval(line)
+    return error0 if rnumber == '0' and line.replace(rnumber, '').endswith('/') else str(eval(line))
 
 
 def display_result():
@@ -53,9 +51,8 @@ def display_result():
 
 def find_rnumber(line):
     index_operator = max(line.rfind('/'), line.rfind('*'), line.rfind('+'), line.rfind('-'), line.rfind('='))
-    if line.removeprefix('-').replace('.', '').isdigit():
-        return line
-    elif line[index_operator] == "-" and line[index_operator - 1] in operators:
+    print(index_operator)
+    if line[index_operator] == "-" and line[index_operator - 1] in operators or index_operator == 0:
         return line[index_operator:]
     else:
         return line[index_operator + 1:]
@@ -65,10 +62,7 @@ def toggle():
     line = num.get()
     rnumber = find_rnumber(line)
     line = line.removesuffix(rnumber)
-    if rnumber.startswith('-'):
-        line = f"{line}{rnumber.removeprefix('-')}"
-    else:
-        line = f"{line}-{rnumber}"
+    line = f"{line}{rnumber.removeprefix('-')}" if rnumber.startswith('-') else f"{line}-{rnumber}"
     num.set(line) if rnumber.removeprefix('-').replace('.', '').isdigit() else None
 
 
@@ -107,14 +101,17 @@ def clear_end():
     num.set('0' if not line or '=' in line else line)
 
 
+# 1/x
 def rational():
     line = calculation()
-    num.set(f"Error: division by 0") if line == 0 else num.set(str(eval(f"1/{line}")).removesuffix('.0'))
+    num.set(f"Error: division by 0") if line == 0 else num.set(f"1/{line}")
+    display_result()
 
 
 def sqrt():
     line = calculation()
-    num.set(f"Error: sqrt from negative") if line < 0 else num.set(str(math.sqrt(line)).removesuffix(".0"))
+    num.set(f"Error: sqrt from negative") if line < '0' else num.set(f"{line}**0.5")
+    display_result()
 
 
 root = Tk()
@@ -124,7 +121,7 @@ num = StringVar()
 num.set('0')
 frame_entry = Frame(root)
 frame_entry.pack()
-entry = Entry(frame_entry, text=num, width=26, justify="right")
+entry = Entry(frame_entry, textvariable=num, width=26, justify="right")
 entry.grid(sticky=EW)
 
 frame_buttons = Frame(root)
