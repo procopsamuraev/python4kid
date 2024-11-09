@@ -51,11 +51,8 @@ def display_result():
 
 def find_rnumber(line):
     index_operator = max(line.rfind('/'), line.rfind('*'), line.rfind('+'), line.rfind('-'), line.rfind('='))
-    print(index_operator)
-    if line[index_operator] == "-" and line[index_operator - 1] in operators or index_operator == 0:
-        return line[index_operator:]
-    else:
-        return line[index_operator + 1:]
+    negative_number_true = line[index_operator] == "-" and line[index_operator - 1] in operators or index_operator == 0
+    return line[index_operator:] if negative_number_true else line[index_operator + 1:]
 
 
 def toggle():
@@ -110,8 +107,15 @@ def rational():
 
 def sqrt():
     line = calculation()
-    num.set(f"Error: sqrt from negative") if line < '0' else num.set(f"{line}**0.5")
-    display_result()
+    if line < '0':
+        num.set(f"Error: sqrt from negative")
+    else:
+        num.set(f"{line}**0.5")
+        display_result()
+
+
+def percentage():
+    return
 
 
 root = Tk()
