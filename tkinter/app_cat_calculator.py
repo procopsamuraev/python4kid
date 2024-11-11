@@ -45,19 +45,27 @@ def set_total_price(entry_name, entry_qty, entry_price, entry_day, entry_warning
         msg_warning = f"{msg_warning}price must be float and >0"
     elif not day_valid:
         msg_warning = f"{msg_warning}day myst by number and delimoe na 0.5"
+    else:
+        entry_total_price.delete(0, 'end')
+        entry_total_price.insert(0, str(round(int(qty)*float(price)/float(day), 2)))
     entry_warning.insert(0, msg_warning) if msg_warning != f"{name}:" else None
-    entry_total_price.insert(0, str(round(int(qty)*float(price)/float(day), 2)))
 
-
-def set_total_year():
+def set_total_annual():
+    entry_cost_annual.delete(0, 'end')
     entry_cost_annual.insert(0, (float(entry_total_price1.get()) + float(entry_price2.get()) + float(entry_total_price3.get()))*365)
 
 
 def set_total_cost():
+    msg_warning=''
     cost_annual = entry_cost_annual.get()
     years = entry_years.get().replace(' ', '')
-    years_valid = years.isdigit() and '0' > years < '99'
-    entry_for_full.insert(0, str(round(float(cost_annual) * int(years))))
+    years_valid = years.isdigit() and years > '0'
+    if not years_valid:
+        # yes i know i do not show this message at all
+        msg_warning = f"{msg_warning} vvedite years < 0 < 99"
+    else:
+        entry_for_full.delete(0, 'end')
+        entry_for_full.insert(0, str(round(float(cost_annual) * int(years))))
 
 
 root = Tk()
@@ -81,6 +89,7 @@ entry_days1 = Entry()
 entry_days1.insert(0, "21")
 entry_days1.grid(column=3, row=1)
 entry_total_price1 = Entry()
+entry_total_price1.insert(0, '0.00')
 entry_total_price1.grid(column=5, row=1)
 entry_warning1 = Entry()
 entry_warning1.insert(0, '')
@@ -101,6 +110,7 @@ entry_days2 = Entry()
 entry_days2.insert(0, "1")
 entry_days2.grid(column=3, row=3)
 entry_total_price2 = Entry()
+entry_total_price2.insert(0, '0.00')
 entry_total_price2.grid(column=5, row=3)
 entry_warning2 = Entry()
 entry_warning2.grid(column=0, columnspan=4, sticky='nsew', row=4)
@@ -120,6 +130,7 @@ entry_days3 = Entry()
 entry_days3.insert(0, "7")
 entry_days3.grid(column=3, row=5)
 entry_total_price3 = Entry()
+entry_total_price3.insert(0, '0.00')
 entry_total_price3.grid(column=5, row=5)
 entry_warning3 = Entry()
 entry_warning3.grid(column=0, columnspan=4, sticky='nsew', row=6)
@@ -128,7 +139,7 @@ button_3.grid(column=4, row=5)
 
 
 Label(text="Всего затраты за год:", justify=RIGHT).grid(column=0, row=7, columnspan=4)
-button_6 = Button(text="=",command=set_total_year)
+button_6 = Button(text="=",command=set_total_annual)
 button_6.grid(column=4, row=7)
 entry_cost_annual = Entry()
 entry_cost_annual.grid(column=5, row=7)
