@@ -28,7 +28,6 @@ and label with printed bill
 
 
 def set_total_price(entry_name, entry_qty, entry_price, entry_day, entry_warning, entry_total_price):
-    # msg_warning = ""
     name = entry_name.get().strip(' ')
     name_valid = name.replace(' ', '').replace('.', '').replace('-', '').replace('`', '').isalnum() and len(name) >= 2
     msg_warning = f"{name}:"
@@ -51,8 +50,7 @@ def set_total_price(entry_name, entry_qty, entry_price, entry_day, entry_warning
 
 
 def set_total_year():
-    # entry_cost_annual.insert(0, float(entry_total_price1.get())*365)
-    entry_cost_annual.insert(0, float("entry_total_price1.get()"+"entry_price2.get()"+"entry_total_price3.get()")*365)
+    entry_cost_annual.insert(0, (float(entry_total_price1.get()) + float(entry_price2.get()) + float(entry_total_price3.get()))*365)
 
 
 def set_total_cost():
