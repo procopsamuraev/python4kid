@@ -27,32 +27,56 @@ and label with printed bill
 """
 
 
-def set_total_price(entry_name, entry_qty, entry_price, entry_day, entry_warning, entry_total_price):
-    name = entry_name.get().strip(' ')
+def get_report_error(name, qty, price, day):
     name_valid = name.replace(' ', '').replace('.', '').replace('-', '').replace('`', '').isalnum() and len(name) >= 2
-    msg_warning = f"{name}:"
-    qty = entry_qty.get().replace(' ', '')
-    qty_valid = qty.isdigit() and qty > '0'
-    price = entry_price.get().replace(' ', '')
-    price_valid = price.replace('.', '', 1).isdigit() and str(float(price)*100).removesuffix('.0').isdigit()
-    day = entry_day.get().replace(' ', '')
-    day_valid = day.replace('.', '', 1).isdigit() and float(day) % 0.5 == 0
+    qty_false = not (qty.isdigit() and qty > '0')
+    price_valid = price.replace('.', '', 1).isdigit() and len(price.rpartition('.')[-1]) < 3
+    day_valid = day.rstrip('05').removesuffix('.').isdigit() and day > '0'
+    msg_warning = ""
+    if not name and not qty and not price and not day:
+        msg_warning = f"All field are empty - ignoring the line"
+        return msg_warning
     if not name_valid:
-        msg_warning = f"{msg_warning}Input more then 2 symbols in the name(excluded special characters"
-    elif not qty_valid:
-        msg_warning = f"{msg_warning}qty should be integer >0"
-    elif not price_valid:
-        msg_warning = f"{msg_warning}price must be float and >0"
-    elif not day_valid:
-        msg_warning = f"{msg_warning}day myst by number and delimoe na 0.5"
+        msg_warning = f"{msg_warning}Fill up 'Product' field with 2 or more alphabet symbols"
+    if qty_false:
+        msg_warning = f"{msg_warning}Fill up 'Qty' int, positive"
+    if not price_valid:
+        msg_warning = f"{msg_warning}Fill up 'Price' with positive number and not more then 2 digits after dot"
+    if not day_valid:
+        msg_warning = f"{msg_warning}Fill up  'Day' with positive number and delimoe na 0,5"
+    return msg_warning
+
+
+# def set_total_price(entry_name, entry_qty, entry_price, entry_day, label_warning, entry_total_price):
+def set_total_price(list_entries):
+    (entry_name, entry_qty, entry_price, entry_day, label_warning, entry_total_price) = list_entries
+    name = entry_name.get().strip(' ')
+    qty = entry_qty.get().replace(' ', '')
+    price = entry_price.get().replace(' ', '')
+    day = entry_day.get().replace(' ', '')
+    entry_total_price.delete(0, 'end')
+    msg_warning = get_report_error(name, qty, price, day)
+    label_warning.config(text='')
+    if msg_warning:
+        label_warning.config(text = msg_warning)
+        entry_total_price.insert(0, '0')
     else:
-        entry_total_price.delete(0, 'end')
         entry_total_price.insert(0, str(round(int(qty)*float(price)/float(day), 2)))
-    entry_warning.insert(0, msg_warning) if msg_warning != f"{name}:" else None
+
+
 
 def set_total_annual():
     entry_cost_annual.delete(0, 'end')
-    entry_cost_annual.insert(0, (float(entry_total_price1.get()) + float(entry_price2.get()) + float(entry_total_price3.get()))*365)
+    set_total_price(list_entries1)
+    set_total_price(list_entries2)
+    set_total_price(list_entries3)
+    print(float(entry_total_price1.get()))
+    print(float(entry_total_price2.get()))
+    print(float(entry_total_price3.get()))
+    # daily_total= float(entry_total_price1.get())+float(entry_total_price2.get())+float(entry_total_price3.get())
+    daily_total= float(entry_total_price1.get())+float(entry_total_price2.get())+float(entry_total_price3.get())
+    entry_cost_annual.insert(0, daily_total*365)
+    # entry_cost_annual.insert(0, (float(entry_total_price1.get()) + float(entry_price2.get()) + float(entry_total_price3.get()))*365)
 
 
 def set_total_cost():
@@ -68,13 +92,29 @@ def set_total_cost():
         entry_for_full.insert(0, str(round(float(cost_annual) * int(years))))
 
 
+def print_bill():
+    output = Label(font=('Ubuntu Mono', 10))
+    # bill_string = ''
+    width = int(entry_bill_width.get().strip(' ')) if entry_bill_width.get().strip(' ').isdigit() else '120'
+    bill_string = f"{root.title().center(width)}\n"
+    bill_string = f"{bill_string}\t{label0['text']}\t{label1['text']}\t{label2['text']}\t{label5['text']}\n"
+    print(bill_string)
+    output.config(text=bill_string)
+    output.grid(row=12)
+
+
 root = Tk()
 root.title('Calculator for cat')
-Label(text="Товар").grid(column=0, row=0)
-Label(text="Qty,pc").grid(column=1, row=0)
-Label(text="Price,pc").grid(column=2, row=0)
-Label(text="Qty days").grid(column=3, row=0)
-Label(text="Total Price").grid(column=5, row=0)
+label0 = Label(text="Product")
+label0.grid(column=0, row=0)
+label1 = Label(text="Qty")
+label1.grid(column=1, row=0)
+label2 = Label(text="Price")
+label2.grid(column=2, row=0)
+label3 = Label(text = "Days")
+label3.grid(column=3, row=0)
+label5 = Label(text="Total Price")
+label5.grid(column=5, row=0)
 
 entry_name1 = Entry()
 entry_name1.insert(0, "eda dry")
@@ -91,10 +131,11 @@ entry_days1.grid(column=3, row=1)
 entry_total_price1 = Entry()
 entry_total_price1.insert(0, '0.00')
 entry_total_price1.grid(column=5, row=1)
-entry_warning1 = Entry()
-entry_warning1.insert(0, '')
-entry_warning1.grid(column=0, columnspan=4, sticky='nsew', row=2)
-button_1 = Button(text="=", command=lambda : set_total_price(entry_name1, entry_qty1, entry_price1, entry_days1, entry_warning1, entry_total_price1))
+label_warning1 = Label()
+label_warning1.grid(column=0, columnspan=4, sticky='nsew', row=2)
+list_entries1 = [entry_name1, entry_qty1, entry_price1, entry_days1, label_warning1, entry_total_price1]
+button_1 = Button(text="=", command=lambda: set_total_price(list_entries1))
+# button_1 = Button(text="=", command=lambda: set_total_price(entry_name1, entry_qty1, entry_price1, entry_days1, label_warning1, entry_total_price1))
 button_1.grid(column=4, row=1)
 
 entry_name2 = Entry()
@@ -112,9 +153,11 @@ entry_days2.grid(column=3, row=3)
 entry_total_price2 = Entry()
 entry_total_price2.insert(0, '0.00')
 entry_total_price2.grid(column=5, row=3)
-entry_warning2 = Entry()
-entry_warning2.grid(column=0, columnspan=4, sticky='nsew', row=4)
-button_2 = Button(text="=", command=lambda: set_total_price(entry_name2, entry_qty2, entry_price2, entry_days2, entry_warning2, entry_total_price2))
+label_warning2 = Label()
+label_warning2.grid(column=0, columnspan=4, sticky='nsew', row=4)
+list_entries2 = [entry_name2, entry_qty2, entry_price2, entry_days2, label_warning2, entry_total_price2]
+button_2 = Button(text="=", command=lambda: set_total_price(list_entries2))
+# button_2 = Button(text="=", command=lambda: set_total_price(entry_name2, entry_qty2, entry_price2, entry_days2, label_warning2, entry_total_price2))
 button_2.grid(column=4, row=3)
 
 entry_name3 = Entry()
@@ -132,9 +175,11 @@ entry_days3.grid(column=3, row=5)
 entry_total_price3 = Entry()
 entry_total_price3.insert(0, '0.00')
 entry_total_price3.grid(column=5, row=5)
-entry_warning3 = Entry()
-entry_warning3.grid(column=0, columnspan=4, sticky='nsew', row=6)
-button_3 = Button(text="=", command=lambda : set_total_price(entry_name3, entry_qty3, entry_price3, entry_days3, entry_warning3, entry_total_price3))
+label_warning3 = Label()
+label_warning3.grid(column=0, columnspan=4, sticky='nsew', row=6)
+list_entries3 = [entry_name3, entry_qty3, entry_price3, entry_days3, label_warning3, entry_total_price3]
+button_3 = Button(text="=", command=lambda: set_total_price(list_entries3))
+# button_3 = Button(text="=", command=lambda : set_total_price(entry_name3, entry_qty3, entry_price3, entry_days3, label_warning3, entry_total_price3))
 button_3.grid(column=4, row=5)
 
 
@@ -154,4 +199,11 @@ button_6 = Button(text="=", command=set_total_cost)
 button_6.grid(column=4, row=9)
 entry_for_full= Entry()
 entry_for_full.grid(column=5, row=9)
+
+Label(text="Print bill with width:", justify=RIGHT).grid(column=0, row=10, columnspan=4)
+button_print_bill = Button(text="Print", command=print_bill)
+button_print_bill.grid(column=4, row=10)
+entry_bill_width = Entry()
+entry_bill_width.grid(column=5, row=10)
+entry_bill_width.insert(0, '120')
 root.mainloop()
