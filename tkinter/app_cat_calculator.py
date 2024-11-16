@@ -47,7 +47,6 @@ def get_report_error(name, qty, price, day):
     return msg_warning
 
 
-# def set_total_price(entry_name, entry_qty, entry_price, entry_day, label_warning, entry_total_price):
 def set_total_price(list_entries):
     (entry_name, entry_qty, entry_price, entry_day, label_warning, entry_total_price) = list_entries
     name = entry_name.get().strip(' ')
@@ -62,7 +61,7 @@ def set_total_price(list_entries):
         entry_total_price.insert(0, '0')
     else:
         entry_total_price.insert(0, str(round(int(qty)*float(price)/float(day), 2)))
-
+        return name, qty, price, day, entry_total_price.get()
 
 
 def set_total_annual():
@@ -73,34 +72,41 @@ def set_total_annual():
     print(float(entry_total_price1.get()))
     print(float(entry_total_price2.get()))
     print(float(entry_total_price3.get()))
-    # daily_total= float(entry_total_price1.get())+float(entry_total_price2.get())+float(entry_total_price3.get())
     daily_total= float(entry_total_price1.get())+float(entry_total_price2.get())+float(entry_total_price3.get())
     entry_cost_annual.insert(0, daily_total*365)
-    # entry_cost_annual.insert(0, (float(entry_total_price1.get()) + float(entry_price2.get()) + float(entry_total_price3.get()))*365)
 
 
 def set_total_cost():
     msg_warning=''
+    set_total_annual()
     cost_annual = entry_cost_annual.get()
     years = entry_years.get().replace(' ', '')
     years_valid = years.isdigit() and years > '0'
     if not years_valid:
-        # yes i know i do not show this message at all
-        msg_warning = f"{msg_warning} vvedite years < 0 < 99"
+        msg_warning = f"{msg_warning} vvedite years < 0 < 99" # ydo not show this message at all
     else:
         entry_for_full.delete(0, 'end')
         entry_for_full.insert(0, str(round(float(cost_annual) * int(years))))
 
 
 def print_bill():
+    set_total_cost()
     output = Label(font=('Ubuntu Mono', 10))
-    # bill_string = ''
-    width = int(entry_bill_width.get().strip(' ')) if entry_bill_width.get().strip(' ').isdigit() else '120'
+    width = int(entry_bill_width.get().strip(' ')) if entry_bill_width.get().strip(' ').isdigit() else '180'
+    col_width = round(width/6)
     bill_string = f"{root.title().center(width)}\n"
-    bill_string = f"{bill_string}\t{label0['text']}\t{label1['text']}\t{label2['text']}\t{label5['text']}\n"
-    print(bill_string)
+    bill_string = f"{bill_string}{label0['text'].ljust(col_width*2)}{label1['text'].ljust(col_width)}{label2['text'].ljust(col_width)}{label3['text'].ljust(col_width)}{label5['text'].ljust(col_width)}\n"
+    name, qty, price, day, price_total = set_total_price(list_entries1)
+    bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.ljust(col_width)}{price.ljust(col_width)}{day.ljust(col_width)}{price_total.ljust(col_width)}\n"
+    name, qty, price, day, price_total = set_total_price(list_entries2)
+    bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.ljust(col_width)}{price.ljust(col_width)}{day.ljust(col_width)}{price_total.ljust(col_width)}\n"
+    name, qty, price, day, price_total = set_total_price(list_entries3)
+    bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.ljust(col_width)}{price.ljust(col_width)}{day.ljust(col_width)}{price_total.ljust(col_width)}\n"
+    bill_string = f"{bill_string}{label_annual['text'].rjust(col_width*5-1)} {entry_cost_annual.get().ljust(col_width)}\n"
+    bill_string = f"{bill_string}{label_years['text'].rjust(col_width*5-1)} {entry_years.get().ljust(col_width)}\n"
+    bill_string = f"{bill_string}{label_cost_total['text'].rjust(col_width*5-1)} {entry_for_full.get().ljust(col_width)}\n"
     output.config(text=bill_string)
-    output.grid(row=12)
+    output.grid(row=12, columnspan=6, sticky='nsew')
 
 
 root = Tk()
@@ -117,7 +123,7 @@ label5 = Label(text="Total Price")
 label5.grid(column=5, row=0)
 
 entry_name1 = Entry()
-entry_name1.insert(0, "eda dry")
+entry_name1.insert(0, "Food dry")
 entry_name1.grid(column=0, row=1)
 entry_qty1 = Entry()
 entry_qty1.insert(0, "3")
@@ -135,11 +141,10 @@ label_warning1 = Label()
 label_warning1.grid(column=0, columnspan=4, sticky='nsew', row=2)
 list_entries1 = [entry_name1, entry_qty1, entry_price1, entry_days1, label_warning1, entry_total_price1]
 button_1 = Button(text="=", command=lambda: set_total_price(list_entries1))
-# button_1 = Button(text="=", command=lambda: set_total_price(entry_name1, entry_qty1, entry_price1, entry_days1, label_warning1, entry_total_price1))
 button_1.grid(column=4, row=1)
 
 entry_name2 = Entry()
-entry_name2.insert(0, "eda conservy")
+entry_name2.insert(0, "Food tuna in a can")
 entry_name2.grid(column=0, row=3)
 entry_qty2 = Entry()
 entry_qty2.insert(0, "1")
@@ -157,11 +162,10 @@ label_warning2 = Label()
 label_warning2.grid(column=0, columnspan=4, sticky='nsew', row=4)
 list_entries2 = [entry_name2, entry_qty2, entry_price2, entry_days2, label_warning2, entry_total_price2]
 button_2 = Button(text="=", command=lambda: set_total_price(list_entries2))
-# button_2 = Button(text="=", command=lambda: set_total_price(entry_name2, entry_qty2, entry_price2, entry_days2, label_warning2, entry_total_price2))
 button_2.grid(column=4, row=3)
 
 entry_name3 = Entry()
-entry_name3.insert(0, "napolnitel")
+entry_name3.insert(0, "Toilet Refill")
 entry_name3.grid(column=0, row=5)
 entry_qty3 = Entry()
 entry_qty3.insert(0, "1")
@@ -179,22 +183,24 @@ label_warning3 = Label()
 label_warning3.grid(column=0, columnspan=4, sticky='nsew', row=6)
 list_entries3 = [entry_name3, entry_qty3, entry_price3, entry_days3, label_warning3, entry_total_price3]
 button_3 = Button(text="=", command=lambda: set_total_price(list_entries3))
-# button_3 = Button(text="=", command=lambda : set_total_price(entry_name3, entry_qty3, entry_price3, entry_days3, label_warning3, entry_total_price3))
 button_3.grid(column=4, row=5)
 
 
-Label(text="Всего затраты за год:", justify=RIGHT).grid(column=0, row=7, columnspan=4)
+label_annual = Label(text="Всего затраты за год:", justify=RIGHT)
+label_annual.grid(column=0, row=7, columnspan=4)
 button_6 = Button(text="=",command=set_total_annual)
 button_6.grid(column=4, row=7)
 entry_cost_annual = Entry()
 entry_cost_annual.grid(column=5, row=7)
 
-Label(text="Period, years:", justify=RIGHT).grid(column=0, row=8, columnspan=4)
+label_years = Label(text="Period, years:", justify=RIGHT)
+label_years.grid(column=0, row=8, columnspan=4)
 entry_years = Entry()
 entry_years.grid(column=5, row=8)
 entry_years.insert(0, "15")
 
-Label(text="Total cost for whole period:", justify=RIGHT).grid(column=0, row=9, columnspan=4)
+label_cost_total = Label(text="Total cost for whole period:", justify=RIGHT)
+label_cost_total.grid(column=0, row=9, columnspan=4)
 button_6 = Button(text="=", command=set_total_cost)
 button_6.grid(column=4, row=9)
 entry_for_full= Entry()
