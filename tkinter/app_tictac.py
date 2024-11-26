@@ -1,58 +1,40 @@
 import tkinter
 from tkinter import *
 from tkinter.ttk import *
-turn = 1
+turn = 'X'
 
 """
-
-2x2 combinations
-00 01
-10 11
-00 10
-01 11
-00 11
-01 10
-
-
-3x3 combinations
-00 01 02
-10 11 12
-20 21 22
-
-00 10 20
-01 11 11
-02 12 22
-
-00 11 22
-02 11 20
-
 """
 
 
 def set_button_press(button):
     global turn
-    buttons_combinations = [button_00, button_10, button_11, button_01]
-    # field_empty_true = not str(button.cget('text')).isalnum()
     if not str(button.cget('text')).isalnum():
-        button.config(text='X') if turn % 2 != 0 else button.config(text='O')
-        turn = turn + 1
-    check_winner()
+        button.config(text=turn)
+        check_winner()
+        turn = 'O'if turn == 'X' else 'X'
+
 
 def clear_fields():
-    for button in button_00, button_10, button_11, button_01:
+    for button in button_00, button_10, button_20, button_01, button_11, button_21, button_20, button_21, button_22:
         button.config(text='')
 
 
 def check_winner():
-    if button_00.cget('text') == button_01.cget('text') == button_02.cget('text') and button_00.cget('text').isalnum()) or
-    elif button_10.cget('text') == button_11.cget('text') == button_12.cget('text') and button_10.cget('text').isalnum():
-        print(f"{button_00.cget('text')}-WON!")
-    else:
-        print("1")
+    column1_true = button_00.cget('text') == button_01.cget('text') == button_02.cget('text') and button_00.cget('text').isalnum()
+    column2_true = button_10.cget('text') == button_11.cget('text') == button_12.cget('text') and button_10.cget('text').isalnum()
+    column3_true = button_20.cget('text') == button_21.cget('text') == button_22.cget('text') and button_20.cget('text').isalnum()
+    row1_true = button_00.cget('text') == button_10.cget('text') == button_20.cget('text') and button_00.cget('text').isalnum()
+    row2_true = button_01.cget('text') == button_11.cget('text') == button_21.cget('text') and button_01.cget('text').isalnum()
+    row3_true = button_02.cget('text') == button_12.cget('text') == button_22.cget('text') and button_02.cget('text').isalnum()
+    diagonal_forward_true = button_02.cget('text') == button_11.cget('text') == button_20.cget('text') and button_11.cget('text').isalnum()
+    diagonal_back_true = button_00.cget('text') == button_11.cget('text') == button_22.cget('text') and button_11.cget('text').isalnum()
+    if column1_true or column2_true or column3_true or row1_true or row2_true or row3_true or diagonal_forward_true or diagonal_back_true:
+        print(f"{turn}-WON!")
 
 
 root = Tk()
-root.title('TicTacToe v0.9')
+root.title('TicTacToe v1.0')
 button_00 = Button(text="", command=lambda: set_button_press(button_00))
 button_00.grid(column=0, row=0, ipadx=80, ipady=100)
 button_01 = Button(text="", command=lambda: set_button_press(button_01))

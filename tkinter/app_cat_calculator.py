@@ -15,10 +15,6 @@ vyvod oshibok:
     - 
     - spaces are allowed 
 
-no slices
-
-at the end button " print bill" 
-
 with configurable width
 label width
 label print bill
@@ -60,7 +56,7 @@ def set_total_price(list_entries):
         label_warning.grid_forget()
         entry_total_price.insert(0, '0')
     if msg_warning and msg_warning != 'Empty_line':
-        label_warning.grid(column=0, columnspan=6, sticky='nsew', row=2)
+        label_warning.grid()
         label_warning.config(text=msg_warning)
         entry_total_price.insert(0, 'NA')
     elif not msg_warning:
@@ -92,7 +88,7 @@ def set_total_cost():
     entry_for_full.delete(0, 'end')
     if data_true:
         label_warning_global.grid_forget()
-        entry_for_full.insert(0, str(round(float(cost_annual)*int(years), 2)))
+        entry_for_full.insert(0, str(round(float(cost_annual)*float(years), 2)))
     else:
         label_warning_global.config(text="Total cost: Some errors with on of the product")
         label_warning_global.grid(column=0, columnspan=6, sticky='nsew', row=20)
@@ -151,6 +147,8 @@ entry_total_price1 = Entry()
 entry_total_price1.insert(0, '0.00')
 entry_total_price1.grid(column=5, row=1)
 label_warning1 = Label()
+label_warning1.grid(column=0, columnspan=6, sticky='nsew', row=2)
+label_warning1.grid_forget()
 list_entries1 = [entry_name1, entry_qty1, entry_price1, entry_days1, label_warning1, entry_total_price1]
 button_1 = Button(text="=", command=lambda: set_total_price(list_entries1))
 button_1.grid(column=4, row=1)
@@ -171,6 +169,8 @@ entry_total_price2 = Entry()
 entry_total_price2.insert(0, '0.00')
 entry_total_price2.grid(column=5, row=3)
 label_warning2 = Label()
+label_warning2.grid(column=0, columnspan=6, sticky='nsew', row=4)
+label_warning2.grid_forget()
 list_entries2 = [entry_name2, entry_qty2, entry_price2, entry_days2, label_warning2, entry_total_price2]
 button_2 = Button(text="=", command=lambda: set_total_price(list_entries2))
 button_2.grid(column=4, row=3)
@@ -191,6 +191,8 @@ entry_total_price3 = Entry()
 entry_total_price3.insert(0, '0.00')
 entry_total_price3.grid(column=5, row=5)
 label_warning3 = Label()
+label_warning3.grid(column=0, columnspan=6, sticky='nsew', row=6)
+label_warning3.grid_forget()
 list_entries3 = [entry_name3, entry_qty3, entry_price3, entry_days3, label_warning3, entry_total_price3]
 button_3 = Button(text="=", command=lambda: set_total_price(list_entries3))
 button_3.grid(column=4, row=5)
@@ -220,9 +222,9 @@ label_warning_global = Label()
 
 Label(text="Print bill with width:", justify=RIGHT).grid(column=0, row=10, columnspan=4)
 button_print_bill = Button(text="Print", command=print_bill)
-button_print_bill.grid(column=4, row=10)
+button_print_bill.grid(column=5, row=10)
 entry_bill_width = Entry()
-entry_bill_width.grid(column=5, row=10)
+entry_bill_width.grid(column=3, row=10)
 entry_bill_width.insert(0, '120')
 
 label_bill = Label(font=('Ubuntu Mono', 10))
