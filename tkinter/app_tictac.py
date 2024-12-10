@@ -17,9 +17,7 @@ def set_button_press(button):
 
 
 def clear_fields():
-    list_butons = [ button_00, button_01, button_02, button_10, button_11, button_12, button_20, button_21, button_22 ]
-    # for button in button_00, button_01, button_02, button_10, button_11, button_12, button_20, button_21, button_22:
-    for button in list_butons:
+    for button in button_00, button_01, button_02, button_10, button_11, button_12, button_20, button_21, button_22:
         button.config(text='')
     button_new_game.config(text='New Game')
 
@@ -33,11 +31,14 @@ def check_winner():
     row3_true = button_02.cget('text') == button_12.cget('text') == button_22.cget('text') and button_02.cget('text').isalnum()
     diagonal_forward_true = button_02.cget('text') == button_11.cget('text') == button_20.cget('text') and button_11.cget('text').isalnum()
     diagonal_back_true = button_00.cget('text') == button_11.cget('text') == button_22.cget('text') and button_11.cget('text').isalnum()
+
     if column1_true or column2_true or column3_true or row1_true or row2_true or row3_true or diagonal_forward_true or diagonal_back_true:
         message=f" {turn}-won \nPress here for\na new game"
         button_new_game.config(text=message)
         count_wins(turn)
-    elif button_00.cget('text').isalnum() and button_01.cget('text').isalnum() and button_02.cget('text').isalnum() and button_10.cget('text').isalnum() and button_11.cget('text').isalnum() and button_12.cget('text').isalnum() and button_20.cget('text').isalnum() and button_21.cget('text').isalnum() and button_22.cget('text').isalnum():
+    elif (button_00.cget('text').isalnum() and button_01.cget('text').isalnum() and button_02.cget('text').isalnum() and 
+        button_10.cget('text').isalnum() and button_11.cget('text').isalnum() and button_12.cget('text').isalnum() and
+        button_20.cget('text').isalnum() and button_21.cget('text').isalnum() and button_22.cget('text').isalnum()):
         message=f" Draw\nPress here for\na new game"
         button_new_game.config(text=message)
         count_wins('draw')
@@ -47,10 +48,10 @@ def count_wins(player):
     if player == 'X':
         count = int(label_player_X.cget('text'))
         label_player_X.config(text=str(count+1))
-    if player == 'O':
+    elif player == 'O':
         count = int(label_player_O.cget('text'))
         label_player_O.config(text=str(count+1))
-    else:
+    elif player == 'draw':
         count = int(label_draw.cget('text'))
         label_draw.config(text=str(count+1))
 

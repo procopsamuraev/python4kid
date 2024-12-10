@@ -25,12 +25,12 @@ and label with printed bill
 
 def get_report_error(name, qty, price, day):
     name_valid = name.replace(' ', '').replace('.', '').replace('-', '').replace('`', '').isalnum() and len(name) >= 2
-    qty_false = not (qty.isdigit() and qty > '0')
+    qty_false = not (qty.isdigit() and qty >= '1')
     price_valid = price.replace('.', '', 1).isdigit() and len(price.rpartition('.')[-1]) < 3
     day_valid = day.rstrip('05').removesuffix('.').isdigit() 
     msg_warning = ""
     if not name and not qty and not price and not day:
-        msg_warning = "Empty_line"
+        msg_warning = "Fill the line"
         return msg_warning
     if not name_valid:
         msg_warning = f"{msg_warning}Fill up 'Product' field with 2 or more alphabet symbols\n"
@@ -44,25 +44,22 @@ def get_report_error(name, qty, price, day):
 
 
 def set_total_price(list_entries):
-    (entry_name, entry_qty, entry_price, entry_day, label_warning, entry_total_price) = list_entries
+    entry_name, entry_qty, entry_price, entry_day, label_warning, entry_total_price = list_entries
+    entry_total_price.delete(0, 'end')
+    label_warning.config(text='')
+    
     name = entry_name.get().strip(' ')
     qty = entry_qty.get().replace(' ', '')
     price = entry_price.get().replace(' ', '')
     day = entry_day.get().replace(' ', '')
-    entry_total_price.delete(0, 'end')
     msg_warning = get_report_error(name, qty, price, day)
-    label_warning.config(text='')
-    if msg_warning == 'Empty_line':
-        label_warning.grid_remove()
-        entry_total_price.insert(0, '0')
-    if msg_warning and msg_warning != 'Empty_line':
+    if msg_warning:
         label_warning.grid()
         label_warning.config(text=msg_warning)
         entry_total_price.insert(0, '---')
     elif not msg_warning:
         label_warning.grid_remove()
-        entry_total_price.insert(0, str('{0:.2f}'.format(int(qty)*float(price)/float(day))))
-        # entry_total_price.insert(0, str(round(int(qty)*float(price)/float(day), 2)))
+        entry_total_price.insert(0, f"{int(qty)*float(price)/float(day):.2f}")
         return name, qty, price, day, entry_total_price.get()
 
 
@@ -72,11 +69,10 @@ def set_total_annual():
     set_total_price(list_entries2)
     set_total_price(list_entries3)
     price1, price2, price3 = entry_total_price1.get(), entry_total_price2.get(), entry_total_price3.get()
-    if (price1 or price2 or price3) == '---':
+    if label_warning1['text'] or label_warning2['text'] or label_warning3['text']:
         entry_cost_annual.insert(0, '---')
     else:
-        # entry_cost_annual.insert(0, str(round((float(price1)+float(price2)+float(price3)) * 365, 2)))
-        entry_cost_annual.insert(0, str('{0:.2f}'.format((float(price1)+float(price2)+float(price3)) * 365)))
+        entry_cost_annual.insert(0, f'{((float(price1)+float(price2)+float(price3)) * 365):.2f}')
 
 
 def set_total_cost():
@@ -85,10 +81,7 @@ def set_total_cost():
     years = entry_years.get().replace(' ', '')
     data_true = years.replace('.', '', 1).isdigit() and cost_annual.replace('.', '').isdigit()
     entry_for_full.delete(0, 'end')
-    if data_true:
-        entry_for_full.insert(0, str('{0:.2f}'.format(float(cost_annual)*float(years))))
-    else:
-        entry_for_full.insert(0, '---')
+    entry_for_full.insert(0, f"{(float(cost_annual)*float(years)):.2f}") if data_true else 0, '---'
 
 
 def print_bill():
@@ -97,30 +90,36 @@ def print_bill():
         label_bill.config(text="Bill: Some errors with on of the product")
         label_bill.grid(column=0, columnspan=6, sticky='nsew', row=20)
         label_bill.grid_forget()
-    else:
-        width = int(entry_bill_width.get().strip(' ')) if entry_bill_width.get().strip(' ').isdigit() else '120'
-        col_width = round(width/6)
-        bill_string = f"{root.title().center(width)}\n"
-        # headers
-        bill_string = f"{bill_string}{label0['text'].center(col_width*2)}{label1['text'].center(col_width)}{label2['text'].center(col_width)}{label3['text'].center(col_width)}{label5['text'].center(col_width)}\n"
-        # item1
-        if set_total_price(list_entries1):
-            name, qty, price, day, price_total = set_total_price(list_entries1)
-            bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.ljust(col_width)}\n"
-        # item2
-        if set_total_price(list_entries2):
-            name, qty, price, day, price_total = set_total_price(list_entries2) 
-            bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.ljust(col_width)}\n"
-        # item3
-        if set_total_price(list_entries3): 
-            name, qty, price, day, price_total = set_total_price(list_entries3)
-            bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.ljust(col_width)}\n"
+        return
 
-        bill_string = f"{bill_string}{label_annual['text'].rjust(col_width*5-1)} {entry_cost_annual.get().ljust(col_width)}\n"
-        bill_string = f"{bill_string}{label_years['text'].rjust(col_width*5-1)} {entry_years.get().ljust(col_width)}\n"
-        bill_string = f"{bill_string}{label_cost_total['text'].rjust(col_width*5-1)} {entry_for_full.get().ljust(col_width)}\n"
-        label_bill.config(text=bill_string)
-        label_bill.grid(row=12, columnspan=6, sticky='nsew')
+    width = int(entry_bill_width.get().strip(' ')) if entry_bill_width.get().strip(' ').isdigit() else '120'
+    col_width = round(width/6)
+    bill_string = f"{root.title().center(col_width*6)}\n"
+    # headers
+    bill_string = f"{bill_string}{label0['text'].center(col_width*2)}{label1['text'].center(col_width)}{label2['text'].center(col_width)}{label3['text'].center(col_width)}{label5['text'].center(col_width)}\n"
+    bill_string = f"{bill_string}{'-'*col_width*6}\n"
+    # item1
+    result = set_total_price(list_entries1)
+    if result:
+        name, qty, price, day, price_total = result
+        bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
+    # item2
+    result = set_total_price(list_entries2)
+    if result:
+        name, qty, price, day, price_total = result
+        bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
+    # item3
+    result = set_total_price(list_entries3)
+    if result:
+        name, qty, price, day, price_total = result
+        bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
+    bill_string = f"{bill_string}{'-'*col_width*6}\n"
+
+    bill_string = f"{bill_string}{label_annual['text'].rjust(col_width*5-1)} {entry_cost_annual.get().ljust(col_width)}\n"
+    bill_string = f"{bill_string}{label_years['text'].rjust(col_width*5-1)} {entry_years.get().ljust(col_width)}\n"
+    bill_string = f"{bill_string}{label_cost_total['text'].rjust(col_width*5-1)} {entry_for_full.get().ljust(col_width)}\n"
+    label_bill.config(text=bill_string)
+    label_bill.grid(row=12, columnspan=6, sticky='nsew')
 
 
 root = Tk()
@@ -223,7 +222,7 @@ button_6.grid(column=4, row=9)
 entry_for_full= Entry()
 entry_for_full.grid(column=5, row=9)
 
-Label(text="Print bill with width:", anchor='e', justify="center").grid(column=0, row=10, columnspan=4)
+Label(text="Print bill with width(min 60):", anchor='e', justify="center").grid(column=0, row=10, columnspan=4)
 button_print_bill = Button(text="Print", command=print_bill)
 button_print_bill.grid(column=4, row=10)
 entry_bill_width = Entry()
