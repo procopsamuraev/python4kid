@@ -75,7 +75,8 @@ def set_total_annual():
     if (price1 or price2 or price3) == '---':
         entry_cost_annual.insert(0, '---')
     else:
-        entry_cost_annual.insert(0, str(round((float(price1)+float(price2)+float(price3)) * 365, 2)))
+        # entry_cost_annual.insert(0, str(round((float(price1)+float(price2)+float(price3)) * 365, 2)))
+        entry_cost_annual.insert(0, str('{0:.2f}'.format((float(price1)+float(price2)+float(price3)) * 365)))
 
 
 def set_total_cost():
@@ -85,7 +86,7 @@ def set_total_cost():
     data_true = years.replace('.', '', 1).isdigit() and cost_annual.replace('.', '').isdigit()
     entry_for_full.delete(0, 'end')
     if data_true:
-        entry_for_full.insert(0, str(round(float(cost_annual)*float(years), 2)))
+        entry_for_full.insert(0, str('{0:.2f}'.format(float(cost_annual)*float(years))))
     else:
         entry_for_full.insert(0, '---')
 
