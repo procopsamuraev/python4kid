@@ -15,12 +15,32 @@ def set_button_press(button):
         turn = 'O'if turn == 'X' else 'X'
         label_turn.config(text=f"Next turn player: {turn}")
 
+def set_button(i, j):
+    global turn
+    if not str(button_array[i][j].cget('text')).isalnum() and str(button_new_game.cget('text')) == "New Game":
+        button_array[i][j].config(text=turn)
+        check_winner2()
+        turn = 'O'if turn == 'X' else 'X'
+        label_turn.config(text=f"Next turn player: {turn}")
+
 
 def clear_fields():
-    for button in button_00, button_01, button_02, button_10, button_11, button_12, button_20, button_21, button_22:
-        button.config(text='')
+    for line in button_array:
+        for button in line:
+            button.config(text='')
     button_new_game.config(text='New Game')
 
+
+def check_winner2():
+    winner = 0
+    message=f" {turn}-won \nPress here for\na new game"
+    winner += 1 if button_array[0][0].cget('text') == button_array[1][1].cget('text') == button_array[2][2].cget('text') != '' else winner
+    winner += 1 if button_array[2][0].cget('text') == button_array[1][1].cget('text') == button_array[0][2].cget('text') != '' else winner
+    for i in  range(3):
+        winner += 1 if button_array[i][0].cget('text') == button_array[i][1].cget('text') == button_array[i][2].cget('text') != '' else winner 
+        winner  += 1 if button_array[0][i].cget('text') == button_array[1][i].cget('text') == button_array[2][i].cget('text') != '' else winner 
+    if winner: 
+        button_new_game.config(text=message)
 
 def check_winner():
     column1_true = button_00.cget('text') == button_01.cget('text') == button_02.cget('text') in ( 'X', 'O')
@@ -56,7 +76,6 @@ def count_wins(player):
         label_draw.config(text=str(count+1))
 
 
-
 root = Tk()
 root.title('TicTacToe v1.11')
 ipad_x = 40
@@ -64,11 +83,26 @@ ipad_y = 60
 label_turn=Label(text=f'The player: {turn} start the game')
 label_turn.grid(column=0,columnspan=3, row=6)
 
-field_array = []
-for x in range(1, 4):
-    for y in range (1,4):
-        button = Button(text="", command=lambda: set_button_press(x,y))
-        button.grid(column = x, row = y)
+# field_array = []
+
+button_array = [
+    [0, 0, 0], 
+    [0, 0, 0],
+    [0, 0, 0]
+    ]
+
+for i in range(3):
+    for j in range(3):
+        # button[i][j] = Button()
+        button_array[i][j] = Button(command = lambda y = j, x = i : set_button(x, y))
+
+        # button[i][j].grid(row = i, column = j)
+        button_array[i][j].grid(column = i, row = j, ipadx=ipad_x, ipady=ipad_y)
+
+# for x in range(1, 4):
+#     for y in range (1,4):
+#         button = Button(text="", command=lambda: set_button(x,y))
+#         button.grid(column = x, row = y, ipadx=ipad_x, ipady=ipad_y)
 
 # button_00 = Button(text="", command=lambda: set_button_press(button_00))
 # button_00.grid(column=0, row=0, ipadx=ipad_x, ipady=ipad_y)
@@ -97,7 +131,7 @@ for x in range(1, 4):
 # label_draw.grid(column=1, row=4, ipadx=ipad_x, ipady=10)
 # label_player_O = Label(text='0', justify=LEFT)
 # label_player_O.grid(column=2, row=4, ipadx=ipad_x, ipady=10)
-# button_new_game = Button(text="New Game", command=clear_fields)
-# button_new_game.grid(column=0, row=5, columnspan=3, ipadx=35, ipady=10)
+button_new_game = Button(text="New Game", command=clear_fields)
+button_new_game.grid(column=0, row=5, columnspan=3, ipadx=35, ipady=10)
 
 root.mainloop()
