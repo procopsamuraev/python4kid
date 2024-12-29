@@ -15,10 +15,14 @@ vyvod oshibok:
     - 
     - spaces are allowed 
 
-with configurable width
-label width
-label print bill
-and label with printed bill
+
+// fix me
+fill default width 
+dont print if any field are empty
+years allow only digits  and not negative  should work with 0,5 but allow only kratnoe 0.5
+all should work witn 1, 2 products only
+proverka na 0.5 v dnyah ne rabotaet
+
 
 """
 
@@ -28,6 +32,7 @@ def get_report_error(name, qty, price, day):
     qty_false = not (qty.isdigit() and qty >= '1')
     price_valid = price.replace('.', '', 1).isdigit() and len(price.rpartition('.')[-1]) < 3
     day_valid = day.rstrip('05').removesuffix('.').isdigit() 
+    # years_valid = day.rstrip('05').removesuffix('.').isdigit() 
     msg_warning = ""
     if not name and not qty and not price and not day:
         msg_warning = "Fill the line"
@@ -92,29 +97,30 @@ def print_bill():
         label_bill.grid_forget()
         return
 
-    width = int(entry_bill_width.get().strip(' ')) if entry_bill_width.get().strip(' ').isdigit() else '120'
+    width = int(entry_bill_width.get().strip(' ')) if entry_bill_width.get().strip(' ').isdigit() else 100
     col_width = round(width/6)
-    bill_string = f"{root.title().center(col_width*6)}\n"
+    col1_width = width-col_width*4
+    bill_string = f"{root.title().center(width)}\n"
     # headers
-    bill_string = f"{bill_string}{label0['text'].center(col_width*2)}{label1['text'].center(col_width)}{label2['text'].center(col_width)}{label3['text'].center(col_width)}{label5['text'].center(col_width)}\n"
-    bill_string = f"{bill_string}{'-'*col_width*6}\n"
+    bill_string = f"{bill_string}{label0['text'].center(col1_width)}{label1['text'].center(col_width)}{label2['text'].center(col_width)}{label3['text'].center(col_width)}{label5['text'].center(col_width)}\n"
+    bill_string = f"{bill_string}{'-'*width}\n"
     # item1
     result = set_total_price(list_entries1)
     if result:
         name, qty, price, day, price_total = result
-        bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
+        bill_string = f"{bill_string}{name.ljust(col1_width)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
     # item2
     result = set_total_price(list_entries2)
     if result:
         name, qty, price, day, price_total = result
-        bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
+        bill_string = f"{bill_string}{name.ljust(col1_width)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
     # item3
     result = set_total_price(list_entries3)
     if result:
         name, qty, price, day, price_total = result
-        bill_string = f"{bill_string}{name.ljust(col_width*2)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
-    bill_string = f"{bill_string}{'-'*col_width*6}\n"
+        bill_string = f"{bill_string}{name.ljust(col1_width)}{qty.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
 
+    bill_string = f"{bill_string}{'-'*width}\n"
     bill_string = f"{bill_string}{label_annual['text'].rjust(col_width*5-1)} {entry_cost_annual.get().ljust(col_width)}\n"
     bill_string = f"{bill_string}{label_years['text'].rjust(col_width*5-1)} {entry_years.get().ljust(col_width)}\n"
     bill_string = f"{bill_string}{label_cost_total['text'].rjust(col_width*5-1)} {entry_for_full.get().ljust(col_width)}\n"
