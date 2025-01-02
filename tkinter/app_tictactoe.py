@@ -11,7 +11,7 @@ def set_button(i, j):
     global turn
     if not str(button_array[i][j].cget('text')).isalnum() and str(button_new_game.cget('text')) == "New Game":
         button_array[i][j].config(text=turn)
-        check_winner()
+        check_match_line()
         turn = 'O'if turn == 'X' else 'X'
         label_turn.config(text=f"Next turn player: {turn}")
 
@@ -23,17 +23,18 @@ def clear_fields():
     button_new_game.config(text='New Game')
 
 
-def check_winner():
-    winner = 0
+def check_match_line():
+    match_line = 0
     draw = 0
     message=f" {turn}-won \nPress here for\na new game"
-    winner += 1 if button_array[0][0].cget('text') == button_array[1][1].cget('text') == button_array[2][2].cget('text') != '' else winner
-    winner += 1 if button_array[2][0].cget('text') == button_array[1][1].cget('text') == button_array[0][2].cget('text') != '' else winner
+    match_line += 1 if button_array[0][0].cget('text') == button_array[1][1].cget('text') == button_array[2][2].cget('text') != '' else match_line
+    match_line += 1 if button_array[2][0].cget('text') == button_array[1][1].cget('text') == button_array[0][2].cget('text') != '' else match_line
     for i in  range(3):
-        winner += 1 if button_array[i][0].cget('text') == button_array[i][1].cget('text') == button_array[i][2].cget('text') != '' else winner 
-        winner += 1 if button_array[0][i].cget('text') == button_array[1][i].cget('text') == button_array[2][i].cget('text') != '' else winner 
+        match_line += 1 if button_array[i][0].cget('text') == button_array[i][1].cget('text') == button_array[i][2].cget('text') != '' else match_line 
+        match_line += 1 if button_array[0][i].cget('text') == button_array[1][i].cget('text') == button_array[2][i].cget('text') != '' else match_line 
         draw  += 1 if button_array[i][0].cget('text') and button_array[i][1].cget('text') and button_array[i][2].cget('text') != '' else draw
-    if winner: 
+
+    if match_line: 
         button_new_game.config(text=message)
         count_wins(turn)
     elif draw == 3:
@@ -67,6 +68,7 @@ button_array = [
     [0, 0, 0],
     [0, 0, 0]
     ]
+
 
 for i in range(3):
     for j in range(3):
