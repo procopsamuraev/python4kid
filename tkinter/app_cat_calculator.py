@@ -31,12 +31,11 @@ def check_time_period(period):
         period[period.find('.')+1:].rstrip('0').replace('5', '', 1)
 
 
-def get_report_error(name, qty, price, day, year):
+def get_report_error(name, qty, price, day):
     name_valid = name.replace(' ', '').replace('.', '').replace('-', '').replace('`', '').isalnum() and len(name) >= 2
     qty_false = not (qty.isdigit() and qty >= '1')
     price_valid = price.replace('.', '', 1).isdigit() and len(price.rpartition('.')[-1]) < 3
     day_valid = not day[day.find('.')+1:].rstrip('0').replace('5', '', 1) if day.find('.') !=-1 else day.replace('.', '').isdigit()
-    year_valid = not year[year.find('.')+1:].rstrip('0').replace('5', '', 1) if year.find('.') !=-1 else year.replace('.', '').isdigit()
     global message_warning
     msg_warning = ''
     if not name and not qty and not price and not day:
@@ -50,8 +49,6 @@ def get_report_error(name, qty, price, day, year):
         msg_warning = f"{msg_warning}Fill up 'Price' with positive number and not more then 2 digits after dot\n"
     if not day_valid:
         msg_warning = f"{msg_warning}Fill up 'Day' with positive number and be dividing by 0.5\n"
-    if not year_valid:
-        msg_warning = f"{msg_warning}Fill up 'Year' with positive number and be dividing by 0.5\n"
     message_warning = msg_warning
     return msg_warning.removesuffix('\n')
 
@@ -65,17 +62,11 @@ def set_total_price(list_entries):
     qty = entry_qty.get().replace(' ', '').replace(',','.', 1)
     price = entry_price.get().replace(' ', '').replace(',','.', 1)
     day = entry_day.get().replace(' ', '').replace(',', '.', 1)
-    year = entry_years.get().replace(' ', '').replace(',', '.', 1)
-    msg_warning = get_report_error(name, qty, price, day, year)
+    msg_warning = get_report_error(name, qty, price, day)
     if msg_warning == 'Fill the line':
         label_warning.grid()
         label_warning.config(text=msg_warning)
         entry_total_price.insert(0, '0.00')
-    elif msg_warning.find('Year'):
-        label_warning_years.grid()
-        label_warning_years.config(text="Fill up 'Year' with positive number and be dividing by 0.5")
-        entry_total_price.insert(0, '0.00')
-        label_bill.config(text='')
     elif msg_warning:
         label_warning.grid()
         label_warning.config(text=msg_warning)
@@ -88,6 +79,7 @@ def set_total_price(list_entries):
 
  
 def set_total_annual():
+    label_bill.config(text='')
     entry_cost_annual.delete(0, 'end')
     set_total_price(list_entries1)
     set_total_price(list_entries2)
@@ -106,10 +98,15 @@ def set_total_annual():
 def set_total_cost():
     set_total_annual()
     cost_annual = entry_cost_annual.get()
-    years = entry_years.get().replace(' ', '')
-    data_true = years.replace('.', '', 1).isdigit() and cost_annual.replace('.', '').isdigit()
+    year = entry_years.get().replace(' ', '').replace(',', '.', 1)
+    year_valid = not year[year.find('.')+1:].rstrip('0').replace('5', '', 1) if year.find('.') !=-1 else year.replace('.', '').isdigit()
+    if not year_valid:
+        label_warning_years.grid()
+        label_warning_years.config(text="Fill up 'Year' with positive number and be dividing by 0.5")
+        return
+    data_true = year_valid and cost_annual.replace('.', '').isdigit()
     entry_for_full.delete(0, 'end')
-    entry_for_full.insert(0, f"{(float(cost_annual)*float(years)):.2f}") if data_true else 0, ''
+    entry_for_full.insert(0, f"{(float(cost_annual)*float(year)):.2f}") if data_true else 0, ''
 
 
 def print_bill():
