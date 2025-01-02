@@ -13,7 +13,16 @@ def copy_all():
 def copy_selected():
     global text_buffer
     text_buffer = text.selection_get()
+ 
 
+def delete():
+    text.delete(SEL_FIRST, SEL_LAST)
+
+
+def cut():
+    copy_selected()
+    delete()
+    
 
 def paste_buffer():
     global text_buffer
@@ -32,6 +41,8 @@ button_copy_all = Button(frame_button, text='Copy all', command=copy_all)
 button_copy_all.pack(side=LEFT)
 button_copy_selected = Button(frame_button, text='Copy', command=copy_selected)
 button_copy_selected.pack(side=LEFT)
+button_cut= Button(frame_button, text='Cut', command=cut)
+button_cut.pack(side=LEFT)
 button_paste_buffer = Button(frame_button, text='Paste', command=paste_buffer)
 button_paste_buffer.pack(side=LEFT)
 
