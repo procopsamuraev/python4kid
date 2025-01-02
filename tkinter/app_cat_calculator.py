@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter.ttk import *
 
-
 """
 tovar - min 2 symbols, not " "..- 
 qty - only >0, int
@@ -17,7 +16,7 @@ vyvod oshibok:
 
 
 // fix me
-fill default width 
+fill default width  - done 
 dont print if any field are empty
 years allow only digits  and not negative  should work with 0,5 but allow only kratnoe 0.5
 all should work witn 1, 2 products only
@@ -25,17 +24,23 @@ proverka na 0.5 v dnyah ne rabotaet
 
 
 """
+message_warning = ''
+
+def check_time_period(period):
+    if period.find('.') != -1:
+        period[period.find('.')+1:].rstrip('0').replace('5', '', 1)
 
 
-def get_report_error(name, qty, price, day):
+def get_report_error(name, qty, price, day, year):
     name_valid = name.replace(' ', '').replace('.', '').replace('-', '').replace('`', '').isalnum() and len(name) >= 2
     qty_false = not (qty.isdigit() and qty >= '1')
     price_valid = price.replace('.', '', 1).isdigit() and len(price.rpartition('.')[-1]) < 3
-    day_valid = day.rstrip('05').removesuffix('.').isdigit() 
-    # years_valid = day.rstrip('05').removesuffix('.').isdigit() 
-    msg_warning = ""
+    day_valid = not day[day.find('.')+1:].rstrip('0').replace('5', '', 1) if day.find('.') !=-1 else day.replace('.', '').isdigit()
+    year_valid = not year[year.find('.')+1:].rstrip('0').replace('5', '', 1) if year.find('.') !=-1 else year.replace('.', '').isdigit()
+    global message_warning
+    msg_warning = ''
     if not name and not qty and not price and not day:
-        msg_warning = "Fill the line"
+        msg_warning = 'Fill the line'
         return msg_warning
     if not name_valid:
         msg_warning = f"{msg_warning}Fill up 'Product' field with 2 or more alphabet symbols\n"
@@ -44,7 +49,10 @@ def get_report_error(name, qty, price, day):
     if not price_valid:
         msg_warning = f"{msg_warning}Fill up 'Price' with positive number and not more then 2 digits after dot\n"
     if not day_valid:
-        msg_warning = f"{msg_warning}Fill up 'Day' with positive number and be dividing by 0,5\n"
+        msg_warning = f"{msg_warning}Fill up 'Day' with positive number and be dividing by 0.5\n"
+    if not year_valid:
+        msg_warning = f"{msg_warning}Fill up 'Year' with positive number and be dividing by 0.5\n"
+    message_warning = msg_warning
     return msg_warning.removesuffix('\n')
 
 
@@ -54,28 +62,43 @@ def set_total_price(list_entries):
     label_warning.config(text='')
     
     name = entry_name.get().strip(' ')
-    qty = entry_qty.get().replace(' ', '')
-    price = entry_price.get().replace(' ', '')
-    day = entry_day.get().replace(' ', '')
-    msg_warning = get_report_error(name, qty, price, day)
-    if msg_warning:
+    qty = entry_qty.get().replace(' ', '').replace(',','.', 1)
+    price = entry_price.get().replace(' ', '').replace(',','.', 1)
+    day = entry_day.get().replace(' ', '').replace(',', '.', 1)
+    year = entry_years.get().replace(' ', '').replace(',', '.', 1)
+    msg_warning = get_report_error(name, qty, price, day, year)
+    if msg_warning == 'Fill the line':
         label_warning.grid()
         label_warning.config(text=msg_warning)
-        entry_total_price.insert(0, '---')
-    elif not msg_warning:
+        entry_total_price.insert(0, '0.00')
+    elif msg_warning.find('Year'):
+        label_warning_years.grid()
+        label_warning_years.config(text="Fill up 'Year' with positive number and be dividing by 0.5")
+        entry_total_price.insert(0, '0.00')
+        label_bill.config(text='')
+    elif msg_warning:
+        label_warning.grid()
+        label_warning.config(text=msg_warning)
+        entry_total_price.insert(0, '0.00')
+        label_bill.config(text='')
+    elif not msg_warning or msg_warning == 'Fill the line':
         label_warning.grid_remove()
         entry_total_price.insert(0, f"{int(qty)*float(price)/float(day):.2f}")
-        return name, qty, price, day, entry_total_price.get()
+    return name, qty, price, day, entry_total_price.get()
 
-
+ 
 def set_total_annual():
     entry_cost_annual.delete(0, 'end')
     set_total_price(list_entries1)
     set_total_price(list_entries2)
     set_total_price(list_entries3)
     price1, price2, price3 = entry_total_price1.get(), entry_total_price2.get(), entry_total_price3.get()
-    if label_warning1['text'] or label_warning2['text'] or label_warning3['text']:
-        entry_cost_annual.insert(0, '---')
+    msg_warning1, msg_warning2, msg_warning3 = label_warning1['text'], label_warning2['text'], label_warning3['text'] 
+    msg1_true = msg_warning1 and msg_warning1 != 'Fill the line'
+    msg2_true = msg_warning2 and msg_warning2 != 'Fill the line'
+    msg3_true = msg_warning3 and msg_warning3 != 'Fill the line'
+    if msg1_true or msg2_true or msg3_true: 
+        entry_cost_annual.insert(0, '0.00')
     else:
         entry_cost_annual.insert(0, f'{((float(price1)+float(price2)+float(price3)) * 365):.2f}')
 
@@ -86,11 +109,13 @@ def set_total_cost():
     years = entry_years.get().replace(' ', '')
     data_true = years.replace('.', '', 1).isdigit() and cost_annual.replace('.', '').isdigit()
     entry_for_full.delete(0, 'end')
-    entry_for_full.insert(0, f"{(float(cost_annual)*float(years)):.2f}") if data_true else 0, '---'
+    entry_for_full.insert(0, f"{(float(cost_annual)*float(years)):.2f}") if data_true else 0, ''
 
 
 def print_bill():
     set_total_cost()
+    if message_warning and message_warning != 'Fill the line':
+        return
     if not entry_cost_annual.get().replace('.', '').isdigit():
         label_bill.config(text="Bill: Some errors with on of the product")
         label_bill.grid(column=0, columnspan=6, sticky='nsew', row=20)
@@ -186,19 +211,19 @@ button_2 = Button(text="=", command=lambda: set_total_price(list_entries2))
 button_2.grid(column=4, row=3)
 
 entry_name3 = Entry()
-entry_name3.insert(0, "Toilet Refill")
+entry_name3.insert(0, '')
 entry_name3.grid(column=0, row=5)
 entry_qty3 = Entry()
-entry_qty3.insert(0, "1")
+entry_qty3.insert(0, '')
 entry_qty3.grid(column=1, row=5)
 entry_price3 = Entry()
-entry_price3.insert(0, "300.80")
+entry_price3.insert(0, '')
 entry_price3.grid(column=2, row=5)
 entry_days3 = Entry()
-entry_days3.insert(0, "7")
+entry_days3.insert(0, '')
 entry_days3.grid(column=3, row=5)
 entry_total_price3 = Entry()
-entry_total_price3.insert(0, '0.00')
+entry_total_price3.insert(0, '')
 entry_total_price3.grid(column=5, row=5)
 label_warning3 = Label()
 label_warning3.grid(column=0, columnspan=6, sticky='nsew', row=6)
@@ -220,19 +245,22 @@ label_years.grid(column=0, row=8, columnspan=4)
 entry_years = Entry()
 entry_years.grid(column=5, row=8)
 entry_years.insert(0, "15")
+label_warning_years = Label()
+label_warning_years.grid(column=0, columnspan=6, sticky='nsew', row=9)
+label_warning_years.grid_remove()
 
 label_cost_total = Label(text="Total cost for whole period:", justify=RIGHT)
-label_cost_total.grid(column=0, row=9, columnspan=4)
+label_cost_total.grid(column=0, row=10, columnspan=4)
 button_6 = Button(text="=", command=set_total_cost)
-button_6.grid(column=4, row=9)
+button_6.grid(column=4, row=10)
 entry_for_full= Entry()
-entry_for_full.grid(column=5, row=9)
+entry_for_full.grid(column=5, row=10)
 
 Label(text="Print bill with width(min 60):", anchor='e', justify="center").grid(column=0, row=10, columnspan=4)
 button_print_bill = Button(text="Print", command=print_bill)
-button_print_bill.grid(column=4, row=10)
+button_print_bill.grid(column=4, row=11)
 entry_bill_width = Entry()
-entry_bill_width.grid(column=3, row=10)
+entry_bill_width.grid(column=3, row=11)
 entry_bill_width.insert(0, '100')
 
 label_bill = Label(font=('Ubuntu Mono', 10))
