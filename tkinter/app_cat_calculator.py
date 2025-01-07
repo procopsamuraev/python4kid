@@ -23,6 +23,11 @@ all should work witn 1, 2 products only
 proverka na 0.5 v dnyah ne rabotaet
 
 
+//dont show the empty line on bill
+check the days and years with 5.55
+if zero on price do not fill up with zero - use '' instead
+replace msg_warning to report_error - *
+qty to amount
 """
 message_warning = ''
 

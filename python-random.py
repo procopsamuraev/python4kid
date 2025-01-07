@@ -86,14 +86,14 @@ def generate_number():
     if not warning:
         label_warning.config(text='')
         label_warning.grid_remove
-        number_random = str((random.random()*(number_to-number_from)+number_from)//number_step*number_step).removesuffix('.0')
-        label_result.config(text=f"Result:\t{number_random} ")
+        number_random = (random.random()*(number_to-number_from)+number_from)//number_step*number_step
+        label_result.config(text=f"Result:\t{ str(number_random).removesuffix('.0') }")
     else:
         label_warning.config(text=warning)
 
 root=Tk()
 
-Label(text = 'Number generator').grid(column=1, row=1)
+Label(text = 'Number generator').grid(column=1, columnspan=8, row=1)
 Label(text = 'From: ').grid(column=1, row=2)
 entry_from = Entry()
 entry_from.insert(0, '0')
@@ -105,7 +105,7 @@ Label(text = 'Step: ').grid(column=5, row=2)
 entry_step = Entry()
 entry_step.insert(0, '1')
 entry_step.grid(column=6, row=2)
-Button(text = 'Generate number' , command=generate_number ).grid(column=7, row=2)
+Button(text = '    Generate    \nrandom number' , command=generate_number ).grid(column=7, row=2)
 label_result = Label(text='Result:')
 label_result.grid(column=8, row=2)
 label_warning= Label()
