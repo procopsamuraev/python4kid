@@ -44,10 +44,7 @@ i = 0
 while i < 30:
     list_of_numbers.append(random.randint(0,99))
     i += 1
-print(list_of_numbers)
+# print(list_of_numbers)
 print(f"Original:\n{list_of_numbers[0:9]}\n{list_of_numbers[10:19]}\n{list_of_numbers[20:29]}")
-# list_of_numbers_sorted = list_of_numbers.sort()
 list_of_numbers.sort()
 print(f"Sorted:\n{list_of_numbers[0:9]}\n{list_of_numbers[10:19]}\n{list_of_numbers[20:29]}")
-# print(list_of_numbers_sorted)
-# print(f"{list_of_numbers[0:9]}\n{list_of_numbers[10:19]}\n{list_of_numbers[20:29]}")
