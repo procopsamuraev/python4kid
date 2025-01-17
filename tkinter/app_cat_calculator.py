@@ -40,8 +40,6 @@ def get_report_error(name, amount, price, day):
     day_valid = not day[day.find('.')+1:].rstrip('0').replace('5', '', 1) if day.find('.') !=-1 else day.strip('0').isdigit()
     report_error = ''
     if not name and not amount and not price and not day:
-        # report_error = 'Fill the line'
-        # return report_error
         return
     if not name_valid:
         report_error = f"{report_error}Fill up 'Product' field with 2 or more alphabet symbols\n"
@@ -72,25 +70,31 @@ def set_total_price(list_entries):
         label_warning.config(text=report_error)
         entry_total_price.insert(0, '')
         label_bill.config(text='')
-    return name, amount, price, day, entry_total_price.get()
+    return name, amount, price, day, entry_total_price.get(), report_error
 
  
 def set_total_annual():
     # preparation
+    report_error=''
     label_bill.config(text='')
     entry_cost_annual.delete(0, 'end')
-    set_total_price(list_entries1)
+    report_error = set_total_price(list_entries1)[-1]
     price1 = entry_total_price1.get()
-    set_total_price(list_entries2)
+    report_error= set_total_price(list_entries2)[-1]
     price2 = entry_total_price2.get()
-    set_total_price(list_entries3)
+    report_error = set_total_price(list_entries3)[-1]
     price3  = entry_total_price3.get()
 
-    sum_amount= 0
-    sum_amount = sum_amount + float(price1) if price1 else sum_amount
-    sum_amount = sum_amount + float(price2) if price2 else sum_amount
-    sum_amount = sum_amount + float(price3) if price3 else sum_amount
-    entry_cost_annual.insert(0, f'{(sum_amount * 365):.2f}')
+    if not price1 and not price2 and not price3: 
+        label_warning3.config(text='Fill up at least 1 line')
+    elif report_error: 
+        entry_cost_annual.insert(0, '')
+    else:
+        sum_amount= 0
+        sum_amount = sum_amount + float(price1) if price1 else sum_amount
+        sum_amount = sum_amount + float(price2) if price2 else sum_amount
+        sum_amount = sum_amount + float(price3) if price3 else sum_amount
+        entry_cost_annual.insert(0, f'{(sum_amount * 365):.2f}')
 
 
 def set_total_cost():
@@ -103,13 +107,14 @@ def set_total_cost():
         label_warning_years.grid()
         label_warning_years.config(text="Fill up 'Year' with positive number and be dividing by 0.5")
     else: 
+        label_warning_years.grid_remove()
         data_true = year_valid and cost_annual.replace('.', '').isdigit()
         entry_for_full.insert(0, f"{(float(cost_annual)*float(year)):.2f}") if data_true else 0, ''
 
 
 def print_bill():
     set_total_cost()
-    if not entry_cost_annual.get().replace('.', '').isdigit():
+    if not entry_for_full.get().replace('.', '').isdigit():
         label_bill.config(text="Bill: Some errors with on of the product")
         label_bill.grid(column=0, columnspan=6, sticky='nsew', row=20)
         label_bill.grid_forget()
@@ -125,19 +130,19 @@ def print_bill():
     # item1
     result = set_total_price(list_entries1)
     if result:
-        name, amount, price, day, price_total = result
+        name, amount, price, day, price_total, error = result
         if name:
             bill_string = f"{bill_string}{name.ljust(col1_width)}{amount.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
     # item2
     result = set_total_price(list_entries2)
     if result:
-        name, amount, price, day, price_total = result
+        name, amount, price, day, price_total, error = result
         if name:
             bill_string = f"{bill_string}{name.ljust(col1_width)}{amount.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
     # item3
     result = set_total_price(list_entries3)
     if result:
-        name, amount, price, day, price_total = result
+        name, amount, price, day, price_total, error = result
         if name: 
             bill_string = f"{bill_string}{name.ljust(col1_width)}{amount.center(col_width)}x{price.center(col_width)}/{day.center(col_width)}={price_total.rjust(col_width-3)}\n"
 
