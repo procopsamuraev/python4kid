@@ -26,19 +26,19 @@ proverka na 0.5 v dnyah ne rabotaet
 //dont show the empty line on bill -fixed
 check the days and years with 5.55 -ffixed
 if zero on price do not fill up with zero - use '' instead -fixed
+
+// fix
+// do not raise error if line is empty - raise error only if whole table is empty
+// condition for calculation make simple l108,. l95-l98
 """
 message_warning = ''
-
-def check_time_period(period):
-    if period.find('.') != -1:
-        period[period.find('.')+1:].rstrip('0').replace('5', '', 1)
 
 
 def get_report_error(name, amount, price, day):
     name_valid = name.replace(' ', '').replace('.', '').replace('-', '').replace('`', '').isalnum() and len(name) >= 2
     amount_false = not (amount.isdigit() and amount >= '1')
     price_valid = price.replace('.', '', 1).isdigit() and len(price.rpartition('.')[-1]) < 3
-    day_valid = not day[day.find('.')+1:].rstrip('0').replace('5', '', 1) if day.find('.') !=-1 else day.isdigit()
+    day_valid = not day[day.find('.')+1:].rstrip('0').replace('5', '', 1) if day.find('.') !=-1 else day.strip('0').isdigit()
     global message_warning
     report_error = ''
     if not name and not amount and not price and not day:
@@ -92,10 +92,17 @@ def set_total_annual():
     report_error1_true = report_error1 and report_error1 != 'Fill the line'
     report_error2_true = report_error2 and report_error2 != 'Fill the line'
     report_error3_true = report_error3 and report_error3 != 'Fill the line'
+    
     if report_error1_true or report_error2_true or report_error3_true: 
         entry_cost_annual.insert(0, '')
     else:
-        entry_cost_annual.insert(0, f'{((float(price1.replace('', '0'))+float(price2.replace('', '0'))+float(price3.replace('','0'))) * 365):.2f}')
+        price1 = float(price1) if price1 else 0
+        price2 = float(price2) if price2 else 0
+        price3 = float(price3) if price3 else 0
+        sum_amount='0'
+        # sum_amount = f"{sum_amount}+{price1"
+        entry_cost_annual.insert(0, f'{((price1 + price2 + price3) * 365):.2f}')
+        # entry_cost_annual.insert(0, f'{((price1 + price2 + price3) * 365):.2f}')
 
 
 def set_total_cost():

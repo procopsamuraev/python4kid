@@ -1,9 +1,11 @@
 # a="1+123222=122"
+time_now = datetime.datetime()
 # b=a.split("=").split("+")
 # print(a.rsplit("=")[0])
 # print(len(b))
 # string = "1.59090"
-string = "1500.5"
+string = "1500.55"
+year = "1500.5"
 # delimiters = ["+", "-", "*"]
 # for delimiter in delimiters:
 #     string = " ".join(string.split(delimiter))
@@ -22,4 +24,10 @@ string = "1500.5"
 # print(list(string))
 # print(tuple(string))
 # print(  not string[string.find('.')+1:].rstrip('0').replace('5', '', 1) if string.find('.') !=-1 else string.replace('.', '').isdigit() )
-print( not string.rsplit('.', )[-1].rstrip('0').replace('5', '', 1 ))
+# print( not string.rsplit('.', )[-1].rstrip('0').replace('5', '', 1 ))
+# print( not year[year.find('.')+1:].rstrip('0').replace('5', '', 1))
+def dcdf()
+
+    datetime.datetime()
+    
+print('12'.replace('','0'))
