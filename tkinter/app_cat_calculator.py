@@ -65,7 +65,7 @@ def set_total_price(list_entries):
     if not report_error and name:
         label_warning.grid_remove()
         entry_total_price.insert(0, f"{int(amount)*float(price)/float(day):.2f}")
-    else: 
+    elif report_error: 
         label_warning.grid()
         label_warning.config(text=report_error)
         entry_total_price.insert(0, '')
