@@ -43,14 +43,31 @@ from tkinter.ttk import *
 # ex 2
 #
 
-# def print_selected():
+
+# def print_selected_colors():  #v1
+#      text.delete(1.0, END)
+#      a1,a2,a3,a4,a5 = ch_var1.get(), ch_var2.get(), ch_var3.get(), ch_var4.get(), ch_var5.get()
+#      text_to_insert = f"{a1}, {a2}, {a3}, {a4}, {a5}".replace(', .', '.').strip(' ,').replace(' ,','')
+#      text_to_insert = f"{text_to_insert}." if len(text_to_insert)>1 else f""
+#      text.insert(END, text_to_insert)
+
+# def print_selected_colors(): #v2
 #     text.delete(1.0, END)
 #     a1,a2,a3,a4,a5 = ch_var1.get(), ch_var2.get(), ch_var3.get(), ch_var4.get(), ch_var5.get()
-#     text_to_insert = f"{a1}, {a2}, {a3}, {a4}, {a5}".replace(', .', '.').strip(' ,').replace(' ,','')
-#     text_to_insert = f"{text_to_insert}." if len(text_to_insert)>1 else f""
-#     text.insert(END, text_to_insert)
-#     
+#     text_to_display=''
+#     if a1:
+#         text_to_display = f"{text_to_display} {a1},"
+#     if a2:
+#         text_to_display = f"{text_to_display} {a2},"
+#     if a3:
+#         text_to_display = f"{text_to_display} {a3},"
+#     if a4:
+#         text_to_display = f"{text_to_display} {a4},"
+#     if a5:
+#         text_to_display = f"{text_to_display} {a5},"
+#     text.insert(END, f"{text_to_display.strip(' ,')}.")
 # 
+#  
 # root = Tk()
 # Label(text="choose:").grid(row=1, column=1)
 # ch_var1 = StringVar()
@@ -69,44 +86,48 @@ from tkinter.ttk import *
 # ch_var5.set('')
 # Checkbutton(text="white", variable=ch_var5, onvalue='white', offvalue='').grid(column=1, row=6, sticky=W)
 # 
-# Button(text="Print", command=print_selected).grid(column=1, row=7, sticky=W)
+# Button(text="Print", command=print_selected_colors).grid(column=1, row=7, sticky=W)
 # 
 # text = Text(root, width=25)
 # text.grid(column=2, row=1, rowspan=7, sticky=N)
+#  
+#  
+# root.mainloop()
+
+
+# ex 3 
+
+# def check_answer():
+#     correct_answer = ch_var4.get() and (ch_var4_input.get() == '7' or ch_var4_input.get() == '8')
+#     if ch_var1.get() or ch_var2.get() or ch_var3.get():
+#         label_result.config(text='Not correct')
+#     elif correct_answer:
+#         label_result.config(text='Correct')
+#     else:
+#         label_result.config(text='Chose one or more and full up field')
 # 
 # 
-
-def check_answer():
-    correct_answer = ch_var4.get() and (ch_var4_input.get() == '7' or ch_var4_input.get() == '8')
-    if ch_var1.get() or ch_var2.get() or ch_var3.get():
-        label_result.config(text='Not correct')
-    elif correct_answer:
-        label_result.config(text='Correct')
-    else:
-        label_result.config(text='Chose one or more and full up field')
-
-
-root = Tk()
-
-Label(text='how much is 2+2?').grid(row=1, column=1)
-ch_var1 = IntVar()
-ch_var1.set(0)
-Checkbutton(text='3', variable=ch_var1, onvalue=3, offvalue=0).grid(column=1, row=2, sticky=W)
-ch_var2 = IntVar()
-ch_var2.set(0)
-Checkbutton(text='5', variable=ch_var2, onvalue=5, offvalue=0).grid(column=1, row=3, sticky=W)
-ch_var3 = IntVar()
-ch_var3.set(0)
-Checkbutton(text='4', variable=ch_var3, onvalue=4, offvalue=0).grid(column=1, row=4, sticky=W)
-ch_var4 = IntVar()
-ch_var4.set(0)
-Checkbutton(text='Own version:', variable=ch_var4, offvalue=0, onvalue=1).grid(column=1, row=5, sticky=W)
-ch_var4_input=StringVar()
-ch_var4_input.set('')
-entry_chech_button = Entry(textvariable=ch_var4_input, width=5).grid(column=2, row=5, padx=3)
-Button(text='Check', command=check_answer).grid(column=1, row=6, sticky=N)
-label_result = Label(text='Chose one or more')
-label_result.grid(column=1, row=7, columnspan=2)
-
-
-root.mainloop()
+# root = Tk()
+# 
+# Label(text='how much is 2+2?').grid(row=1, column=1)
+# ch_var1 = IntVar()
+# ch_var1.set(0)
+# Checkbutton(text='3', variable=ch_var1, onvalue=3, offvalue=0).grid(column=1, row=2, sticky=W)
+# ch_var2 = IntVar()
+# ch_var2.set(0)
+# Checkbutton(text='5', variable=ch_var2, onvalue=5, offvalue=0).grid(column=1, row=3, sticky=W)
+# ch_var3 = IntVar()
+# ch_var3.set(0)
+# Checkbutton(text='4', variable=ch_var3, onvalue=4, offvalue=0).grid(column=1, row=4, sticky=W)
+# ch_var4 = IntVar()
+# ch_var4.set(0)
+# Checkbutton(text='Own version:', variable=ch_var4, offvalue=0, onvalue=1).grid(column=1, row=5, sticky=W)
+# ch_var4_input=StringVar()
+# ch_var4_input.set('')
+# entry_chech_button = Entry(textvariable=ch_var4_input, width=5).grid(column=2, row=5, padx=3)
+# Button(text='Check', command=check_answer).grid(column=1, row=6, sticky=N)
+# label_result = Label(text='Chose one or more')
+# label_result.grid(column=1, row=7, columnspan=2)
+# 
+# 
+# root.mainloop()
