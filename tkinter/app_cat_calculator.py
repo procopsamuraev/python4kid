@@ -87,14 +87,15 @@ def set_total_annual():
 
     if not price1 and not price2 and not price3: 
         label_warning3.config(text='Fill up at least 1 line')
+        return
     elif report_error: 
         entry_cost_annual.insert(0, '')
-    else:
-        sum_amount= 0
-        sum_amount = sum_amount + float(price1) if price1 else sum_amount
-        sum_amount = sum_amount + float(price2) if price2 else sum_amount
-        sum_amount = sum_amount + float(price3) if price3 else sum_amount
-        entry_cost_annual.insert(0, f'{(sum_amount * 365):.2f}')
+        return
+    sum_amount= 0
+    sum_amount = sum_amount + float(price1) if price1 else sum_amount
+    sum_amount = sum_amount + float(price2) if price2 else sum_amount
+    sum_amount = sum_amount + float(price3) if price3 else sum_amount
+    entry_cost_annual.insert(0, f'{(sum_amount * 365):.2f}')
 
 
 def set_total_cost():

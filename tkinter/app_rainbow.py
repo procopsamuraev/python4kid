@@ -1,6 +1,8 @@
 from tkinter import *
 
-
+//
+// while only 1 level list can. 
+//
 def change_color(color, color_code):
     print(f'{color}:{color_code}')
     text_code.set(color_code)

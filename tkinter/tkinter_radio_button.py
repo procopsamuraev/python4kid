@@ -27,6 +27,7 @@ from tkinter.ttk import *
 # ex 2 
 # //fix
 # chosen should show on the user line - dynamic position
+# fix second way to pass position via string 
 # def print_console(row_number):
 #     label_phone_value.set(f"{rb_var.get()}")
 #     label_phone.grid(row=row_number,column=2)
@@ -38,6 +39,23 @@ from tkinter.ttk import *
 # Radiobutton(text='Pit', variable=rb_var, value='+722', command=lambda row_number=2:  print_console(row_number)).grid(column=1, row=2, sticky=W)
 # Radiobutton(text='Bob', variable=rb_var, value='+823', command=lambda row_number=3: print_console(row_number)).grid(column=1, row=3, sticky=W )
 # Radiobutton(text='Garry', variable=rb_var, value='+9123', command=lambda row_number=4: print_console(row_number)).grid(column=1, row=4, sticky=W)
+# label_phone_value = StringVar()
+# label_phone = Label(textvariable=label_phone_value)
+# root.mainloop()
+
+# version 2
+# def print_console():
+#     number, row_number = rb_var.get().split(':')
+#     label_phone_value.set(f"{number}")
+#     label_phone.grid(row=row_number,column=2)
+# 
+# 
+# root = Tk()
+# rb_var = StringVar()
+# Label(text='Please select a name to show the phone number:').grid(column=1, row=1, columnspan=2)
+# Radiobutton(text='Pit', variable=rb_var, value='+722:2', command=print_console).grid(column=1, row=2, sticky=W)
+# Radiobutton(text='Bob', variable=rb_var, value='+82:3', command=print_console).grid(column=1, row=3, sticky=W)
+# Radiobutton(text='Garry', variable=rb_var, value='+9123:4', command=print_console).grid(column=1, row=4, sticky=W)
 # label_phone_value = StringVar()
 # label_phone = Label(textvariable=label_phone_value)
 # root.mainloop()

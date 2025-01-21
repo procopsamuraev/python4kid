@@ -48,3 +48,7 @@ while i < 30:
 print(f"Original:\n{list_of_numbers[0:9]}\n{list_of_numbers[10:19]}\n{list_of_numbers[20:29]}")
 list_of_numbers.sort()
 print(f"Sorted:\n{list_of_numbers[0:9]}\n{list_of_numbers[10:19]}\n{list_of_numbers[20:29]}")
+
+
+# fix methods of lists
+[].

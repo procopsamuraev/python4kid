@@ -55,17 +55,25 @@ from tkinter.ttk import *
 #     text.delete(1.0, END)
 #     a1,a2,a3,a4,a5 = ch_var1.get(), ch_var2.get(), ch_var3.get(), ch_var4.get(), ch_var5.get()
 #     text_to_display=''
-#     if a1:
-#         text_to_display = f"{text_to_display} {a1},"
-#     if a2:
-#         text_to_display = f"{text_to_display} {a2},"
-#     if a3:
-#         text_to_display = f"{text_to_display} {a3},"
-#     if a4:
-#         text_to_display = f"{text_to_display} {a4},"
-#     if a5:
-#         text_to_display = f"{text_to_display} {a5},"
-#     text.insert(END, f"{text_to_display.strip(' ,')}.")
+#     if a1: 
+#         text_to_display = f"{text_to_display}{a1}"
+#     if a2 and text_to_display:
+#         text_to_display = f"{text_to_display}, {a2}"
+#     elif a2: 
+#         text_to_display = f"{text_to_display}{a2}" 
+#     if a3 and text_to_display:
+#         text_to_display = f"{text_to_display}, {a3}"
+#     elif a3: 
+#         text_to_display = f"{text_to_display}{a3}" 
+#     if a4 and text_to_display:
+#         text_to_display = f"{text_to_display}, {a4}"
+#     elif a4: 
+#         text_to_display = f"{text_to_display}{a4}" 
+#     if a5 and text_to_display:
+#         text_to_display = f"{text_to_display}, {a5}"
+#     elif a5: 
+#         text_to_display = f"{text_to_display}{a5}" 
+#     text.insert(END, f"{text_to_display}.")
 # 
 #  
 # root = Tk()
@@ -97,37 +105,37 @@ from tkinter.ttk import *
 
 # ex 3 
 
-# def check_answer():
-#     correct_answer = ch_var4.get() and (ch_var4_input.get() == '7' or ch_var4_input.get() == '8')
-#     if ch_var1.get() or ch_var2.get() or ch_var3.get():
-#         label_result.config(text='Not correct')
-#     elif correct_answer:
-#         label_result.config(text='Correct')
-#     else:
-#         label_result.config(text='Chose one or more and full up field')
-# 
-# 
-# root = Tk()
-# 
-# Label(text='how much is 2+2?').grid(row=1, column=1)
-# ch_var1 = IntVar()
-# ch_var1.set(0)
-# Checkbutton(text='3', variable=ch_var1, onvalue=3, offvalue=0).grid(column=1, row=2, sticky=W)
-# ch_var2 = IntVar()
-# ch_var2.set(0)
-# Checkbutton(text='5', variable=ch_var2, onvalue=5, offvalue=0).grid(column=1, row=3, sticky=W)
-# ch_var3 = IntVar()
-# ch_var3.set(0)
-# Checkbutton(text='4', variable=ch_var3, onvalue=4, offvalue=0).grid(column=1, row=4, sticky=W)
-# ch_var4 = IntVar()
-# ch_var4.set(0)
-# Checkbutton(text='Own version:', variable=ch_var4, offvalue=0, onvalue=1).grid(column=1, row=5, sticky=W)
-# ch_var4_input=StringVar()
-# ch_var4_input.set('')
-# entry_chech_button = Entry(textvariable=ch_var4_input, width=5).grid(column=2, row=5, padx=3)
-# Button(text='Check', command=check_answer).grid(column=1, row=6, sticky=N)
-# label_result = Label(text='Chose one or more')
-# label_result.grid(column=1, row=7, columnspan=2)
-# 
-# 
-# root.mainloop()
+def check_answer():
+    correct_answer = ch_var4.get() and (ch_var4_input.get() == '7' or ch_var4_input.get() == '8')
+    if ch_var1.get() or ch_var2.get() or ch_var3.get():
+        label_result.config(text='Not correct')
+    elif correct_answer:
+        label_result.config(text='Correct')
+    else:
+        label_result.config(text='Chose one or more and full up field')
+
+
+root = Tk()
+
+Label(text='how much is 2+2?').grid(row=1, column=1)
+ch_var1 = IntVar()
+ch_var1.set(0)
+Checkbutton(text='3', variable=ch_var1, onvalue=3, offvalue=0).grid(column=1, row=2, sticky=W)
+ch_var2 = IntVar()
+ch_var2.set(0)
+Checkbutton(text='5', variable=ch_var2, onvalue=5, offvalue=0).grid(column=1, row=3, sticky=W)
+ch_var3 = IntVar()
+ch_var3.set(0)
+Checkbutton(text='4', variable=ch_var3, onvalue=4, offvalue=0).grid(column=1, row=4, sticky=W)
+ch_var4 = IntVar()
+ch_var4.set(0)
+Checkbutton(text='Own version:', variable=ch_var4, offvalue=0, onvalue=1).grid(column=1, row=5, sticky=W)
+ch_var4_input=StringVar()
+ch_var4_input.set('')
+entry_chech_button = Entry(textvariable=ch_var4_input, width=5).grid(column=2, row=5, padx=3)
+Button(text='Check', command=check_answer).grid(column=1, row=6, sticky=N)
+label_result = Label(text='Chose one or more')
+label_result.grid(column=1, row=7, columnspan=2)
+
+
+root.mainloop()
