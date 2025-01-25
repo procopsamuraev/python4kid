@@ -38,17 +38,38 @@
 
 
 # ex3
-import random
-list_of_numbers = []
-i = 0
-while i < 30:
-    list_of_numbers.append(random.randint(0,99))
-    i += 1
-# print(list_of_numbers)
-print(f"Original:\n{list_of_numbers[0:9]}\n{list_of_numbers[10:19]}\n{list_of_numbers[20:29]}")
-list_of_numbers.sort()
-print(f"Sorted:\n{list_of_numbers[0:9]}\n{list_of_numbers[10:19]}\n{list_of_numbers[20:29]}")
+
+# import random
+# list_of_numbers = []
+# i = 0
+# while i < 30:
+#     list_of_numbers.append(random.randint(0,99))
+#     i += 1
+# print(f"Original:\n{list_of_numbers[0:9]}\n{list_of_numbers[10:19]}\n{list_of_numbers[20:29]}")
+# list_of_numbers.sort()
+# print(f"Sorted:\n{list_of_numbers[0:9]}\n{list_of_numbers[10:19]}\n{list_of_numbers[20:29]}")
 
 
 # fix methods of lists
-[].
+list_test = ['n1', 'n2', 'n3', 'n4']
+# list_test.append('n5')
+# list_test.clear()
+# b = list_test.copy()
+# print(b)
+# print(list_test.count('n1')) 
+list_test.extend('bbb')
+# ['n1', 'n2', 'n3', 'n4', 'b', 'b', 'b']
+# print(list_test.index('b'))
+list_test.insert(4, 'a')
+# ['n1', 'n2', 'n3', 'n4', 'a', 'b', 'b', 'b']
+print(list_test.pop(4))
+#a
+# ['n1', 'n2', 'n3', 'n4', 'b', 'b', 'b'] 
+list_test.remove('b')
+# ['n1', 'n2', 'n3', 'n4', 'b', 'b']
+list_test.reverse()
+# ['b', 'b', 'n4', 'n3', 'n2', 'n1']
+list_test.sort()
+list_test.count
+# ['b', 'b', 'n1', 'n2', 'n3', 'n4']
+print(list_test)

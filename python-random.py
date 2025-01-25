@@ -63,30 +63,26 @@ def generate_number():
     warning = ''
 
     number_from = entry_from.get().replace(',','.') if entry_from.get() else '0'
-    number_from_true = number_from.replace('.', '', 1).replace('-', '').strip().isdigit()
-    if number_from_true:
+    if number_from.replace('.', '', 1).replace('-', '').strip().isdigit():
         number_from = float(number_from)
-    else: 
-        warning=f"{warning} Vvedite chislo in 'number from'"
     
     number_to = entry_to.get().replace(',','.')
-    number_to_true  = number_to.replace('.', '', 1).replace('-', '').strip().isdigit()
-    if number_to_true:
+    if number_to.replace('.', '', 1).replace('-', '').strip().isdigit():
         number_to = float(number_to)
     else:
-        warning=f"{warning} Vvedite chislo in 'Number to'"
+        warning=f"{warning} Fill up: 'Number to'"
     
     number_step = entry_step.get().replace(',','.') if entry_step.get() else '1'
-    number_step_true = number_step.replace('.', '').isdigit()
-    if number_step_true:
+    if number_step.replace('.', '').replace('-', '').isdigit():
         number_step = float(number_step)
     else:
-        warning=f"{warning} Vvedite polijutelnoe chislo in 'Step'"
+        warning=f"{warning} Fill up 'Step'"
 
     if not warning:
         label_warning.config(text='')
         label_warning.grid_remove
-        number_random = (random.random()*(number_to-number_from)+number_from)//number_step*number_step
+        # 
+        number_random = (random.random()*(number_to-number_from)+number_from+number_step)//number_step*number_step
         label_result.config(text=f"Result:\t{ str(number_random).removesuffix('.0') }")
     else:
         label_warning.config(text=warning)
