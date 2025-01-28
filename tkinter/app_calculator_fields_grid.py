@@ -1,55 +1,84 @@
-from tkinter import *
+from tkinter import *            
+error = "Enter numbers only0"
+error_zero = "Enter numbers only and not 0"
 
 
-def calculation(operation):
-    if operation == "+":
-        if value_sum_1.get().isdigit() and value_sum_2.get().strip("-").isdigit():
-            result_sum.delete(0, "end")
-            result_sum.insert(0, int(value_sum_1.get()) + int(value_sum_2.get()))
-        else:
-            result_sum.insert(0, "Error")
-    elif operation == "-":
-        if value_minus_1.get().isdigit() and value_minus_2.get().isdigit():
-            result_minus.delete(0, "end")
-            result_minus.insert(0, int(value_minus_1.get()) - int(value_minus_2.get()))
-        else:
-            result_minus.insert(0, "Error")
-    elif operation == "*":
-        if value_multi_1.get().isdigit() and value_multi_2.get().isdigit():
-            result_multi.delete(0, "end")
-            result_multi.insert(0, int(value_multi_1.get()) * int(value_multi_2.get()))
-        else:
-            result_multi.insert(0, "Error")
-    elif operation == "**":
-        if value_stepen_1.get().isdigit() and value_stepen_2.get().isdigit():
-            result_stepen.delete(0, "end")
-            result_stepen.insert(0, int(value_stepen_1.get()) ** int(value_stepen_2.get()))
-        else:
-            result_stepen.insert(0, "Error")
-    elif operation == "/":
-        result_delenie.delete(0, "end")
-        if value_delenie_1.get().isdigit() and value_delenie_2.get().isdigit() and (int(value_delenie_2.get()) > 0):
-            result_delenie.insert(0, int(value_delenie_1.get()) / int(value_delenie_2.get()))
-        else:
-            result_delenie.insert(0, "Error")
-    elif operation == "//":
-        result_c_delenie.delete(0, "end")
-        if value_c_delenie_1.get().isdigit() and value_c_delenie_2.get().isdigit() and (int(value_c_delenie_2.get()) > 0):
-            result_c_delenie.insert(0, int(value_c_delenie_1.get()) // int(value_c_delenie_2.get()))
-        else:
-            result_c_delenie.insert(0, "Error")
-    elif operation == "%":
-        result_ostatok.delete(0, "end")
-        if value_ostatok_1.get().isdigit() and value_ostatok_2.get().isdigit() and (int(value_ostatok_2.get()) > 0):
-            result_ostatok.insert(0, int(value_ostatok_1.get()) % int(value_ostatok_2.get()))
-        else:
-            result_ostatok.insert(0, "Error")
+def sum_numbers():
+    value_clean_1 = value_sum_1.get().replace(" ", "").replace(",", ".")
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
+    value_clean_2 = value_sum_2.get().replace(" ", "").replace(",", ".")
+    number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
+    result = str(float(value_clean_1) + float(value_clean_2)) if number_1_true and number_2_true else error
+    value_result_sum.set(result.rstrip("0").removesuffix("."))
 
-# operations_list = [
-#     {"name": "sum", "symbol": "+"},
-#     {"name": "minus", "symbol": "-"},
-#     {"name": "multiplication", "symbol": "*"},
-# ]
+                                             
+def subtract_numbers():             
+    result_subtract.delete(0, "end")                                                       
+    value_clean_1 = value_subtract_1.get().replace(" ", "").replace(",", ".")
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
+    value_clean_2 = value_subtract_2.get().replace(" ", "").replace(",", ".")
+    number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
+    numbers_true = number_1_true and number_2_true
+    result = str(float(value_clean_1) - float(value_clean_2)) if numbers_true else error
+    result_subtract.insert(0, result.rstrip("0").removesuffix("."))
+
+                                             
+def multiplication_numbers():       
+    result_multiplication.delete(0, "end")                                                 
+    value_clean_1 = value_multiplication_1.get().replace(" ", "").replace(",", ".")
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
+    value_clean_2 = value_multiplication_2.get().replace(" ", "").replace(",", ".")
+    number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
+    numbers_true = number_1_true and number_2_true
+    result = str(float(value_clean_1) * float(value_clean_2)) if numbers_true else error
+    result_multiplication.insert(0, result.rstrip("0").removesuffix("."))
+                                                                                           
+                                             
+def exponentiation_numbers():
+    result_exponentiation.delete(0, "end")                                                 
+    value_clean_1 = value_exponentiation_1.get().replace(" ", "").replace(",", ".")
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
+    value_clean_2 = value_exponentiation_2.get().replace(" ", "").replace(",", ".")
+    number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
+    numbers_true = number_1_true and number_2_true
+    result = str(float(value_clean_1) ** float(value_clean_2)) if numbers_true else error
+    result_exponentiation.insert(0, result.rstrip("0").removesuffix("."))
+
+
+def division_numbers():       
+    result_division.delete(0, "end")                                                       
+    value_clean_1 = value_division_1.get().replace(" ", "").replace(",", ".")
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
+    value_clean_2 = value_division_2.get().replace(" ", "").replace(",", ".")
+    number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
+    numbers_true = number_1_true and number_2_true and int(value_clean_2) != 0
+    result = str(float(value_clean_1) / float(value_clean_2)) if numbers_true else error_zero
+    result_division.insert(0, result.rstrip("0").removesuffix("."))
+                                             
+                                             
+def floor_division_numbers():                                                              
+    result_division.delete(0, "end")                                                       
+    value_clean_1 = value_floor_division_1.get().replace(" ", "").replace(",", ".")
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
+    value_clean_2 = value_floor_division_2.get().replace(" ", "").replace(",", ".")
+    number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit() 
+    numbers_true = number_1_true and number_2_true and int(value_clean_2) != 0
+    result = str(float(value_clean_1) / float(value_clean_2)) if numbers_true else error_zero
+    result_floor_division.insert(0, result.rstrip("0").removesuffix("."))
+                                             
+                                                                                           
+def modulus_numbers():                                                                     
+    result_modulus.delete(0, "end")
+    value_clean_1 = value_modulus_1.get().replace(" ", "").replace(",", ".")
+    number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
+    value_clean_2 = value_modulus_2.get().replace(" ", "").replace(",", ".")
+    number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
+    number_2_zero = value_clean_2.find("0") != -1 and len(value_clean_2.removeprefix("-").strip("0")) < 2
+    numbers_true = number_1_true and number_2_true and not number_2_zero
+    # line_check.removeprefix("-").replace(".", "", 1).replace("0", "", line_check.count("0") - 1) == "0"
+    result = str(float(value_clean_1) % float(value_clean_2)) if numbers_true else error_zero
+    result_modulus.insert(0, result.rstrip("0").removesuffix("."))
+                                                                                           
 
 root = Tk()
 root.title("Ex_1")
@@ -63,100 +92,100 @@ label.grid(column=1, row=row_num)
 value_sum_2 = StringVar()
 field_sum_2 = Entry(root, width=5, textvariable=value_sum_2)
 field_sum_2.grid(column=2, row=row_num)
-button_equal = Button(root, text="=", command=lambda operation="+": calculation(operation))
+button_equal = Button(root, text="=", command=sum_numbers)
 button_equal.grid(column=3, row=row_num)
-value_result = StringVar()
-result_sum = Entry(root, width=5, textvariable=value_result)
-result_sum.grid(column=4, row=row_num)
+value_result_sum = StringVar()
+entry_result_sum = Entry(root, width=10, textvariable=value_result_sum)
+entry_result_sum.grid(column=4, row=row_num)
 
 row_num = 1
-value_minus_1 = StringVar()
-field_minus_1 = Entry(root, width=5, textvariable=value_minus_1)
-field_minus_1.grid(column=0, row=row_num)
+value_subtract_1 = StringVar()
+field_subtract_1 = Entry(root, width=5, textvariable=value_subtract_1)
+field_subtract_1.grid(column=0, row=row_num)
 label = Label(root, text="-")
 label.grid(column=1, row=row_num)
-value_minus_2 = StringVar()
-field_minus_2 = Entry(root, width=5, textvariable=value_minus_2)
-field_minus_2.grid(column=2, row=row_num)
-button_equal = Button(root, text="=", command=lambda operation="-": calculation(operation))
+value_subtract_2 = StringVar()
+field_subtract_2 = Entry(root, width=5, textvariable=value_subtract_2)
+field_subtract_2.grid(column=2, row=row_num)
+button_equal = Button(root, text="=", command=subtract_numbers)
 button_equal.grid(column=3, row=row_num)
 value_result = StringVar()
-result_minus = Entry(root, width=5, textvariable=value_result)
-result_minus.grid(column=4, row=row_num)
+result_subtract = Entry(root, width=10, textvariable=value_result)
+result_subtract.grid(column=4, row=row_num)
 
 row_num = 2
-value_multi_1 = StringVar()
-field_multi_1 = Entry(root, width=5, textvariable=value_multi_1)
-field_multi_1.grid(column=0, row=row_num)
+value_multiplication_1 = StringVar()
+field_multiplication_1 = Entry(root, width=5, textvariable=value_multiplication_1)
+field_multiplication_1.grid(column=0, row=row_num)
 label = Label(root, text="*")
 label.grid(column=1, row=row_num)
-value_multi_2 = StringVar()
-field_multi_2 = Entry(root, width=5, textvariable=value_multi_2)
-field_multi_2.grid(column=2, row=row_num)
-button_equal = Button(root, text="=", command=lambda operation="*": calculation(operation))
+value_multiplication_2 = StringVar()
+field_multiplication_2 = Entry(root, width=5, textvariable=value_multiplication_2)
+field_multiplication_2.grid(column=2, row=row_num)
+button_equal = Button(root, text="=", command=multiplication_numbers)
 button_equal.grid(column=3, row=row_num)
 value_result = StringVar()
-result_multi = Entry(root, width=5, textvariable=value_result)
-result_multi.grid(column=4, row=row_num)
+result_multiplication= Entry(root, width=10, textvariable=value_result)
+result_multiplication.grid(column=4, row=row_num)
 
 row_num = 3
-value_stepen_1 = StringVar()
-field_stepen_1 = Entry(root, width=5, textvariable=value_stepen_1)
-field_stepen_1.grid(column=0, row=row_num)
+value_exponentiation_1 = StringVar()
+field_exponentiation_1 = Entry(root, width=5, textvariable=value_exponentiation_1)
+field_exponentiation_1.grid(column=0, row=row_num)
 label = Label(root, text="**")
 label.grid(column=1, row=row_num)
-value_stepen_2 = StringVar()
-field_stepen_2 = Entry(root, width=5, textvariable=value_stepen_2)
-field_stepen_2.grid(column=2, row=row_num)
-button_equal = Button(root, text="=", command=lambda operation="**": calculation(operation))
+value_exponentiation_2 = StringVar()
+field_exponentiation_2 = Entry(root, width=5, textvariable=value_exponentiation_2)
+field_exponentiation_2.grid(column=2, row=row_num)
+button_equal = Button(root, text="=", command=exponentiation_numbers)
 button_equal.grid(column=3, row=row_num)
 value_result = StringVar()
-result_stepen = Entry(root, width=5, textvariable=value_result)
-result_stepen.grid(column=4, row=row_num)
+result_exponentiation = Entry(root, width=10, textvariable=value_result)
+result_exponentiation.grid(column=4, row=row_num)
 
 row_num = 4
-value_delenie_1 = StringVar()
-field_delenie_1 = Entry(root, width=5, textvariable=value_delenie_1)
-field_delenie_1.grid(column=0, row=row_num)
+value_division_1 = StringVar()
+field_division_1 = Entry(root, width=5, textvariable=value_division_1)
+field_division_1.grid(column=0, row=row_num)
 label = Label(root, text="/")
 label.grid(column=1, row=row_num)
-value_delenie_2 = StringVar()
-field_delenie_2 = Entry(root, width=5, textvariable=value_delenie_2)
-field_delenie_2.grid(column=2, row=row_num)
-button_equal = Button(root, text="=", command=lambda operation="/": calculation(operation))
+value_division_2 = StringVar()
+field_division_2 = Entry(root, width=5, textvariable=value_division_2)
+field_division_2.grid(column=2, row=row_num)
+button_equal = Button(root, text="=", command=division_numbers)
 button_equal.grid(column=3, row=row_num)
 value_result = StringVar()
-result_delenie = Entry(root, width=5, textvariable=value_result)
-result_delenie.grid(column=4, row=row_num)
+result_division = Entry(root, width=10, textvariable=value_result)
+result_division.grid(column=4, row=row_num)
 
 row_num = 5
-value_c_delenie_1 = StringVar()
-field_c_delenie_1 = Entry(root, width=5, textvariable=value_c_delenie_1)
-field_c_delenie_1.grid(column=0, row=row_num)
+value_floor_division_1 = StringVar()
+field_floor_division_1 = Entry(root, width=5, textvariable=value_floor_division_1)
+field_floor_division_1.grid(column=0, row=row_num)
 label = Label(root, text="//")
 label.grid(column=1, row=row_num)
-value_c_delenie_2 = StringVar()
-field_c_delenie_2 = Entry(root, width=5, textvariable=value_c_delenie_2)
-field_c_delenie_2.grid(column=2, row=row_num)
-button_equal = Button(root, text="=", command=lambda operation="//": calculation(operation))
+value_floor_division_2 = StringVar()
+field_floor_division_2 = Entry(root, width=5, textvariable=value_floor_division_2)
+field_floor_division_2.grid(column=2, row=row_num)
+button_equal = Button(root, text="=", command=floor_division_numbers)
 button_equal.grid(column=3, row=row_num)
 value_result = StringVar()
-result_c_delenie = Entry(root, width=5, textvariable=value_result)
-result_c_delenie.grid(column=4, row=row_num)
+result_floor_division = Entry(root, width=10, textvariable=value_result)
+result_floor_division.grid(column=4, row=row_num)
 
 row_num = 6
-value_ostatok_1 = StringVar()
-field_ostatok_1 = Entry(root, width=5, textvariable=value_ostatok_1)
-field_ostatok_1.grid(column=0, row=row_num)
+value_modulus_1 = StringVar()
+field_modulus_1 = Entry(root, width=5, textvariable=value_modulus_1)
+field_modulus_1.grid(column=0, row=row_num)
 label = Label(root, text="%")
 label.grid(column=1, row=row_num)
-value_ostatok_2 = StringVar()
-field_ostatok_2 = Entry(root, width=5, textvariable=value_ostatok_2)
-field_ostatok_2.grid(column=2, row=row_num)
-button_equal = Button(root, text="=", command=lambda operation="%": calculation(operation))
+value_modulus_2 = StringVar()
+field_modulus_2 = Entry(root, width=5, textvariable=value_modulus_2)
+field_modulus_2.grid(column=2, row=row_num)
+button_equal = Button(root, text="=", command=modulus_numbers)
 button_equal.grid(column=3, row=row_num)
 value_result = StringVar()
-result_ostatok = Entry(root, width=5, textvariable=value_result)
-result_ostatok.grid(column=4, row=row_num)
+result_modulus = Entry(root, width=10, textvariable=value_result)
+result_modulus.grid(column=4, row=row_num)
 
 root.mainloop()

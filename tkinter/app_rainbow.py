@@ -51,43 +51,43 @@ from tkinter import *
 
 # static version
 def display_red():
-    text_code.set('#ff0000')
+    color_code.set('#ff0000')
     label.config(text='red', foreground='red')
     entry.config(background='red')
 
 
 def display_orange():
-    text_code.set('#ff7d00')
+    color_code.set('#ff7d00')
     label.config(text='orange', foreground='orange')
     entry.config(background='orange')
 
 
 def display_yellow():
-    text_code.set('#ffff00')
+    color_code.set('#ffff00')
     label.config(text='yellow', foreground='yellow')
     entry.config(background='yellow')
 
 
 def display_green():
-    text_code.set('#00ff00')
+    color_code.set('#00ff00')
     label.config(text='green', foreground='green')
     entry.config(background='green')
 
 
 def display_lightblue():
-    text_code.set('#007dff')
+    color_code.set('#007dff')
     label.config(text='lightblue', foreground='lightblue')
     entry.config(background='lightblue')
 
 
 def display_blue():
-    text_code.set('#0000ff')
+    color_code.set('#0000ff')
     label.config(text='blue', foreground='blue')
     entry.config(background='blue')
 
 
 def display_purple():
-    text_code.set('#7d00ff')
+    color_code.set('#7d00ff')
     label.config(text='purple', foreground='purple')
     entry.config(background='purple')
 
@@ -96,10 +96,10 @@ root = Tk()
 root.title("Colors")
 label = Label(text="Color name", font=20, fg="black" )
 label.pack()
-text_code = StringVar()
-entry = Entry(textvariable=text_code, justify="center", font=20, fg="black")
+color_code = StringVar()
+entry = Entry(textvariable=color_code, justify="center", font=20, fg="black")
 entry.pack()
-text_code.set("Color code")
+color_code.set("Color code")
 
 Button(root, text="1", font=20, bg="#ff0000", command=display_red).pack(fill=X)
 Button(root, text="2", font=20, bg="#ff7d00", command=display_orange).pack(fill=X)

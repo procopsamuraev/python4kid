@@ -57,22 +57,24 @@ from tkinter.ttk import *
 
 # def calculate_random(x0, x1, y):
     # return random.random()*((x1-x0)+x0)//y*y
-
+# fix inclide still doesnt work, checks and try linear if on 66-68 str
 
 def generate_number():
     warning = ''
 
-    number_from = entry_from.get().replace(',','.') if entry_from.get() else '0'
-    if number_from.replace('.', '', 1).replace('-', '').strip().isdigit():
+    number_from = entry_from.get().replace(',', '.')
+    if number_from.replace('.', '', 1).removeprefix('-').strip().isdigit():
         number_from = float(number_from)
+    else: 
+        warning=f"{warning} Warning in field from"
     
     number_to = entry_to.get().replace(',','.')
-    if number_to.replace('.', '', 1).replace('-', '').strip().isdigit():
+    if number_to.replace('.', '', 1).removeprefix('-').strip().isdigit():
         number_to = float(number_to)
     else:
         warning=f"{warning} Fill up: 'Number to'"
     
-    number_step = entry_step.get().replace(',','.') if entry_step.get() else '1'
+    number_step = entry_step.get().replace(',','.')
     if number_step.replace('.', '').replace('-', '').isdigit():
         number_step = float(number_step)
     else:
@@ -80,9 +82,9 @@ def generate_number():
 
     if not warning:
         label_warning.config(text='')
-        label_warning.grid_remove
-        # 
+        number_range = random.random()*(number_to - number_from)
         number_random = (random.random()*(number_to-number_from)+number_from+number_step)//number_step*number_step
+        # number_random = (random.random()*(number_to-number_from)+number_from+number_step)//number_step*number_step
         label_result.config(text=f"Result:\t{ str(number_random).removesuffix('.0') }")
     else:
         label_warning.config(text=warning)
@@ -96,6 +98,7 @@ entry_from.insert(0, '0')
 entry_from.grid(column=2, row=2)
 Label(text = 'To: ').grid(column=3, row=2)
 entry_to = Entry()
+entry_to.insert(0, '1')
 entry_to.grid(column=4, row=2)
 Label(text = 'Step: ').grid(column=5, row=2)
 entry_step = Entry()

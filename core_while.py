@@ -61,3 +61,4 @@
 #     print(total)
 #     user_number = int(input("Pls input number: "))
 # print("Operation is failed. Total should be positive")
+u
