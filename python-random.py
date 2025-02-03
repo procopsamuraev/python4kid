@@ -74,13 +74,10 @@ def check_user_input():
         label_warning.config(text=warning)
     else: 
         label_warning.config(text='')
-        return(number_from , number_to, number_step)
+        return(float(number_from) , float(number_to), float(number_step))
 
 def generate_number():
     number_from, number_to, number_step = check_user_input()
-    number_from=float(number_from)
-    number_to=float(number_to)
-    number_step=float(number_step)
     number_range = number_to - number_from + number_step
     number_random = (random.random()*number_range+number_from)//number_step*number_step
     label_result.config(text=f"Result: { str(number_random).removesuffix('.0') } ")
