@@ -59,31 +59,32 @@ from tkinter.ttk import *
     # return random.random()*((x1-x0)+x0)//y*y
 # fix inclide still doesnt work, checks and try linear if on 66-68 str
 
-def check_user_input():
+
+def check_user_input(number_from, number_to, number_step):
     warning = ''
-    number_from = entry_from.get().replace(',', '.').strip()
-    if not number_from.replace('.', '', 1).removeprefix('-').isdigit(): warning=f"{warning} Warning in field from"
+    if not number_from.replace('.', '', 1).removeprefix('-').isdigit():
+        warning=f"{warning} Warning in field from"
+    if not number_to.replace('.', '', 1).removeprefix('-').strip().isdigit():
+        warning=f"{warning} Fill up: 'Number to'"
+    if not number_step.replace('.', '').replace('-', '').isdigit():
+        warning=f"{warning} Fill up 'Step'"
+    return warning
 
-    number_to = entry_to.get().replace(',','.')
-    if not number_to.replace('.', '', 1).removeprefix('-').strip().isdigit(): warning=f"{warning} Fill up: 'Number to'"
-
-    number_step = entry_step.get().replace(',','.')
-    if not number_step.replace('.', '').replace('-', '').isdigit(): warning=f"{warning} Fill up 'Step'"
-     
-    if warning:
-        label_warning.config(text=warning)
-    else: 
-        label_warning.config(text='')
-        return(float(number_from) , float(number_to), float(number_step))
 
 def generate_number():
-    number_from, number_to, number_step = check_user_input()
-    number_range = number_to - number_from + number_step
-    number_random = (random.random()*number_range+number_from)//number_step*number_step
-    label_result.config(text=f"Result: { str(number_random).removesuffix('.0') } ")
+    number_from = entry_from.get().replace(',', '.').strip()
+    number_to = entry_to.get().replace(',','.')
+    number_step = entry_step.get().replace(',','.')
+    report_error = check_user_input(number_from, number_to, number_step)
+    label_warning.config(text=report_error)
+    if not report_error: 
+        number_from, number_to, number_step = float(number_from), float(number_to), float(number_step)
+        number_range = number_to - number_from + number_step
+        number_random = (random.random()*number_range+number_from)//number_step*number_step
+        label_result.config(text=f"Result: { str(number_random).removesuffix('.0') } ")
+
 
 root=Tk()
-
 Label(text = 'Random number generator').grid(column=1, columnspan=8, row=1)
 Label(text = 'From: ').grid(column=1, row=2)
 entry_from = Entry()
@@ -102,5 +103,4 @@ label_result = Label(text='Result:   ')
 label_result.grid(column=8, row=2)
 label_warning= Label()
 label_warning.grid(column=1, columnspan=7, row=3)
-label_warning.grid_remove
 root.mainloop()
