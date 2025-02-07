@@ -43,21 +43,23 @@ from tkinter import *
 list_signs = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', "="]
 
 root = Tk()
-root.title("Calculator")
+root.title("Calculator Pack")
 
-num = StringVar() # создадим переменную для отображения значений на табло калькулятора
-num.set(0)        # установим значение переменной равное 0
-# Entry(text=num, justify="right").pack()
-
-frame_entry = LabelFrame(root, text=row, justify='right').pack()
-frame_entry.pack()
+num = StringVar() 
+num.set(0)        
+frame = LabelFrame(root, text="1 row")
+frame.pack()
+Entry(frame, text=num, justify="right").pack()
 
 i = 0
 while i < len(list_signs):
-    print(i, list_signs[i], i%4, i//4)
+    print(i, list_signs[i], i%5, i//5+1)
     row = i//5+1
     column = i%5
-    Button(text=list_signs[i]).grid(column=column, row=row, sticky=NSEW)
+    if column == 0:
+        frame = LabelFrame(root, text=f'{row + 1 } row')
+        frame.pack()
+    Button(frame, text=list_signs[i]).pack(side='left')
     i += 1
 
 
