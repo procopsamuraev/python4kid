@@ -53,10 +53,8 @@ Entry(frame, text=num, justify="right").pack()
 
 i = 0
 while i < len(list_signs):
-    print(i, list_signs[i], i%5, i//5+1)
     row = i//5+1
-    column = i%5
-    if column == 0:
+    if i%5 == 0:
         frame = LabelFrame(root, text=f'{row + 1 } row')
         frame.pack()
     Button(frame, text=list_signs[i]).pack(side='left')
