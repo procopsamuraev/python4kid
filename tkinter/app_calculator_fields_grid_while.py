@@ -13,6 +13,7 @@ def sum_numbers():
     list_widgets[i+2].delete(0, END)
     list_widgets[i+2].insert(0, result.rstrip("0").removesuffix("."))
 
+
 def subtract_numbers():
     i = 3
     value_clean_1 = list_widgets[i].get().replace(" ", "").replace(",", ".")
@@ -22,18 +23,8 @@ def subtract_numbers():
     result = str(float(value_clean_1) - float(value_clean_2)) if number_1_true and number_2_true else error
     list_widgets[i+2].delete(0, END)
     list_widgets[i+2].insert(0, result.rstrip("0").removesuffix("."))
-                                             
-# def subtract_numbers():             
-#     result_subtract.delete(0, "end")                                                       
-#     value_clean_1 = value_subtract_1.get().replace(" ", "").replace(",", ".")
-#     number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
-#     value_clean_2 = value_subtract_2.get().replace(" ", "").replace(",", ".")
-#     number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
-#     numbers_true = number_1_true and number_2_true
-#     result = str(float(value_clean_1) - float(value_clean_2)) if numbers_true else error
-#     result_subtract.insert(0, result.rstrip("0").removesuffix("."))
 
-                                             
+
 def multiplication_numbers():       
     i = 6
     value_clean_1 = list_widgets[i].get().replace(" ", "").replace(",", ".")
@@ -44,8 +35,8 @@ def multiplication_numbers():
     result = str(float(value_clean_1) * float(value_clean_2)) if numbers_true else error
     list_widgets[i+2].delete(0, END)
     list_widgets[i+2].insert(0, result.rstrip("0").removesuffix("."))
-                                                                                           
-                                             
+
+
 def exponentiation_numbers():
     i = 9
     value_clean_1 = list_widgets[i].get().replace(" ", "").replace(",", ".")
@@ -56,8 +47,8 @@ def exponentiation_numbers():
     result = str(float(value_clean_1) ** float(value_clean_2)) if numbers_true else error
     list_widgets[i+2].delete(0, "end")                                                 
     list_widgets[i+2].insert(0, result.rstrip("0").removesuffix("."))
-
-
+                                                                                           
+                                                                                           
 def division_numbers():       
     i =  12
     value_clean_1 = list_widgets[i].get().replace(" ", "").replace(",", ".")
@@ -93,7 +84,7 @@ def modulus_numbers():
     result = str(float(value_clean_1) % float(value_clean_2)) if numbers_true else error_zero
     list_widgets[i+2].delete(0, "end")                                                       
     list_widgets[i+2].insert(0, result.rstrip("0").removesuffix("."))
-                                                                                           
+
 
 root = Tk()
 root.title("Ex_1")
@@ -103,18 +94,17 @@ list_widgets = []
 
 i = 0
 while i < len(list_signs):
-    list_widgets.append('entry_1')
-    list_widgets.append('entry_2')
-    list_widgets.append('result')
-    n = i*3
-    list_widgets[n] = Entry(root, width=5)
-    list_widgets[n].grid(column=0, row=i)
+    entry = Entry(root, width=5)
+    entry.grid(column=0, row=i)
+    list_widgets.append(entry)
     Label(root, text=list_signs[i]).grid(column=1, row=i)
-    list_widgets[n+1] = Entry(root, width=5)
-    list_widgets[n+1].grid(column=2, row=i)
+    entry = Entry(root, width=5)
+    entry.grid(column=2, row=i)
+    list_widgets.append(entry)
     Button(root, text='=', command=list_functions[i]).grid(column=3, row=i)
-    list_widgets[n+2] = Entry(root, width=10)
-    list_widgets[n+2].grid(column=4, row=i)
+    entry = Entry(root, width=10)
+    entry.grid(column=4, row=i)
+    list_widgets.append(entry)
     i += 1
 
 
