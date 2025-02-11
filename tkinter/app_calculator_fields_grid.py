@@ -4,12 +4,12 @@ error_zero = "Enter numbers only and not 0"
 
 
 def sum_numbers():
-    value_clean_1 = value_sum_1.get().replace(" ", "").replace(",", ".")
+    value_clean_1 = field_sum_1.get().replace(" ", "").replace(",", ".")
     number_1_true = value_clean_1.removeprefix("-").replace(".", "", 1).isdigit()
-    value_clean_2 = value_sum_2.get().replace(" ", "").replace(",", ".")
+    value_clean_2 = field_sum_2.get().replace(" ", "").replace(",", ".")
     number_2_true = value_clean_2.removeprefix("-").replace(".", "", 1).isdigit()
     result = str(float(value_clean_1) + float(value_clean_2)) if number_1_true and number_2_true else error
-    value_result_sum.set(result.rstrip("0").removesuffix("."))
+    entry_result_sum.insert(0, result.rstrip("0").removesuffix("."))
 
                                              
 def subtract_numbers():             
@@ -84,18 +84,13 @@ root = Tk()
 root.title("Ex_1")
 
 row_num = 0
-value_sum_1 = StringVar()
-field_sum_1 = Entry(root, width=5, textvariable=value_sum_1)
+field_sum_1 = Entry(root, width=5)
 field_sum_1.grid(column=0, row=row_num)
-label = Label(root, text="+")
-label.grid(column=1, row=row_num)
-value_sum_2 = StringVar()
-field_sum_2 = Entry(root, width=5, textvariable=value_sum_2)
+Label(root, text="+").grid(column=1, row=row_num)
+field_sum_2 = Entry(root, width=5)
 field_sum_2.grid(column=2, row=row_num)
-button_equal = Button(root, text="=", command=sum_numbers)
-button_equal.grid(column=3, row=row_num)
-value_result_sum = StringVar()
-entry_result_sum = Entry(root, width=10, textvariable=value_result_sum)
+Button(root, text="=", command=sum_numbers).grid(column=3, row=row_num)
+entry_result_sum = Entry(root, width=10)
 entry_result_sum.grid(column=4, row=row_num)
 
 row_num = 1
