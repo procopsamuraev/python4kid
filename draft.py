@@ -26,11 +26,23 @@ year = "1500.5"
 # print(  not string[string.find('.')+1:].rstrip('0').replace('5', '', 1) if string.find('.') !=-1 else string.replace('.', '').isdigit() )
 # print( not string.rsplit('.', )[-1].rstrip('0').replace('5', '', 1 ))
 # print( not year[year.find('.')+1:].rstrip('0').replace('5', '', 1))
-def return_list():
-    return 1, 2, '2'
+# Import package and it's modules 
+  
+# create buttons 
+# Execute Tkinter 
 
-ac = return_list()
-if ac[-1]: 
-    print(ac[-1])
-else: 
-    print('d')
+tags = [{'Key': 'Name', 'Value': 'ansatzalgo1-ub22'}, {'Key': 'Organization', 'Value': 'Ansatz'}]
+# for dict1 in tags:
+#     for k,v in dict1.items():
+#         print(kk, v)
+#         if k == 'Organization' and v == 'Ansatz': 
+team_name = []
+for dict1 in tags:
+    # if dict1.get('Key') == 'Organization' or dict1.get('key') == 'Name':
+    team_name.append(dict1.get('Value'))
+    print(team_name)
+
+
+
+    # print()
+# print(tags)

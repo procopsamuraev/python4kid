@@ -49,27 +49,37 @@
 # list_of_numbers.sort()
 # print(f"Sorted:\n{list_of_numbers[0:9]}\n{list_of_numbers[10:19]}\n{list_of_numbers[20:29]}")
 
-
+def change_list():
+    list_test.append('y2')
+    # list_test[0].append(2)
 # fix methods of lists
-list_test = ['n1', 'n2', 'n3', 'n4']
+list_test = [[1], 'n1', 'n2', 'n3', 'n4']
 # list_test.append('n5')
 # list_test.clear()
 # b = list_test.copy()
 # print(b)
 # print(list_test.count('n1')) 
-list_test.extend('bbb')
+list_test.extend(['abc', 'bc'])
+list_test.extend('abc')
 # ['n1', 'n2', 'n3', 'n4', 'b', 'b', 'b']
 # print(list_test.index('b'))
-list_test.insert(4, 'a')
+# list_test.insert(4, 'a')
 # ['n1', 'n2', 'n3', 'n4', 'a', 'b', 'b', 'b']
-print(list_test.pop(4))
+# print(list_test.pop(4))
 #a
 # ['n1', 'n2', 'n3', 'n4', 'b', 'b', 'b'] 
-list_test.remove('b')
+# list_test.remove('b')
 # ['n1', 'n2', 'n3', 'n4', 'b', 'b']
-list_test.reverse()
+# list_test.reverse()
 # ['b', 'b', 'n4', 'n3', 'n2', 'n1']
-list_test.sort()
-list_test.count
+# list_test.sort()
+# list_test.count
 # ['b', 'b', 'n1', 'n2', 'n3', 'n4']
+print(list_test)
+list_new = list_test
+list_test.clear()
+print(list_new)
+change_list()
+
+print(list_new)
 print(list_test)

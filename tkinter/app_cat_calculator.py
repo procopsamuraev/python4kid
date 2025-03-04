@@ -2,34 +2,12 @@ from tkinter import *
 from tkinter.ttk import *
 
 """
-tovar - min 2 symbols, not " "..- 
-amount - only >0, int
-price >0, float, with .00 , 4 dopustimoe
-amount days >0, delimoe na 1/2 
-total price with .00
 
-vyvod oshibok: 
-    - pishem chto nujno sdelat chrobe ispravit - tovar db min 2 symbols
-    - amount: govorim chto delat
-    - 
-    - spaces are allowed 
+while loop generation of string (just the product list)
+can use lambda for function calculation
+zadaem kolvo items in the code
 
 
-// fix me
-fill default width  - done 
-dont print if any field are empty
-years allow only digits  and not negative  should work with 0,5 but allow only kratnoe 0.5
-all should work witn 1, 2 products only
-proverka na 0.5 v dnyah ne rabotaet
-
-
-//dont show the empty line on bill -fixed
-check the days and years with 5.55 -ffixed
-if zero on price do not fill up with zero - use '' instead -fixed
-
-// fix
-// do not raise error if line is empty - raise error only if whole table is empty
-// condition for calculation make simple l108,. l95-l98
 """
 
 

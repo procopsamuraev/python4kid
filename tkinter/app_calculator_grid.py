@@ -43,9 +43,9 @@ num.set(0)        # установим значение переменной р�
 entry = Entry(text=num, justify="right").grid(column=0, row=0, columnspan=5)
 i = 0
 while i < len(list_signs):
-    # print(i, list_signs[i], i%4, i//4)
     row = i//5+1
     column = i%5
+    # print(i, row, column)
     Button(text=list_signs[i]).grid(column=column, row=row, sticky=NSEW)
     i += 1
 
