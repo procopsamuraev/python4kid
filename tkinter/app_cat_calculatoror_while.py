@@ -109,8 +109,9 @@ def print_bill():
     bill_string = f"{bill_string}\n{'-'*width}\n"
     i = 0
     while i < len(list_entries):
-        line_bill = f"{list_entries[i][0].get().center(collumn_width_0)}{list_entries[i][1].get().center(collumn_width)}{list_entries[i][2].get().center(collumn_width)}{list_entries[i][3].get().center(collumn_width)}={list_entries[i][5].get().center(collumn_width)}"
-        bill_string = f"{bill_string}{line_bill}\n"
+        if list_entries[i][-1].get():
+            line_bill = f"{list_entries[i][0].get().center(collumn_width_0)}{list_entries[i][1].get().center(collumn_width)}x{list_entries[i][2].get().center(collumn_width)}/{list_entries[i][3].get().center(collumn_width)}={list_entries[i][5].get().rjust(collumn_width-3)}"
+            bill_string = f"{bill_string}{line_bill}\n"
         i += 1 
 
     bill_string = f"{bill_string}{'-' * width}\n"
