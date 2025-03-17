@@ -2,14 +2,6 @@ import tkinter
 from tkinter import *
 import tkinter.font as font
 
-list_fields = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', '']
-list_figures = ['P','R','N','B', 'Q', 'K', 'B', 'N', 'R', 'P']
-list_move = []
-font_default = ('Helvetica 12 bold')
-font_selected = ('Helvetica 12 bold italic')
-
-
-#create Font object
 
 # c
 # o 
@@ -25,6 +17,12 @@ font_selected = ('Helvetica 12 bold italic')
 # * A B C D E F G H *
 # 
 
+list_fields = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', '']
+list_figures = ['P','R','N','B', 'Q', 'K', 'B', 'N', 'R', 'P']
+list_move = []
+font_default = ('"IBM Plex Mono" 12')
+font_selected= ('"IBM Plex Mono" 12 bold')
+
 
 def move_figure(column, row):
     square_selected = list_square[row-1][column-1]
@@ -38,16 +36,12 @@ def move_figure(column, row):
         list_move.clear()
 
 
-
-
 root = Tk()
 root.title("Chessboard")
-width = 2
 length=len(list_fields)
 max_size_field = len(list_fields)-1
 list_square = []
 list_square_line = []
-
 # draw board
 i = 0 
 j = 0
@@ -56,9 +50,9 @@ while i < length*length:
     color = 'yellow' if (row %2 !=0 and column %2 !=0) or (row %2 ==0 and column %2 ==0) else 'brown'
         
     if row == 0 or row == max_size_field:
-        Label(text=list_fields[i%length], bg='white', width=width).grid(column=column, row=row)
+        Label(text=list_fields[i%length], bg='white', width=2).grid(column=column, row=row)
     elif column == 0 or column == max_size_field:
-        Label(text=f"{max_size_field-row}", bg='white', width=width).grid(column=column, row=row)
+        Label(text=f"{max_size_field-row}", bg='white', width=2).grid(column=column, row=row)
     else:
         regular_square = Button(text='', bg=color, width=6, height=4, font=font_default, command=lambda row=row, column=column: move_figure(column, row))
         regular_square.grid(column=column, row=row)
