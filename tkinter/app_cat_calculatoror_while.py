@@ -9,7 +9,7 @@ can use lambda for function calculation
 zadaem kolvo items in the code
 
 
-//fixme pechat cheka vyravnivane po right
+// in price always show kopeeiki
 
 """
 

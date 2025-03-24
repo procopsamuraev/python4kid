@@ -31,18 +31,21 @@ year = "1500.5"
 # create buttons 
 # Execute Tkinter 
 
-tags = [{'Key': 'Name', 'Value': 'ansatzalgo1-ub22'}, {'Key': 'Organization', 'Value': 'Ansatz'}]
-# for dict1 in tags:
-#     for k,v in dict1.items():
-#         print(kk, v)
-#         if k == 'Organization' and v == 'Ansatz': 
-team_name = []
-for dict1 in tags:
-    # if dict1.get('Key') == 'Organization' or dict1.get('key') == 'Name':
-    team_name.append(dict1.get('Value'))
-    print(team_name)
+list_fields = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', '']
 
+print(list_fields.index('H'))
 
+infrad   60551 71205 60559 R  100  2.0 RR      48  12 split
+infrad   73095 71205 73095 S  0.0  0.0 TS       -  12 wrapper_socat
+infrad   73096 73095 73096 R 10.6  0.0 TS       -  12 socat
+
+infrad   60551 71205 60559 R  100  2.0 RR      48  12 split
+infrad   73095 71205 73095 S  0.0  0.0 TS       -  12 wrapper_socat
+infrad   73096 73095 73096 R 10.6  0.0 TS       -  12 socat
+
+    column = list_fields.index(address_board[0])
+    row = length - address_board[1] -1 
+    return column, row
 
     # print()
 # print(tags)
