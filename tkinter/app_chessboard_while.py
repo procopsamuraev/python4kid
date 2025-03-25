@@ -66,19 +66,18 @@ def convert_entry_address():
     if entry.get():
         address_board = entry.get()
         column, row = get_column_row(address_board)
-        print(column, row)
 
 
 
 def fill_entry(column, row):
     square_selected = get_square(column, row)
-    if entry.get():
-        address_board_old = entry.get()
-        column_old, row_old = get_column_row(address_board_old)
-        square_old = get_square(column_old, row_old)
-        color = set_color_square(column_old, row_old, 'yellow')
-        square_old.config(font=font_default, background=color)
-    square_selected.config(font=font_selected, background='blue')
+    # if entry.get():
+        # address_board_old = entry.get()
+        # column_old, row_old = get_column_row(address_board_old)
+        # square_old = get_square(column_old, row_old)
+        # color = set_color_square(column_old, row_old, 'yellow')
+        # square_old.config(font=font_default, background=color)
+    # square_selected.config(font=font_selected, background='blue')
     address_board = get_board_address(column, row)
     entry.delete(0,'end')
     entry.insert(0, address_board)
@@ -106,18 +105,33 @@ def highlight_board():
         i += 1 
 
 
+def hightlight_square():
+    if entry.get():
+        address_board_old = entry.get()
+        column_old, row_old = get_column_row(address_board_old)
+
+    i = 0
+    while i < len(list_square):
+        row, column = i//(length-2), i%(length-2)
+        if row == row_old-1 and column != column_old-1:
+            list_square[i].config(background='green')
+        elif row == row_old-1 and column == column_old-1:
+            list_square[i].config(background='blue')
+        i += 1
+
 def highlight_row():
     convert_entry_address()
     if entry.get():
         address_board_old = entry.get()
         column_old, row_old = get_column_row(address_board_old)
-        print(row_old)
-    row_highlight = row_old
+    row_highlight = row_old-1
     i = 0
     while i < len(list_square):
         row, column = i//(length-2), i%(length-2)
-        if row == row_highlight:
+        if row == row_old-1 and column != column_old-1:
             list_square[i].config(background='green')
+        elif row == row_old-1 and column == column_old-1:
+            list_square[i].config(background='blue')
         i += 1
         
 
