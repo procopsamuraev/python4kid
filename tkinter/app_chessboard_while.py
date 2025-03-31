@@ -68,12 +68,10 @@ def convert_entry_address():
         column, row = get_column_row(address_board)
 
 
-
 def fill_entry(column, row):
     address_board = get_board_address(column, row)
     entry.delete(0,'end')
     entry.insert(0, address_board)
-    
 
 
 def get_selected_address():
@@ -127,6 +125,7 @@ def highlight_column():
             list_square[i].config(background='lightblue')
         i += 1
 
+
 def highlight_rook():
     highlight_board()
     column_selected, row_selected = get_selected_address()
@@ -156,6 +155,7 @@ def highlight_diagonal_back():
         if square_selected:
             list_square[i].config(background='lightblue')
         i += 1
+
 
 def highlight_diagonal_forward():
     highlight_board()
@@ -239,6 +239,7 @@ def highlight_five_horizontal():
             list_square[i].config(background='lightblue')
         i += 1
 
+
 def highlight_three_vertical():
     highlight_board()
     column_selected, row_selected = get_selected_address()
@@ -252,7 +253,6 @@ def highlight_three_vertical():
         if square_selected:
             list_square[i].config(background='lightblue')
         i += 1
-
         
 
 def highlight_king():
@@ -275,7 +275,6 @@ def highlight_king():
         i += 1
 
 
-
 def highlight_horse():
     highlight_board()
     column_selected, row_selected = get_selected_address()
@@ -283,9 +282,8 @@ def highlight_horse():
     while i < len(list_square):
         column, row = i%(length-2), i//(length-2) 
         square_selected = row == row_selected and column == column_selected
-        horse_true_1 = (row == row_selected-1 or row == row_selected+1) and (column == column_selected - 2 or column == column_selected + 2 )
-        horse_true_2 = (row == row_selected-2 or row == row_selected+2) and (column == column_selected - 1 or column == column_selected + 1 )
-        if (horse_true_1 or horse_true_2) and not square_selected:
+        horse_true = row - row_selected in (1, -1) and column-column_selected in (2, -2)  or row - row_selected in (2, -2) and column-column_selected in (1, -1)
+        if horse_true and not square_selected:
             color = set_color_square(column, row, 'hightlight')
             list_square[i].config(background=color)
         if square_selected:
@@ -294,18 +292,15 @@ def highlight_horse():
 
 
 root = Tk()
-# root.geometry("600x600")
 root.title("Chessboard v1.0")
 length=len(list_fields)
 max_size_field = len(list_fields)-1
 list_square = []
-# list_square_line = []
 # draw board
 i = 0 
 j = 0
 while i < length*length:
     row, column = i//length, i%length
-        
     if row == 0 or row == max_size_field:
         Label(text=list_fields[i%length], bg='white').grid(column=column, row=row, sticky='news')
     elif column == 0 or column == max_size_field:
