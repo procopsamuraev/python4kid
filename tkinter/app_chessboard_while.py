@@ -216,7 +216,7 @@ def highlight_three_horizontal():
     while i < len(list_square):
         column, row = i%(length-2), i//(length-2) 
         square_selected = row == row_selected and column == column_selected
-        if (row == row_selected or row == row_selected-1 or row == row_selected+1) and not square_selected:
+        if -1 <= row - row_selected <=1 and not square_selected:
             color = set_color_square(column, row, 'hightlight')
             list_square[i].config(background=color)
         if square_selected:
@@ -229,10 +229,9 @@ def highlight_five_horizontal():
     column_selected, row_selected = get_selected_address()
     i = 0 
     while i < len(list_square):
-        column, row = i%(length-2), i//(length-2) 
+        column, row = i%(length-2), i//(length-2)
         square_selected = row == row_selected and column == column_selected
-        diff = str(row_selected-row).replace('-', '')
-        if int(diff) < 3 and not square_selected:
+        if -2 <= row_selected - row or row_selected-row <= 2:
             color = set_color_square(column, row, 'hightlight')
             list_square[i].config(background=color)
         if square_selected:
@@ -245,9 +244,9 @@ def highlight_three_vertical():
     column_selected, row_selected = get_selected_address()
     i = 0 
     while i < len(list_square):
-        column, row = i%(length-2), i//(length-2), 
+        column, row = i%(length-2), i//(length-2)
         square_selected = row == row_selected and column == column_selected
-        if column == column_selected or column == column_selected-1 or column == column_selected+1 and not square_selected:
+        if abs(column - column_selected) <=1 and not square_selected:
             color = set_color_square(column, row, 'hightlight')
             list_square[i].config(background=color)
         if square_selected:
@@ -258,16 +257,13 @@ def highlight_three_vertical():
 def highlight_king():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    sum_selected = column_selected + row_selected
-    diff_selected = column_selected - row_selected
     i = 0
     while i < len(list_square):
         column, row = i%(length-2), i//(length-2) 
-        column_step = int(str(column_selected - column).removeprefix('-')) < 2
+        column_step = abs(column - column_selected)  <= 1 
+        row_step =  abs(row - row_selected) <= 1 
         square_selected = row == row_selected and column == column_selected
-        print(square_selected)
-        row_step = int(str(row_selected - row).removeprefix('-')) < 2
-        if (column-row == diff_selected or column+row == sum_selected or column == column_selected or row == row_selected) and column_step and row_step and not square_selected:
+        if column_step and row_step and not square_selected:
             color = set_color_square(column, row, 'hightlight')
             list_square[i].config(background=color)
         if square_selected:
@@ -280,10 +276,11 @@ def highlight_horse():
     column_selected, row_selected = get_selected_address()
     i = 0 
     while i < len(list_square):
-        column, row = i%(length-2), i//(length-2) 
+        column, row = i%(length-2), i//(length-2)
+        step_column = abs(column - column_selected)
+        step_row = abs(row - row_selected)
         square_selected = row == row_selected and column == column_selected
-        horse_true = row - row_selected in (1, -1) and column-column_selected in (2, -2)  or row - row_selected in (2, -2) and column-column_selected in (1, -1)
-        if horse_true and not square_selected:
+        if step_column == 2 and step_row == 1 or step_column == 1 and step_row == 2 and not square_selected: 
             color = set_color_square(column, row, 'hightlight')
             list_square[i].config(background=color)
         if square_selected:
@@ -292,7 +289,7 @@ def highlight_horse():
 
 
 root = Tk()
-root.title("Chessboard v1.0")
+root.title("Chessboard v1.1")
 length=len(list_fields)
 max_size_field = len(list_fields)-1
 list_square = []
