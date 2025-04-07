@@ -37,28 +37,51 @@
 # 
 # root.mainloop()
 
+# while loop
+# from tkinter import *
+# 
+# list_signs = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', "="]
+# 
+# root = Tk()
+# root.title("Calculator Pack")
+# 
+# num = StringVar() 
+# num.set(0)        
+# frame = LabelFrame(root, text="1 row")
+# frame.pack()
+# Entry(frame, text=num, justify="right").pack()
+# next_element_true = True
+# i = 0
+# while next_element_true:
+#     next_element_true = i < len(list_signs)-1
+#     row = i//5+1
+#     if i%5 == 0:
+#         frame = LabelFrame(root, text=f'{row + 1 } row')
+#         frame.pack()
+#     Button(frame, text=list_signs[i]).pack(side='left')
+#     i += 1
+# 
+# 
+# root.mainloop()
 
 from tkinter import *
 
-list_signs = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', "="]
+list_signs = [['1', '2', '3', '4', '5'], ['6', '7', '8', '9', '0'], ['+', '-', '*', '/', "="]]
 
 root = Tk()
 root.title("Calculator Pack")
 
 num = StringVar() 
-num.set(0)        
-frame = LabelFrame(root, text="1 row")
-frame.pack()
-Entry(frame, text=num, justify="right").pack()
-
+num.set(0)  
+Entry(text=num).pack()
 i = 0
 while i < len(list_signs):
-    row = i//5+1
-    if i%5 == 0:
-        frame = LabelFrame(root, text=f'{row + 1 } row')
+    frame = LabelFrame(root, text =f'{i} row')
+    j = 0 
+    while j < len(list_signs[i]):
         frame.pack()
-    Button(frame, text=list_signs[i]).pack(side='left')
-    i += 1
-
+        Button(frame, text=list_signs[i][j]).pack(side='left')
+        j += 1 
+    i +=1
 
 root.mainloop()
