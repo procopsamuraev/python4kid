@@ -64,9 +64,14 @@
 # 
 # root.mainloop()
 
+
 from tkinter import *
 
-list_signs = [['1', '2', '3', '4', '5'], ['6', '7', '8', '9', '0'], ['+', '-', '*', '/', "="]]
+list_signs = [
+    ['1', '2', '3', '4', '5'], 
+    # ['6', '7', '8', '9', '0'], 
+    ['+', '-', '*', '/', "="]
+    ]
 
 root = Tk()
 root.title("Calculator Pack")
@@ -74,14 +79,14 @@ root.title("Calculator Pack")
 num = StringVar() 
 num.set(0)  
 Entry(text=num).pack()
-i = 0
-while i < len(list_signs):
-    frame = LabelFrame(root, text =f'{i} row')
-    j = 0 
-    while j < len(list_signs[i]):
+y = 0
+while y < len(list_signs):
+    frame = LabelFrame(root, text =f'{y+1} row')
+    x = 0 
+    while x < len(list_signs[y]):
         frame.pack()
-        Button(frame, text=list_signs[i][j]).pack(side='left')
-        j += 1 
-    i +=1
+        Button(frame, text=list_signs[y][x]).pack(side='left')
+        x += 1 
+    y += 1
 
 root.mainloop()

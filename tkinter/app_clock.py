@@ -31,32 +31,35 @@
 # 
 # root.mainloop()
 
+
 # while
 from tkinter import *
 import time 
+list_clocks  = [['time moscow', 3],  ['time london', 0], ['time tokyo', 5]] # clocks, offset
+
+
 def show_time(label, offset):
-    time_local = time.strftime('%H:%M:%S:%Z')
-    hour, minute, second, tz = time_local.split(":")
+    hour, minute, second, tz = time.strftime('%H:%M:%S:%Z').split(':')
     hour = (int(hour) - int(tz) + 24 + offset) % 24
     label.config(text=f"{str(hour).zfill(2)}:{minute}:{second}")
     label.after(500, lambda: show_time(label, offset))
 
 
-def draw_clock(tz_frame, tz_label, utc):
-    tz_frame = LabelFrame(text=f"{tz_label}")
-    tz_frame.pack(side='left')
-    tz_label = Label(tz_frame, width=10, font=('Fira Code', 13), bg='green')
-    tz_label.pack(fill='both', expand=1)
-    show_time(tz_label, utc)
+def draw_clock(name_utc):
+    name_frame, utc = name_utc
+    frame = LabelFrame(text=f"{name_frame}".title())
+    frame.pack(side='left')
+    label = Label(frame, font=('Fira Code', 13), bg='green')
+    label.pack(fill='both', expand=1)
+    show_time(label, utc)
+
 
 root = Tk()
-list_tz  = [['moscow', 3],  ['london', 0], ['tokyo', 5]] # tz, offset
-tz = 0
-while tz < len(list_tz):
-    time_zone = list_tz[tz]
-    draw_clock(f'frame_{list_tz[tz][0]}', f'label_{list_tz[tz][0]}', list_tz[tz][1] )
-    draw_clock(f'frame_{list_tz[tz][0]}', f'label_{list_tz[tz][0]}', list_tz[tz][1] )
-    tz +=1
+
+index = 0
+while index < len(list_clocks):
+    draw_clock(list_clocks[index])
+    index += 1
 
 root.mainloop()
 

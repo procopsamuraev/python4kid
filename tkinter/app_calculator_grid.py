@@ -40,12 +40,12 @@ root.title("Calculator")
 num = StringVar() # создадим переменную для отображения значений на табло калькулятора
 num.set(0)        # установим значение переменной равное 0
 
-entry = Entry(text=num, justify="right").grid(column=0, row=0, columnspan=5)
+Entry(text=num, justify="right").grid(column=0, row=0, columnspan=5)
+
 i = 0
 while i < len(list_signs):
     row = i//5+1
     column = i%5
-    # print(i, row, column)
     Button(text=list_signs[i]).grid(column=column, row=row, sticky=NSEW)
     i += 1
 

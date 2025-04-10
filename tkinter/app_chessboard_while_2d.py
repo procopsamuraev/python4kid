@@ -16,27 +16,13 @@ import tkinter.font as font
 # * A B C D E F G H *
 
 list_fields = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', '']
+
 # list_fields = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', '']
-list_figures = ['P','R','N','B', 'Q', 'K', 'B', 'N', 'R', 'P']
-list_move = []
 font_default = ('"IBM Plex Mono" 18')
 font_selected= ('"IBM Plex Mono" 18 bold')
 list_board_colors = ['yellow', 'brown']
 list_hightlight_colors = ['greenyellow', 'green']
 color_hightlight_square = 'blue'
-
-
-
-def move_figure(column, row):
-    square_selected = list_square[row][column]
-    square_selected.config(font=font_selected)
-    list_move.append(square_selected)
-    if len(list_move) == 2:
-        color = list_move[0]['foreground']
-        figure = list_move[0]['text']
-        list_move[0].config(text='')
-        list_move[-1].config(text=figure, foreground=color, font=font_default)
-        list_move.clear()
 
 
 def get_board_address(column, row):
@@ -62,38 +48,43 @@ def get_selected_address():
         address_board = entry.get()
         column = list_fields.index(address_board[0])-1
         row = length - 2 - int(address_board[1])
+        print(column,row)
         return column,row
 
 
 def highlight_board():
-    i = 0
-    while i < len(list_square):
-        row, column = i//(length-2), i%(length-2)
-        color = set_color_square(column, row, list_board_colors)
-        list_square[i].config(background=color)
-        i += 1 
+    y = 0
+    while y < max_size_field-2:
+        x = 0
+        while x < max_size_field-2:
+            color = set_color_square(x, y, list_board_colors)
+            list_rows[y][x].config(background=color)
+            x += 1
+        y += 1 
 
 
 def hightlight_square():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    square = list_square[(column_selected+(row_selected)*(length-2))]
+    square = list_rows[row_selected][column_selected]
     square.config(background=color_hightlight_square)
 
 
 def highlight_row():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    i = 0
-    while i < len(list_square) and row_selected:
-        column, row = i%(length-2), i//(length-2)
+    row = 0
+    while row < max_size_field-2 and row_selected
+        column = 0
+        while column < 
+        # column, row = i%(length-2), i//(length-2)
         square_selected = row == row_selected and column == column_selected
         if square_selected:
-            list_square[i].config(background=color_hightlight_square)
+            list_rows[row][column].config(background=color_hightlight_square)
         elif row_selected == row:
             color = set_color_square(column, row, list_hightlight_colors)
-            list_square[i].config(background=color)
-        i += 1
+            list_rows[row][column].config(background=color)
+        row += 1
 
 
 def highlight_column():
@@ -279,32 +270,28 @@ def highlight_knight():
 
 root = Tk()
 root.title("Chessboard v1.1")
-length=len(list_fields)
+length = len(list_fields)
 max_size_field = len(list_fields)-1
-list_square = []
-index = 0 
-while index < length*length:
-    row, column = index//length, index%length
-    if row == 0 or row == max_size_field:
-        Label(text=list_fields[index%length], bg='white').grid(column=column, row=row, sticky='news')
-    elif column == 0 or column == max_size_field:
-        Label(text=f"{max_size_field-row}", bg='white').grid(column=column, row=row, sticky='news')
-    else:
-        color = set_color_square(column, row, list_board_colors)
-        regular_square = Button(text=' ', bg=color, font=font_default, command=lambda row=row-1, column=column-1: fill_entry(column, row))
-        regular_square.grid(column=column, row=row, sticky="nsew")
-        list_square.append(regular_square)
-        # creating list of list 
-        # set board with figures
-        # if row == 1: 
-        #     regular_square.config(text=list_figures[i%length], foreground='black', compound='c')
-        # if row == 2:
-        #     regular_square.config(text=list_figures[0], foreground='black', compound='c')
-        # elif row == 7: 
-        #     regular_square.config(text=list_figures[0], foreground='gray', compound='c')
-        # elif row == 8: 
-        #     regular_square.config(text=list_figures[i%length], foreground='gray', compound='c')
-    index += 1
+row, list_rows = 0, []
+while row < length:
+    column, list_squares = 0, []
+    while column < length:
+        if row == 0 or row == max_size_field:
+            Label(text=list_fields[column], bg='white').grid(column=column, row=row, sticky='news')
+        elif column == 0 or column == max_size_field:
+            Label(text=f"{max_size_field-row}", bg='white').grid(column=column, row=row, sticky='news')
+        else:
+            color = set_color_square(column, row, list_board_colors)
+            regular_square = Button(text=' ', bg=color, command=lambda row=row-1, column=column-1: fill_entry(column, row))
+            regular_square.grid(column=column, row=row, sticky="nsew")
+            list_squares.append(regular_square)
+        
+        column += 1
+    if list_squares:
+        list_rows.append(list_squares)
+    row += 1
+
+print(list_rows)
 
 frame = Frame(root)
 frame.grid(column=11, row=0, rowspan=10, columnspan=5)

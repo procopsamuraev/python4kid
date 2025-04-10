@@ -24,16 +24,22 @@
 # double while
 
 from tkinter import *
-list_signs = [['1', '2', '3', '4', '5'], ['6', '7', '8', '9', '0'], ['+', '-', '*', '/', "="]]
+list_signs = [
+    ['1', '2', '3', '4', '5'],
+    ['6', '7', '8', '9', '0'], 
+    ['+', '-', '*', '/', "="]
+]
+
 root = Tk()
 root.title('Calculator')
-
-Entry(text='').place(x=0, y=0)
+num = StringVar()
+num.set(0)
+Entry(text=num, justify='right').place(x=0, y=0)
 row = 0
 while row < len(list_signs):
     column = 0
     while column < len(list_signs[row]):
-        Button(text=list_signs[row][column]).place(x=column*35, y=row*35)
+        Button(text=list_signs[row][column]).place(x=column*35, y=(row+1)*35)
         column += 1
     row +=1
 root.mainloop() 
