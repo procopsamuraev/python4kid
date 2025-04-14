@@ -70,36 +70,50 @@ def hightlight_square():
     square.config(background=color_hightlight_square)
 
 
-def highlight_row():
+def highlight_row_old():
     highlight_board()
     column_selected, row_selected = get_selected_address()
     row = 0
-    while row < max_size_field-2 and row_selected
+    while row <= row_selected:
         column = 0
-        while column < 
-        # column, row = i%(length-2), i//(length-2)
-        square_selected = row == row_selected and column == column_selected
-        if square_selected:
-            list_rows[row][column].config(background=color_hightlight_square)
-        elif row_selected == row:
-            color = set_color_square(column, row, list_hightlight_colors)
-            list_rows[row][column].config(background=color)
+        while column < max_size_field-1:
+            square_selected = row == row_selected and column == column_selected
+            if square_selected:
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif row == row_selected:
+                color = set_color_square(column, row, list_hightlight_colors)
+                list_rows[row][column].config(background=color)
+            column += 1
         row += 1
+
+
+def highlight_row():
+    highlight_board()
+    column_selected, row_selected = get_selected_address()
+    column = 0
+    while column <= max_size_field:
+        square = list_rows[row_selected][column]
+        color = set_color_square(column, row, list_hightlight_colors)
+        #   list_rows[row][column].config(background=color)
+        square.config(background=color)
+        column += 1
 
 
 def highlight_column():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    i = 0
-    while i < len(list_square):
-        column, row = i%(length-2), i//(length-2)
-        square_selected = row == row_selected and column == column_selected
-        if square_selected:
-            list_square[i].config(background=color_hightlight_square)
-        elif column == column_selected:
-            color = set_color_square(column, row, list_hightlight_colors)
-            list_square[i].config(background=color)
-        i += 1
+    row = 0
+    while row <= max_size_field:
+        column = 0
+        while column <= column_selected:
+            square_selected = row == row_selected and column == column_selected
+            if square_selected:
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif column == column_selected:
+                color = set_color_square(column, row, list_hightlight_colors)
+                list_rows[row][column].config(background=color)
+            column += 1
+        row += 1
 
 
 def highlight_rook():
