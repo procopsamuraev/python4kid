@@ -294,6 +294,7 @@ while row < len(list_fields):
             color = list_board_colors[(row+column)%2]
             regular_square = Button(text=' ', bg=color, command=lambda row=row-1, column=column-1: fill_entry(column, row))
             regular_square.grid(column=column, row=row, sticky="nsew")
+            # create row
             list_squares.append(regular_square)
         
         column += 1
