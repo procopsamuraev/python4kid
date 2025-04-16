@@ -47,14 +47,15 @@ def get_selected_address():
 
 
 def highlight_board():
-    y = 0
-    while y < max_size_field-2:
-        x = 0
-        while x < max_size_field-2:
-            color = set_color_square(x, y, list_board_colors)
-            list_rows[y][x].config(background=color)
-            x += 1
-        y += 1 
+    row = 0
+    while row < len(list_rows):
+        column = 0
+        while column < len(list_rows[row]):
+            # color = set_color_square(x, y, list_board_colors)
+            color = list_board_colors[(row+column)%2]
+            list_rows[row][column].config(background=color)
+            column += 1
+        row += 1 
 
 
 def hightlight_square():
@@ -68,9 +69,9 @@ def highlight_row():
     highlight_board()
     column_selected, row_selected = get_selected_address()
     row = 0
-    while row <= len(list_rows):
+    while row < len(list_rows):
         column = 0
-        while column <= len(list_rows[row]):
+        while column < len(list_rows[row]):
             square_selected = row == row_selected and column == column_selected
             if square_selected:
                 list_rows[row][column].config(background=color_hightlight_square)
@@ -81,44 +82,18 @@ def highlight_row():
         row += 1
 
 
-# def highlight_row(): # 2nd version not recommended
-#     highlight_board()
-#     column_selected, row_selected = get_selected_address()
-#     column = 0
-#     while column <= max_size_field:
-#         square = list_rows[row_selected][column_selected]
-#         square.config(background=color_hightlight_square)
-#         color = set_color_square(column, row, list_hightlight_colors)
-#         list_rows[row_selected][column].config(background=color)
-#         column += 1
-
-
-# def highlight_column():
-#     highlight_board()
-#     column_selected, row_selected = get_selected_address()
-#     row = 0 
-#     while row <= max_size_field:
-#         square = list_rows[row_selected][column_selected]
-#         square.config(background=color_hightlight_square)
-#         color = set_color_square(column_selected, row, list_hightlight_colors)
-#         list_rows[row][column_selected].config(background=color)
-#         row += 1
-
-
 def highlight_column():
     highlight_board()
     column_selected, row_selected = get_selected_address()
     row = 0
-    while row < max_size_field:
+    while row < len(list_rows):
         column = 0
-        while column <= max_size_field:
+        while column < len(list_rows[row]):
             square_selected = row == row_selected and column == column_selected
             if square_selected:
                 list_rows[row][column].config(background=color_hightlight_square)
             elif column == column_selected:
-                color = set_color_square(column, row, list_hightlight_colors)
-                # color = list_hightlight_colors[(row+column)%2]
-                print(row, column)
+                color = list_hightlight_colors[(row+column)%2]
                 list_rows[row][column].config(background=color)
             column += 1
         row += 1
@@ -126,171 +101,185 @@ def highlight_column():
 
 def highlight_rook():
     highlight_board()
-# def highlight_rook():
-#     highlight_board()
-#     column_selected, row_selected = get_selected_address()
-#     row = 0
-#     while row < max_size_field:
-#         column = 0: 
-#         while column
-#         if column == column_selected and row == row_selected:
-#             list_square[i].config(background=color_hightlight_square)
-#         elif column == column_selected or row == row_selected:
-#             color = set_color_square(column, row, list_hightlight_colors)
-#             list_square[i].config(background=color)
-#         i += 1
+    column_selected, row_selected = get_selected_address()
+    row = 0
+    while row < len(list_rows):
+        column = 0
+        while column < len(list_rows[row]):
+            if column == column_selected and row == row_selected:
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif column == column_selected or row == row_selected:
+                color = list_hightlight_colors[(row+column)%2]
+                list_rows[row][column].config(background=color)
+            column += 1
+        row += 1
 
 
 def highlight_diagonal_back():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    i = 0
-    while i < len(list_square):
-        row, column = i//(length-2), i%(length-2)
-        square_selected = row == row_selected and column == column_selected
-        diagonal_back_line = column_selected - row_selected == column - row
-        if square_selected:
-            list_square[i].config(background=color_hightlight_square)
-        elif diagonal_back_line:
-            color = set_color_square(column, row, list_hightlight_colors)
-            list_square[i].config(background=color)
-        i += 1
+    row = 0
+    while row < len(list_rows):
+        column = 0
+        while column < len(list_rows[row]):
+            square_selected = row == row_selected and column == column_selected
+            diagonal_back_line = column_selected - row_selected == column - row
+            if square_selected:
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif diagonal_back_line:
+                color = list_hightlight_colors[(row+column)%2]
+                list_rows[row][column].config(background=color)
+            column += 1
+        row += 1
 
 
 def highlight_diagonal_forward():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    i = 0
-    while i < len(list_square):
-        column, row = i%(length-2), i//(length-2), 
-        square_selected = row == row_selected and column == column_selected
-        diagonal_forward_line = row + column == row_selected + column_selected
-        
-        if square_selected:
-            list_square[i].config(background=color_hightlight_square)
-        elif diagonal_forward_line:
-            color = set_color_square(column, row, list_hightlight_colors)
-            list_square[i].config(background=color)
-        i += 1
+    row = 0
+    while row < len(list_rows):
+        column = 0
+        while column < len(list_rows[row]):
+            square_selected = row == row_selected and column == column_selected
+            diagonal_forward_line = row + column == row_selected + column_selected
+            if square_selected:
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif diagonal_forward_line:
+                color = list_hightlight_colors[(row+column)%2]
+                list_rows[row][column].config(background=color)
+            column += 1
+        row += 1
 
 
 def highlight_bishop():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    i = 0
-    while i < len(list_square):
-        column, row = i%(length-2), i//(length-2) 
-        diagonal_forward_line = row + column == row_selected + column_selected
-        diagonal_back_line = column_selected - row_selected == column - row
-        if diagonal_forward_line and diagonal_back_line:
-            list_square[i].config(background=color_hightlight_square)
-        elif diagonal_forward_line or diagonal_back_line:
-            color = set_color_square(column, row, list_hightlight_colors)
-            list_square[i].config(background=color)
-        i += 1
+    row = 0
+    while row < len(list_rows):
+        column = 0
+        while column < len(list_rows[row]):
+            diagonal_back_line = column_selected - row_selected == column - row
+            diagonal_forward_line = row + column == row_selected + column_selected
+            bishop_line = diagonal_back_line or diagonal_forward_line
+            if diagonal_forward_line and diagonal_back_line:
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif bishop_line:
+                color = list_hightlight_colors[(row+column)%2]
+                list_rows[row][column].config(background=color)
+            column += 1
+        row += 1
 
 
 def highlight_queen():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    # sum_selected = column_selected + row_selected
-    # diff_selected = column_selected - row_selected
-    i = 0
-    while i < len(list_square):
-        column, row = i%(length-2), i//(length-2) 
-        diagonal_forward_line = row + column == row_selected + column_selected
-        diagonal_back_line = column_selected - row_selected == column - row
-        bishop_line = diagonal_back_line or diagonal_forward_line
-        rook_line = column == column_selected or row == row_selected
-        square_selected = row == row_selected and column == column_selected
-        if square_selected:
-            list_square[i].config(background=color_hightlight_square)
-        elif bishop_line or rook_line:
-            color = set_color_square(column, row, list_hightlight_colors)
-            list_square[i].config(background=color)
-        i += 1
+    row = 0
+    while row < len(list_rows):
+        column = 0
+        while column < len(list_rows[row]):
+            diagonal_back_line = column_selected - row_selected == column - row
+            diagonal_forward_line = row + column == row_selected + column_selected
+            bishop_line = diagonal_back_line or diagonal_forward_line
+            rook_line = column == column_selected or row == row_selected
+            if diagonal_forward_line and diagonal_back_line:
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif bishop_line or rook_line:
+                color = list_hightlight_colors[(row+column)%2]
+                list_rows[row][column].config(background=color)
+            column += 1
+        row += 1
 
 
 def highlight_three_horizontal():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    i = 0 
-    while i < len(list_square):
-        column, row = i%(length-2), i//(length-2) 
-        if column == column_selected and row == row_selected:
-            list_square[i].config(background=color_hightlight_square)
-        elif -1 <= row - row_selected <=1:
-            color = set_color_square(column, row, list_hightlight_colors)
-            list_square[i].config(background=color)
-        i += 1
+    row = 0
+    while row < len(list_rows):
+        column = 0
+        while column < len(list_rows[row]):
+            square_selected = row == row_selected and column == column_selected
+            if square_selected:
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif -1 <= row - row_selected <=1:
+                color = list_hightlight_colors[(row+column)%2]
+                list_rows[row][column].config(background=color)
+            column += 1
+        row += 1
 
 
 def highlight_five_horizontal():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    i = 0 
-    while i < len(list_square):
-        column, row = i%(length-2), i//(length-2)
-        square_selected = row == row_selected and column == column_selected
-        if square_selected:
-            list_square[i].config(background=color_hightlight_square)
-        elif -2 <= row_selected - row <= 2:
-            color = set_color_square(column, row, list_hightlight_colors)
-            list_square[i].config(background=color)
-        i += 1
+    row = 0
+    while row < len(list_rows):
+        column = 0
+        while column < len(list_rows[row]):
+            square_selected = row == row_selected and column == column_selected
+            if square_selected:
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif -2 <= row - row_selected <= 2:
+                color = list_hightlight_colors[(row+column)%2]
+                list_rows[row][column].config(background=color)
+            column += 1
+        row += 1
 
 
 def highlight_three_vertical():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    i = 0 
-    while i < len(list_square):
-        column, row = i%(length-2), i//(length-2)
-        square_selected = row == row_selected and column == column_selected
-        if square_selected:
-            list_square[i].config(background=color_hightlight_square)
-        elif -1 <= column - column_selected <=1:
-            color = set_color_square(column, row, list_hightlight_colors)
-            list_square[i].config(background=color)
-        i += 1
+    row = 0
+    while row < len(list_rows):
+        column = 0
+        while column < len(list_rows[row]):
+            square_selected = row == row_selected and column == column_selected
+            if square_selected:
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif -2 <= column - column_selected <= 2:
+                color = list_hightlight_colors[(row+column)%2]
+                list_rows[row][column].config(background=color)
+            column += 1
+        row += 1
         
 
 def highlight_king():
     highlight_board()
     # second method - is limit qeen to 1 step
     column_selected, row_selected = get_selected_address()
-    i = 0
-    while i < len(list_square):
-        column, row = i%(length-2), i//(length-2) 
-        step_one_column = abs(column - column_selected) <= 1
-        step_one_column = abs(column - column_selected) <= 1
-        step_one_row =  abs(row - row_selected)  <= 1 
-        square_selected = row == row_selected and column == column_selected
-        if square_selected:
-            list_square[i].config(background=color_hightlight_square)
-        elif step_one_column and step_one_row:
-            color = set_color_square(column, row, list_hightlight_colors)
-            list_square[i].config(background=color)
-        i += 1
-
+    row = 0
+    while row < len(list_rows):
+        column = 0
+        while column < len(list_rows[row]):
+            step_one_column = -1 <= column - column_selected <= 1
+            step_one_row = -1 <= row - row_selected  <= 1 
+            square_selected = row == row_selected and column == column_selected
+            if square_selected:
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif step_one_column and step_one_row:
+                color = list_hightlight_colors[(row+column)%2]
+                list_rows[row][column].config(background=color)
+            column += 1
+        row += 1
+    
 
 def highlight_knight():
     highlight_board()
     column_selected, row_selected = get_selected_address()
-    i = 0 
-    while i < len(list_square):
-        column, row = i%(length-2), i//(length-2)
-        step_column = abs(column - column_selected)
-        step_row = abs(row - row_selected)
-        shift_column2row1 = step_column == 2 and step_row == 1  
-        shift_column1row2 = step_column == 1 and step_row == 2
-        square_selected = row == row_selected and column == column_selected
-        if square_selected: 
-            list_square[i].config(background=color_hightlight_square)
-        elif shift_column2row1 or shift_column1row2: 
-            color = set_color_square(column, row, list_hightlight_colors)
-            list_square[i].config(background=color)
-        i += 1
+    row = 0 
+    while row < len(list_rows):
+        column = 0
+        while column < len(list_rows[row]):
+            step_column = column - column_selected
+            step_row =  row - row_selected
+            shift_column2row1 = (step_column == 2 or step_column == -2) and (step_row == 1 or step_row == -1 )
+            shift_column1row2 = (step_column ==  1 or step_column == -1) and ( step_row == -2 or step_row == 2 )
+            square_selected = row == row_selected and column == column_selected
+            if square_selected: 
+                list_rows[row][column].config(background=color_hightlight_square)
+            elif shift_column2row1 or shift_column1row2: 
+                color = list_hightlight_colors[(row+column)%2]
+                list_rows[row][column].config(background=color)
+            column += 1
+        row += 1
 
 
 root = Tk()
