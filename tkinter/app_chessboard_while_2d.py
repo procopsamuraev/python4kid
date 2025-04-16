@@ -31,15 +31,6 @@ def get_board_address(column, row):
     return f"{column_board}{row_board}"
     
 
-def set_color_square(column, row, list_color):
-    row_even = row%2 == 0
-    column_even = column%2 == 0
-    # print((row%2*column%2 + row%2*column%2)/2)
-    # return list_color[(row%2*column%2 + row%2*column%2)//2]
-    return list_color[0] if not row_even and not column_even or row_even and column_even else list_color[1]
-    # return(list)
-
-
 def fill_entry(column, row):
     address_board = get_board_address(column, row)
     entry.delete(0,'end')
@@ -84,7 +75,7 @@ def highlight_row():
             if square_selected:
                 list_rows[row][column].config(background=color_hightlight_square)
             elif row == row_selected:
-                color = set_color_square(column, row, list_hightlight_colors)
+                color = list_hightlight_colors[(row+column)%2]
                 list_rows[row][column].config(background=color)
             column += 1
         row += 1
@@ -126,6 +117,7 @@ def highlight_column():
                 list_rows[row][column].config(background=color_hightlight_square)
             elif column == column_selected:
                 color = set_color_square(column, row, list_hightlight_colors)
+                # color = list_hightlight_colors[(row+column)%2]
                 print(row, column)
                 list_rows[row][column].config(background=color)
             column += 1
@@ -316,7 +308,8 @@ while row < length:
         elif column_first or column_last:
             Label(text=f"{max_size_field-row}", bg='white').grid(column=column, row=row, sticky='news')
         else:
-            color = set_color_square(column, row, list_board_colors)
+            # color = set_color_square(column, row, list_board_colors)
+            color = list_board_colors[(row+column)%2]
             regular_square = Button(text=' ', bg=color, command=lambda row=row-1, column=column-1: fill_entry(column, row))
             regular_square.grid(column=column, row=row, sticky="nsew")
             list_squares.append(regular_square)
