@@ -1,33 +1,30 @@
-import tkinter
 from tkinter import *
-import tkinter.font as font
 
-# c
-# o 
-# l
-# 0 1 2 3 4 5 6 7 8 9  # row 
-# 10111213141516171819
-# 20
-# * A B C D E F G H *
-# 8 * * * * * * * * 8
-# 7 * * * * * * * * 7
-# - - - - - - - - - -
-# 1 * * * * * * * * 1
-# * A B C D E F G H *
+"""
+   c
+   o 
+   l
+   0 1 2 3 4 5 6 7 8 9  # row 
+   10111213141516171819
+   20
+   * A B C D E F G H *
+   8 * * * * * * * * 8
+   7 * * * * * * * * 7
+   - - - - - - - - - -
+   1 * * * * * * * * 1
+   * A B C D E F G H *
+
+"""
 
 list_fields = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', '']
-
-# list_fields = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', '']
-font_default = ('"IBM Plex Mono" 18')
-font_selected= ('"IBM Plex Mono" 18 bold')
 list_board_colors = ['yellow', 'brown']
 list_hightlight_colors = ['greenyellow', 'green']
-color_hightlight_square = 'blue'
+color_hightlight_square = 'lightblue'
 
 
 def get_board_address(column, row):
     column_board = list_fields[column+1]
-    row_board = (length-2)-row
+    row_board = len(list_rows)-row
     return f"{column_board}{row_board}"
     
 
@@ -41,7 +38,7 @@ def get_selected_address():
     if entry.get():
         address_board = entry.get()
         column = list_fields.index(address_board[0])-1
-        row = length - 2 - int(address_board[1])
+        row = len(list_rows) - int(address_board[1])
         print(column,row)
         return column,row
 
@@ -51,7 +48,6 @@ def highlight_board():
     while row < len(list_rows):
         column = 0
         while column < len(list_rows[row]):
-            # color = set_color_square(x, y, list_board_colors)
             color = list_board_colors[(row+column)%2]
             list_rows[row][column].config(background=color)
             column += 1
@@ -241,9 +237,9 @@ def highlight_three_vertical():
         row += 1
         
 
+# second method - is limit queen to 1 step
 def highlight_king():
     highlight_board()
-    # second method - is limit qeen to 1 step
     column_selected, row_selected = get_selected_address()
     row = 0
     while row < len(list_rows):
@@ -283,21 +279,18 @@ def highlight_knight():
 
 
 root = Tk()
-root.title("Chessboard v1.2")
-length = len(list_fields)
-max_size_field = len(list_fields)-1
+root.title("Chessboard v2.0")
 row, list_rows = 0, []
-while row < length:
+while row < len(list_fields):
     column, list_squares = 0, []
-    while column < length:
-        row_first, row_last = row == 0, row == max_size_field
-        column_first, column_last = column == 0, column == max_size_field
+    while column < len(list_fields):
+        row_first, row_last = row == 0, row == len(list_fields)-1
+        column_first, column_last = column == 0, column == len(list_fields)-1
         if row_first or row_last:
             Label(text=list_fields[column], bg='white').grid(column=column, row=row, sticky='news')
         elif column_first or column_last:
-            Label(text=f"{max_size_field-row}", bg='white').grid(column=column, row=row, sticky='news')
+            Label(text=f"{len(list_fields) - 1 - row}", bg='white').grid(column=column, row=row, sticky='news')
         else:
-            # color = set_color_square(column, row, list_board_colors)
             color = list_board_colors[(row+column)%2]
             regular_square = Button(text=' ', bg=color, command=lambda row=row-1, column=column-1: fill_entry(column, row))
             regular_square.grid(column=column, row=row, sticky="nsew")
@@ -305,6 +298,7 @@ while row < length:
         
         column += 1
     if list_squares:
+        # create  array 
         list_rows.append(list_squares)
     row += 1
 
