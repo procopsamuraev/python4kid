@@ -7,8 +7,8 @@
 # print(list(range(-1, -10, -2))) # [-1, -3, -5, -7, -9] 
 # print(list(range(-10, -1, -2))) # []
 ##
-# for i in range(5):
-#    print(i)
+for i in range(5):
+   print(i)
 # for i in range(0):
 #     print(i)
 # for i in []:
@@ -53,8 +53,8 @@ list_2d=[
 # 
 # for index in range(len(list_2d[0])):
 #     print(list_2d[0][index], list_2d[1][index])
-index=0
-for line in list_2d: 
-    print(line[index])
-    index += 1
+# index=0
+# for line in list_2d: 
+    # print(line[index])
+    # index += 1
 

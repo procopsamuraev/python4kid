@@ -56,10 +56,16 @@ def draw_clock(name_utc):
 
 root = Tk()
 
-index = 0
-while index < len(list_clocks):
+# while
+# index = 0
+# while index < len(list_clocks):
+#     draw_clock(list_clocks[index])
+#     index += 1
+
+# for loop
+for index in range(len(list_clocks)):
     draw_clock(list_clocks[index])
-    index += 1
+
 
 root.mainloop()
 

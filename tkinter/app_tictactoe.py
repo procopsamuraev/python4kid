@@ -74,6 +74,7 @@ for i in range(3):
     for j in range(3):
         button_array[i][j] = Button(command = lambda y = j, x = i : set_button(x, y))
         button_array[i][j].grid(column = i, row = j, ipadx=ipad_x, ipady=ipad_y)
+        
 Label(text='Player_X:', justify="center").grid(column=0, row=3, ipadx=ipad_x, ipady=10)
 Label(text='Draw:', justify="center").grid(column=1, row=3, ipadx=ipad_x, ipady=10)
 Label(text='Player_O:', justify="center").grid(column=2, row=3, ipadx=ipad_x, ipady=10)
