@@ -91,7 +91,7 @@ def modulus_numbers(row):
 
 root = Tk()
 root.title("Ex_1.1")
-list_functions = {'+':sum_numbers, '-':subtract_numbers,'*': multiplication_numbers, '**':exponentiation_numbers, '/':division_numbers, '//':floor_division_numbers, '%':modulus_numbers}
+dict_functions = {'+':sum_numbers, '-':subtract_numbers,'*': multiplication_numbers, '**':exponentiation_numbers, '/':division_numbers, '//':floor_division_numbers, '%':modulus_numbers}
 list_widgets = [] 
 
 for index in range(len(list_signs)):
@@ -106,7 +106,7 @@ for index in range(len(list_signs)):
     entry = Entry(frame, width=5)
     entry.pack(side=LEFT)
     list_widgets.append(entry)
-    Button(frame, text='=', command= lambda row = index :list_functions.get(sign_operation)(row)).pack(side=LEFT)
+    Button(frame, text='=', command= lambda row = index :dict_functions.get(sign_operation)(row)).pack(side=LEFT)
     entry = Entry(frame, width=10)
     entry.pack(side=LEFT)
     list_widgets.append(entry)
