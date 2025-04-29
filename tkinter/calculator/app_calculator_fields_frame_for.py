@@ -2,10 +2,8 @@ from tkinter import *
 error = "Enter numbers only0"
 error_zero = "Enter numbers only and not 0"
 
-# list_signs = ['+', '-', '*', '**', '/','//', '%']
-# list_descriptions = ['Sum', 'Subtract', 'Multiplication', 'Exponentiation', 'Division', 'Floor Division', 'Modulus']
 list_signs = ['+ Sum', '- Subtract', '* Multiplication', '** Exponentiation', '/ Division','// Floor_Division', '% Modulus']
-list_signs = ['+ Sum', '+ Sum']
+# list_signs = ['+ Sum', '+ Sum'] # for check
 
 
 def sum_numbers(row):
