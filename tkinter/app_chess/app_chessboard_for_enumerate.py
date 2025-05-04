@@ -47,10 +47,10 @@ def get_selected_address():
 
 
 def highlight_board():
-    for row in range(len(list_rows)):
-        for column in range(len(list_rows)):
-            color = list_board_colors[(row+column)%2]
-            list_rows[row][column].config(background=color)
+    for index_row, row in enumerate(list_rows):
+        for index_column, square in enumerate(row): 
+            color = list_board_colors[(index_row + index_column)%2]
+            square.config(background=color)
 
 
 def hightlight_square():
@@ -63,12 +63,14 @@ def hightlight_square():
 def highlight_row():
     highlight_board()
     addres_board = entry.get()
-    print(addres_board)
     for index_row, row in enumerate(list_rows):
-        if index_row == 8 - int(addres_board[-1])-1:
-            for index_column, column in enumerate(list_rows[index_row]):
-                print(index_column, index_row)
-                list_rows[index_row][index_column].config(background='black')
+        if index_row == 8 - int(addres_board[-1]):
+            for index_column, square in enumerate(row):
+                if  index_column == 8 - int(addres_board[0]):
+                    square.config(background=color_hightlight_square)
+                color = list_board_colors[(index_row + index_column)%2]
+                square.config(background=color)
+                # list_rows[index_row][index_column].config(background='black')
 #        for column in range(len(list_rows[row])):
 #            square_selected = row == row_selected and column == column_selected
 #            if square_selected:
