@@ -27,25 +27,68 @@ year = "1500.5"
 # print( not string.rsplit('.', )[-1].rstrip('0').replace('5', '', 1 ))
 # print( not year[year.find('.')+1:].rstrip('0').replace('5', '', 1))
 # Import package and it's modules 
-  
-# create buttons 
-# Execute Tkinter 
 
-list_fields = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', '']
+# array = [
+#   [0,1,2],
+#   [2,1,2],
+#   [0,1,0],
+#  ] 
+# for index_row, row in enumerate(array):
+#     current_value = 0 
+#     count_in_row = 0
+#     for index_column, element in enumerate(row):
+#         if index_column == 0 and  current_value == element and current_value: 
+#             count_in_column +=1
+#             current_value == element
+        
 
-print(list_fields.index('H'))
+# array_1d = [1,0,2,1,1, 1]
+# # array_1d = [1,1,1,1,1]
+# # array_1d = [2,2]
+# flag = 0 
+# current_value = array_1d[0]       
+# for item in array_1d: 
+#     if item and item != current_value:
+#         break
+#     else:
+#         flag = item
+#     current_value = item
+# 
+# print(flag)
 
-infrad   60551 71205 60559 R  100  2.0 RR      48  12 split
-infrad   73095 71205 73095 S  0.0  0.0 TS       -  12 wrapper_socat
-infrad   73096 73095 73096 R 10.6  0.0 TS       -  12 socat
+# array_1d = [[1,1],[0,1],[2,2]]
+# array_1d = [[1,1],[0,1],[2,1]]
+# array_1d = [[0,1],[0,1],[0,1]]
+array_1d = [[0,1],[0,2],[0,1]]
 
-infrad   60551 71205 60559 R  100  2.0 RR      48  12 split
-infrad   73095 71205 73095 S  0.0  0.0 TS       -  12 wrapper_socat
-infrad   73096 73095 73096 R 10.6  0.0 TS       -  12 socat
+# array_1d = [[1],[1],[1]]
+# flag = 0 
+# current_value = array_1d[0][0]       
+# for item in array_1d: 
+#     if item[0] and item[0] != current_value :
+#         break
+#     else:
+#         flag = item[0]
+#     current_value = item[0]
+# 
+# print(flag)
+# 
+# flag = 0 
+# current_value = array_1d[0][1]       
+# for item in array_1d: 
+#     if item[1] and item[1] != current_value :
+#         break
+#     else:
+#         flag = item[1]
+#     current_value = item[1]
 
-    column = list_fields.index(address_board[0])
-    row = length - address_board[1] -1 
-    return column, row
-
-    # print()
-# print(tags)
+for x in range(len(array_1d[0])):
+    flag = 0 
+    current_value = array_1d[x][0]       
+    for item in array_1d: 
+        if item[x] and item[x] != current_value:
+            break
+        else:
+            flag = item[x]
+        current_value = item[x]
+    print(flag)
