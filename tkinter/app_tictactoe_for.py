@@ -9,12 +9,15 @@ fixme - dynamic version
 
 """
 
-def set_button(i, j):
+
+def set_button(y, x):
     global turn
-    if not str(button_array[i][j].cget('text')).isalnum() and str(button_new_game.cget('text')) == "New Game":
-        button_array[i][j].config(text=turn)
-        check_match_line()
-        turn = 'O'if turn == 'X' else 'X'
+    if not str(button_array[y][x].cget('text')).isalnum() and str(button_new_game.cget('text')) == "New Game":
+        button_array[y][x].config(text=turn)
+        check_match_row()
+        check_match_column()
+        # print(turn)
+        turn = 'O' if turn == 'X' else 'X'
         label_turn.config(text=f"Next turn player: {turn}")
 
 
@@ -25,20 +28,69 @@ def clear_fields():
     button_new_game.config(text='New Game')
 
 
-def check_match_line():
-    match_line, draw = 0, 0
-    message=f" {turn}-won \nPress here for\na new game"
-    for index_row, row in  enumerate(button_array):
-        for  index_column, button in enumerate(row):
-            row = 
-    match_line += 1 if button_array[0][0].cget('text') == button_array[1][1].cget('text') == button_array[2][2].cget('text') != '' else match_line
-    match_line += 1 if button_array[2][0].cget('text') == button_array[1][1].cget('text') == button_array[0][2].cget('text') != '' else match_line
-    for i in  range(3):
-        match_line += 1 if button_array[i][0].cget('text') == button_array[i][1].cget('text') == button_array[i][2].cget('text') != '' else match_line 
-        match_line += 1 if button_array[0][i].cget('text') == button_array[1][i].cget('text') == button_array[2][i].cget('text') != '' else match_line 
-        draw  += 1 if button_array[i][0].cget('text') and button_array[i][1].cget('text') and button_array[i][2].cget('text') != '' else draw
+flag_diag_back = 0
+flag_diag_forward = 0
 
-    if match_line: 
+
+def check_match_row():
+    draw = 0
+    message = f" {turn}-won \nPress here for\na new game"
+    for index_row, row in enumerate(button_array):
+        current_value = row[0].cget('text')
+        flag = 0
+        for index_column, button in enumerate(row):
+            if button.cget('text') != current_value:
+                flag = 0
+                # continue
+            else:
+                flag = button.cget('text')
+
+            if index_column - index_row == 0:
+                print('diag')
+                if button.cget('text') != button_array[0][0].cget('text'):
+                    flag_diag = 0
+                else:
+                    flag_diag = button.cget('text')
+            
+            if index_column + index_row + 1 == size_field:
+                print('diagfwd')
+                if button.cget('text') != button_array[0][-1].cget('text'):
+                    flag_diag_forward = 0
+                else:
+                    flag_diag_forward = button.cget('text')
+
+        if flag:
+            print('row', flag)
+            break
+        if flag_diag or flag_diag_forward:
+            print('diag', flag_diag)
+
+    if flag or flag_diag:
+        button_new_game.config(text=message)
+        count_wins(turn)
+    elif draw == 3:
+        message = f" Draw\nPress here for\na new game"
+        button_new_game.config(text=message)
+        count_wins('draw')
+
+
+def check_match_column():
+    draw = 0
+    message = f" {turn}-won \nPress here for\na new game"
+    for column in range(len(button_array)):
+        flag = 0
+        current_value = button_array[0][column].cget('text')
+        for index_column, row in enumerate(button_array):
+            if row[column].cget('text') != current_value:
+                flag = 0
+                continue
+            else:
+                flag = row[column].cget('text')
+        if flag:
+            print('column', flag)
+            break
+
+    if flag:
         button_new_game.config(text=message)
         count_wins(turn)
     elif draw == 3:
@@ -63,22 +115,19 @@ root = Tk()
 root.title('TicTacToe v2.0')
 ipad_x = 40
 ipad_y = 60
-label_turn=Label(text=f'The player: {turn} start the game')
+label_turn = Label(text=f'The player: {turn} start the game')
 label_turn.grid(column=0,columnspan=3, row=6)
 
 
 button_array = []
 
-for column in range(size_field): 
+for row in range(size_field):
     row_buttons = []
-    for row in range(size_field): 
-        print(row, column)
-        button = Button(command = lambda y = row, x = column : set_button(x, y))
-        button.grid(column = column, row = row, ipadx=ipad_x, ipady=ipad_y)
+    for column in range(size_field):
+        button = Button(command=lambda y=row, x=column: set_button(y, x))
+        button.grid(column=column, row=row, ipadx=ipad_x, ipady=ipad_y)
         row_buttons.append(button)
     button_array.append(row_buttons)
-    print(button_array)
-
 
 Label(text='Player_X:', justify="center").grid(column=0, row=3, ipadx=ipad_x, ipady=10)
 Label(text='Draw:', justify="center").grid(column=1, row=3, ipadx=ipad_x, ipady=10)
