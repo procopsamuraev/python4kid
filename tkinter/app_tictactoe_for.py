@@ -12,11 +12,14 @@ fixme - dynamic version
 
 def set_button(y, x):
     global turn
+    message = f" {turn}-won \nPress here for\na new game"
     if not str(button_array[y][x].cget('text')).isalnum() and str(button_new_game.cget('text')) == "New Game":
         button_array[y][x].config(text=turn)
-        check_match_row()
-        check_match_column()
-        # print(turn)
+        winner_row_diag = check_match_row()
+        winner_column = check_match_column()
+        if winner_row_diag or winner_column: 
+            button_new_game.config(text=message)
+            count_wins(turn)
         turn = 'O' if turn == 'X' else 'X'
         label_turn.config(text=f"Next turn player: {turn}")
 
@@ -28,75 +31,56 @@ def clear_fields():
     button_new_game.config(text='New Game')
 
 
-flag_diag_back = 0
-flag_diag_forward = 0
-
-
 def check_match_row():
-    draw = 0
-    message = f" {turn}-won \nPress here for\na new game"
+    winner = None
+    flag_diag_back = None
+    flag_diag_forward = None
     for index_row, row in enumerate(button_array):
         current_value = row[0].cget('text')
-        flag = 0
+        flag_row = None
         for index_column, button in enumerate(row):
-            if button.cget('text') != current_value:
-                flag = 0
-                # continue
+            # row check
+            if current_value.isalnum() and button.cget('text') == current_value and flag_row != 0:
+                flag_row = button.cget('text')
             else:
-                flag = button.cget('text')
-
+                flag_row = 0
+            # back diagonal check
             if index_column - index_row == 0:
-                print('diag')
-                if button.cget('text') != button_array[0][0].cget('text'):
-                    flag_diag = 0
+                if button.cget('text') == button_array[0][0].cget('text') and flag_diag_back != 0:
+                    flag_diag_back = button.cget('text')
                 else:
-                    flag_diag = button.cget('text')
-            
+                    flag_diag_back = 0
+            # forward diagonal check  
             if index_column + index_row + 1 == size_field:
-                print('diagfwd')
-                if button.cget('text') != button_array[0][-1].cget('text'):
-                    flag_diag_forward = 0
-                else:
+                if button.cget('text') == button_array[0][-1].cget('text') and flag_diag_forward !=0:
                     flag_diag_forward = button.cget('text')
-
-        if flag:
-            print('row', flag)
+                else:
+                    flag_diag_forward = 0
+        if flag_row:
             break
-        if flag_diag or flag_diag_forward:
-            print('diag', flag_diag)
 
-    if flag or flag_diag:
-        button_new_game.config(text=message)
-        count_wins(turn)
-    elif draw == 3:
-        message = f" Draw\nPress here for\na new game"
-        button_new_game.config(text=message)
-        count_wins('draw')
-
+    if flag_row:
+        winner = flag_row
+    elif flag_diag_back: 
+        winner = flag_diag_back
+    elif flag_diag_forward: 
+        winner = flag_diag_forward
+    return winner
 
 def check_match_column():
-    draw = 0
-    message = f" {turn}-won \nPress here for\na new game"
+    winner = None
     for column in range(len(button_array)):
-        flag = 0
+        flag_column = None
         current_value = button_array[0][column].cget('text')
         for index_column, row in enumerate(button_array):
-            if row[column].cget('text') != current_value:
-                flag = 0
-                continue
+            if row[column].cget('text') == current_value and flag_column != 0:
+                flag_column = current_value
             else:
-                flag = row[column].cget('text')
-        if flag:
-            print('column', flag)
-            break
-
-    if flag:
-        button_new_game.config(text=message)
-        count_wins(turn)
-    elif draw == 3:
-        message=f" Draw\nPress here for\na new game"
-        button_new_game.config(text=message)
-        count_wins('draw')
+                flag_column = 0
+                continue
+        if flag_column:
+            winner = flag_column
+    return winner
 
 
 def count_wins(player):
