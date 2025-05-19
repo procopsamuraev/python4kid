@@ -98,38 +98,36 @@ def print_bill():
         return
 
     width = int(entry_bill_width.get().strip(' ')) if entry_bill_width.get().strip(' ').isdigit() else 100
-    collumn_width = round(width/7)
-    collumn_width_0 = width - 3 - collumn_width*4
+    width_column = round(width/7)-1
+    width_column0 = width - width_column*4
     bill_string = f"{root.title().center(width)}\n"
+    bill_string = f"{bill_string}{'-' * width}\n"
     for index_row, list_row in enumerate(list_entries):
-        for index_column, element in enumerate(list_row):
-            w = collumn_width
-            text_element=''
-            text_operator = ''
-            if index_column == 0:
-                w = collumn_width_0
-            elif index_column == 1:
-                text_operator = 'x'
-            elif index_column == 2:
-                text_operator = '/'
-            elif index_column == 3:
-                text_operator = '='
-            elif index_column == '4':
-                continue
-            
-            if index_row == 0:
-                text_element = list_headers[index_column]
-                text_operator=''
-            elif index_row%2 == 1 and index_column != 4:
-                text_element = element.get()
-            bill_string = f"{bill_string}{text_element.center(w)}{text_operator}"
-            print(w)
-        bill_string=f"{bill_string}\n" 
+        row_header = index_row == 0
+        row_data = index_row %2 == 1 and list_row[0].get()
+        if row_header:
+            entry_name, entry_amount, entry_price, entry_day, _spacer, entry_daily = list_headers
+            text_name = entry_name.center(width_column0)
+            text_amount = entry_amount.center(width_column)
+            text_price = entry_price.center(width_column)
+            text_day = entry_day.center(width_column)
+            text_daily = entry_daily.rjust(width_column)
+            bill_string = f"{bill_string}{text_name}{text_amount}{text_price}{text_day}{text_daily}\n"
+            bill_string = f"{bill_string}{chr(8254) * width}\n"
+        elif row_data:
+            entry_name, entry_amount, entry_price, entry_day, _button, entry_total_price = list_row
+            text_name = entry_name.get().center(width_column0)
+            text_amount = entry_amount.get().center(width_column)
+            text_price = entry_price.get().center(width_column)
+            text_day = entry_day.get().center(width_column)
+            text_daily = entry_total_price.get().rjust(width_column-3)
+            bill_string = f"{bill_string}{text_name}{text_amount}x{text_price}/{text_day}={text_daily}\n"
+        bill_string=f"{bill_string}" 
 
     bill_string = f"{bill_string}{'-' * width}\n"
-    bill_string = f"{bill_string}{label_annual['text'].rjust(collumn_width*5-1)} {entry_cost_annual.get().ljust(collumn_width)}\n"
-    bill_string = f"{bill_string}{label_years['text'].rjust(collumn_width*5-1)} {entry_years.get().ljust(collumn_width)}\n"
-    bill_string = f"{bill_string}{label_cost_total['text'].rjust(collumn_width*5-1)} {entry_for_full.get().ljust(collumn_width)}\n"
+    bill_string = f"{bill_string}{label_annual['text'].rjust(width_column*5-1)} {entry_cost_annual.get().ljust(width_column)}\n"
+    bill_string = f"{bill_string}{label_years['text'].rjust(width_column*5-1)} {entry_years.get().ljust(width_column)}\n"
+    bill_string = f"{bill_string}{label_cost_total['text'].rjust(width_column*5-1)} {entry_for_full.get().ljust(width_column)}\n"
     label_bill.config(text=bill_string)
     label_bill.grid(row=row+10, columnspan=6, sticky='nsew')
 
