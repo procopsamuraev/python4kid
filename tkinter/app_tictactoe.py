@@ -72,6 +72,7 @@ button_array = [
 
 for i in range(3):
     for j in range(3):
+        print(j, i)
         button_array[i][j] = Button(command = lambda y = j, x = i : set_button(x, y))
         button_array[i][j].grid(column = i, row = j, ipadx=ipad_x, ipady=ipad_y)
         

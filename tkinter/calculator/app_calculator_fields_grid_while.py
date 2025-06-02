@@ -107,5 +107,4 @@ while i < len(list_signs):
     list_widgets.append(entry)
     i += 1
 
-
 root.mainloop()

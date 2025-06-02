@@ -39,8 +39,7 @@ def get_selected_address():
         address_board = entry.get()
         column = list_fields.index(address_board[0])-1
         row = len(list_rows) - int(address_board[1])
-        print(column,row)
-        return column,row
+        return column, row
 
 
 def highlight_board():
@@ -230,7 +229,7 @@ def highlight_three_vertical():
             square_selected = row == row_selected and column == column_selected
             if square_selected:
                 list_rows[row][column].config(background=color_hightlight_square)
-            elif -2 <= column - column_selected <= 2:
+            elif -1 <= column - column_selected <= 1:
                 color = list_hightlight_colors[(row+column)%2]
                 list_rows[row][column].config(background=color)
             column += 1

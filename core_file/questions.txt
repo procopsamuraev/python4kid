@@ -1,0 +1,5 @@
+1. The capital of Russia is ...
+- London
++ Moscow
+- Berlin
+- Paris

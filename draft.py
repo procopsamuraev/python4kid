@@ -82,13 +82,38 @@ array_1d = [[0,1],[0,2],[0,1]]
 #         flag = item[1]
 #     current_value = item[1]
 
-for x in range(len(array_1d[0])):
-    flag = 0 
-    current_value = array_1d[x][0]       
-    for item in array_1d: 
-        if item[x] and item[x] != current_value:
-            break
-        else:
-            flag = item[x]
-        current_value = item[x]
-    print(flag)
+# for x in range(len(array_1d[0])):
+#     flag = 0 
+#     current_value = array_1d[x][0]       
+#     for item in array_1d: 
+#         if item[x] and item[x] != current_value:
+#             break
+#         else:
+#             flag = item[x]
+#         current_value = item[x]
+#     print(flag)
+
+
+#import operator
+#
+#
+#def sum_number(a,b):
+#    return a+b
+#
+#def calculate(a,b, func):
+#    return func(a,b)
+#
+#print(calculate(4,5, sum_number))
+#print(calculate(4,5, operator.sub))
+## Sample dictionary
+#sample_dict = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+#
+a,b,c = 1,2,35
+print(a,b,c)
+list_numbers  = [a,b,c]
+print(list_numbers)
+print(*list_numbers)
+a,b,c = [3,7,19]
+print(a,b,c)
+# a,b,c = *list_numbers
+print(a,b,c)

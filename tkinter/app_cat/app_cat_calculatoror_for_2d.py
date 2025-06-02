@@ -1,9 +1,9 @@
 from tkinter import *
 from tkinter.ttk import *
 
-number_items = 5 # amount of items in the table
+# number_items = 5 # amount of items in the table
 list_headers = ['Product', 'Amount', 'Price', 'Days', "", 'Daily cost']
-quantity_items = 5
+quantity_items = 3  
 """
 
 while loop generation of string (just the product list)
@@ -11,11 +11,10 @@ can use lambda for function calculation
 zadaem kolvo items in the code
 
 
-// in price always show kopeeiki
 """
 
 
-def get_report_error(name, amount, price, day):
+def get_report_error(name, amount, price, day)->str:
     name_valid = name.replace(' ', '').replace('.', '').replace('-', '').replace('`', '').isalnum() and len(name) >= 2
     amount_false = not (amount.isdigit() and amount >= '1')
     price_valid = len(price.rpartition('.')[-1]) < 3 and price.replace('.', '', 1).isdigit() 
@@ -59,15 +58,12 @@ def set_daily_cost(index_row):
 
  
 def set_total_annual():
-    # preparation
     sum_amount = 0
-    report_error = ''
     label_bill.config(text='')
     entry_cost_annual.delete(0, 'end')
-    i = 0
     for index_row in range(len(list_entries)):
         data_row = index_row%2 == 1 and index_row != 0
-        if index_row%2 == 1 and index_row !=0:
+        if data_row:
             set_daily_cost(index_row) 
             price_item_total = list_entries[index_row][-1].get()
             sum_amount = sum_amount + float(price_item_total) if price_item_total else sum_amount
@@ -98,7 +94,7 @@ def print_bill():
         return
 
     width = int(entry_bill_width.get().strip(' ')) if entry_bill_width.get().strip(' ').isdigit() else 100
-    width_column = round(width/7)-1
+    width_column = round(width/7)
     width_column0 = width - width_column*4
     bill_string = f"{root.title().center(width)}\n"
     bill_string = f"{bill_string}{'-' * width}\n"
@@ -182,7 +178,7 @@ button_6.grid(column=4, row=row+5)
 entry_for_full= Entry()
 entry_for_full.grid(column=5, row=row+5)
 
-Label(text="Print bill with width(min 60):", anchor='e', justify="center").grid(column=0, row=row+6, columnspan=4)
+Label(text="Print bill with width(min 70):", anchor='e', justify="center").grid(column=0, row=row+6, columnspan=4)
 button_print_bill = Button(text="Print", command=print_bill)
 button_print_bill.grid(column=4, row=row+6)
 entry_bill_width = Entry()

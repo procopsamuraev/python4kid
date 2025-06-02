@@ -4,7 +4,6 @@ list_russian = ["Imya Polzovatelya:", "Familia Polzovatelya:", "God Rozdeniya Po
 # list_english = ("User Name:", "User Surname:", "User Birth Year:")
 list_english = ["User Name:", "User Surname:", "User Birth Year:", 'City:']
 
-# fix me while loop generation of strings
 
 def change_language():
     if button["text"] == "English":
@@ -13,14 +12,12 @@ def change_language():
     else: 
         button.config(text="English")
         selected_language = list_english
-          
-    i = 0
-    while i < len(list_english):
+    
+    for index, label in enumerate(list_labels): 
         try: 
-            list_elements[i].config(text=selected_language[i])
+            label.config(text=selected_language[index])
         except IndexError:
-            list_elements[i].config(text=list_english[i])
-        i += 1
+            label.config(text=list_english[index])
 
 
 root = Tk()
@@ -30,17 +27,17 @@ y=len(list_english)*50
 size = f'{x}x{y}'
 root.geometry(size)
 entry_width = 18
-list_elements= []
+list_labels = []
+list_entries = []
 
-i=0
-while i<len(list_english):
-    y=i*30+20
-    label_username = Label(text=list_english[i])
-    label_username.place(x=10, y=y, anchor="w")
-    list_elements.append(label_username)
-    entry_user = Entry(text=list_english[i] , width=entry_width)
-    entry_user.place(x=150, y=y, anchor="w")
-    i = i + 1
+for index, label in enumerate(list_english):
+    y=index*30+20
+    label_name = Label(text=label)
+    label_name.place(x=10, y=y, anchor="w")
+    list_labels.append(label_name)
+    entry = Entry(text='1' , width=entry_width)
+    entry.place(x=150, y=y, anchor="w")
+    list_entries.append(entry)
 
 
 button = Button(text="English", justify="center",  command=change_language)

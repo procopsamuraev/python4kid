@@ -95,8 +95,7 @@ dict_functions = {'+':sum_numbers, '-':subtract_numbers,'*': multiplication_numb
 list_widgets = [] 
 
 for index in range(len(list_signs)):
-    sign_operation = list_signs[index].split()[0]
-    sign_description = list_signs[index].split()[-1]
+    sign_operation, sign_description = list_signs[index].split()
     frame = LabelFrame(text=sign_description)
     frame.pack(side='top')
     entry = Entry(frame, width=5)
@@ -106,7 +105,7 @@ for index in range(len(list_signs)):
     entry = Entry(frame, width=5)
     entry.pack(side=LEFT)
     list_widgets.append(entry)
-    Button(frame, text='=', command= lambda row = index :dict_functions.get(sign_operation)(row)).pack(side=LEFT)
+    Button(frame, text='=', command= lambda row = index, function = dict_functions.get(sign_operation): function(row)).pack(side=LEFT)
     entry = Entry(frame, width=10)
     entry.pack(side=LEFT)
     list_widgets.append(entry)
