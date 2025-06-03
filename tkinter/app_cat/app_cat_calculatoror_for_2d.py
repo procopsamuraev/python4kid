@@ -16,7 +16,7 @@ zadaem kolvo items in the code
 
 def get_report_error(name, amount, price, day)->str:
     name_valid = name.replace(' ', '').replace('.', '').replace('-', '').replace('`', '').isalnum() and len(name) >= 2
-    amount_false = not (amount.isdigit() and amount >= '1')
+    amount_valid = amount.isdigit() and amount >= '1'
     price_valid = len(price.rpartition('.')[-1]) < 3 and price.replace('.', '', 1).isdigit() 
     day_valid = not day[day.find('.')+1:].rstrip('0').replace('5', '', 1) if day.find('.') !=-1 else day.strip('0').isdigit()
     report_error = ''
@@ -24,7 +24,7 @@ def get_report_error(name, amount, price, day)->str:
         return
     if not name_valid:
         report_error = f"{report_error}Fill up 'Product' field with 2 or more alphabet symbols\n"
-    if amount_false:
+    if not amount_valid:
         report_error = f"{report_error}Fill up 'amount' int, positive\n"
     if not price_valid:
         report_error = f"{report_error}Fill up 'Price' with positive number and not more then 2 digits after dot\n"
@@ -54,7 +54,7 @@ def set_daily_cost(index_row):
         label_warning.config(text=report_error)
         entry_total_price.insert(0, '')
         label_bill.config(text='')
-    return name, amount, price, day, entry_total_price.get(), report_error
+    # return name, amount, price, day, entry_total_price.get(), report_error
 
  
 def set_total_annual():
@@ -88,7 +88,7 @@ def set_total_cost():
 def print_bill():
     set_total_cost()
     if not entry_for_full.get().replace('.', '').isdigit():
-        label_bill.config(text="Bill: Some errors with on of the product")
+        label_bill.config(text="Bill: Some errors with one of the product")
         label_bill.grid(column=0, columnspan=6, sticky='nsew', row=20)
         label_bill.grid_forget()
         return

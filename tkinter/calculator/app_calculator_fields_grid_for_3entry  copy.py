@@ -1,6 +1,6 @@
 from tkinter import *            
 import operator
-entry_count = 4 # including result
+entry_count = 4 # including result entry
 LIST_OPERATORS = [
     ['+',operator.add],
     ['-',operator.sub],
