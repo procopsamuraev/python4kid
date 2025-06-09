@@ -108,12 +108,13 @@ array_1d = [[0,1],[0,2],[0,1]]
 ## Sample dictionary
 #sample_dict = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
 #
-a,b,c = 1,2,35
-print(a,b,c)
-list_numbers  = [a,b,c]
-print(list_numbers)
-print(*list_numbers)
-a,b,c = [3,7,19]
-print(a,b,c)
-# a,b,c = *list_numbers
-print(a,b,c)
+# a,b,c = 1,2,35
+# print(a,b,c)
+# list_numbers  = [a,b,c]
+# print(list_numbers)
+# print(*list_numbers)
+# a,b,c = [3,7,19]
+# print(a,b,c)
+# # a,b,c = *list_numbers
+# oprint(a,b,c)
+  :=
