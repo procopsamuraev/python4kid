@@ -32,7 +32,26 @@ def calculatate_result(row:list[Entry], func_math:callable):
     entry_result.delete(0, 'end')
     entry_result.insert(0, str(f"{result}").rstrip('0').removesuffix('.'))
 
-    
+def calculatate_result(row:list[Entry], func_math:callable):
+    result = ''
+    for index, entry in enumerate(row):
+        number = entry.get().replace(" ", "").replace(",", ".").strip()
+        number_is_zero = number.removeprefix("-").replace(".", "", 1).replace("0", "", number.count("0") - 1) == "0"# treating empty entry as zero.
+        zero_division = func_math in [operator.truediv, operator.floordiv, operator.mod] and number_is_zero and result
+        number_valid = number.removeprefix("-").replace(".", "", 1).isdigit()
+        print(f"{number} {number_valid=} {number_is_zero=} {zero_division=}")
+        if not number: 
+            continue
+        elif not number_valid or zero_division: 
+            result = ERROR
+        elif result is None and number_valid: 
+            result = float(number)
+        elif index == amount_entry - 1: 
+            entry.delete(0, 'end')
+            entry.insert(0, str(f"{result}").rstrip('0').removesuffix('.'))
+            return
+        elif number_valid: 
+            result = func_math(result, float(number))    
 root = Tk()
 root.title("Ex_3")
 for index, list_op in enumerate(LIST_OPERATORS):
