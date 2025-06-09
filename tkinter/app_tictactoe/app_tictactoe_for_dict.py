@@ -6,23 +6,14 @@ from collections import defaultdict
 turn = 'X'
 size_field = 3
 dict_combination = defaultdict(list)
-"""
-fix me disable buttons once winner
-"""
 
-
-def set_button(y, x):
+def set_button(button):
     global turn
-    message = f" {turn}-won .Press here for a new game"
-    button_array[y][x].config(text=turn)
-    fill_dictionary()
-    winner = check_match()
-    if winner:
-        button_new_game.config(text=message)
-        count_wins(winner)
-        disable_buttons()
+    if button.cget('text'):
+        return
+    button.config(text=turn)
+    check_match()
     turn = 'O' if turn == 'X' else 'X'
-    label_turn.config(text=f"Next turn player: {turn}")
 
 
 def disable_buttons():
@@ -39,7 +30,7 @@ def clear_fields():
     button_new_game.config(text='New Game')
 
 
-def fill_dictionary():
+def fill_win_combinations():
     dict_combination.clear()
     for index_row, row in enumerate(button_array):
         for index_column, button in enumerate(row):
@@ -56,20 +47,28 @@ def fill_dictionary():
                 dict_combination['diagonal_forward'].append(value_button)
 
 
-def check_match()->str:
-    winner = None
+def check_match():
+    fill_win_combinations()
+    winner = ''
     counter_turns = 0
+    amount_combinations = size_field * ( 2 * size_field + 2)
     for list_values in dict_combination.values():
         if len(list_values) != size_field: 
             continue
-        if len(set(list_values)) == 1:
-            winner = list_values[0]
-            break
-        elif len(list_values)==size_field:
+        elif len(set(list_values)) == 1:
+            winner = turn
+        elif len(list_values) == size_field:
             counter_turns += size_field
-        if counter_turns == size_field * ( 2 * size_field + 2):
-            winner = 'draw'
-    return winner
+
+    if counter_turns == amount_combinations:
+        winner = 'draw'
+        print('draw')
+     
+    if winner:
+        button_new_game.config(text=f"{winner} won. Click here for a new game")
+        count_wins(winner)
+        disable_buttons()
+    label_turn.config(text=f"Next turn player: {turn}")
 
 
 def count_wins(player):
@@ -88,7 +87,8 @@ button_array = []
 for row in range(size_field):
     row_buttons = []
     for column in range(size_field):
-        button = Button(command=lambda y=row, x=column: set_button(y, x))
+        button = Button()
+        button.config(command=lambda button_=button: set_button(button_))
         button.grid(column=column, row=row, ipadx=ipad_x, ipady=ipad_y)
         row_buttons.append(button)
     button_array.append(row_buttons)

@@ -219,24 +219,22 @@ def highlight_knight():
 root = Tk()
 root.title('Chessboard v2.2')
 list_rows = []
-
 for row in range(len(list_fields)):
-    list_squares = []
+    list_squares:list = []
     for column, field in enumerate(list_fields):
-        row_first, row_last = row == 0, row == len(list_fields)-1
-        column_first, column_last = column == 0, column == len(list_fields)-1
+        row_first, row_last = row == 0, row == len(list_fields) - 1
+        column_first, column_last = column == 0, column == len(list_fields) - 1
         if row_first or row_last:
             Label(text=field, bg='white').grid(column=column, row=row, sticky='news')
         elif column_first or column_last:
             Label(text=f"{len(list_fields) - 1 - row}", bg='white').grid(column=column, row=row, sticky='news')
         else:
             color = list_board_colors[(row+column)%2]
-            regular_square = Button(text=' ', bg=color, command=lambda address_board=f"{field}{len(list_fields)-1 - row}": fill_entry(address_board))
+            regular_square = Button(bg=color, command=lambda address_board=f"{field}{len(list_fields) - 1 - row}": fill_entry(address_board))
             regular_square.grid(column=column, row=row, sticky="nsew")
             list_squares.append(regular_square)
     if list_squares:
         list_rows.append(list_squares)
-
 
 
 frame = Frame(root)
@@ -250,7 +248,7 @@ Button(frame, text='vertical', command=highlight_column).pack(fill='both', expan
 Button(frame, text='rook', command=highlight_rook).pack(fill='both', expand=1)
 Button(frame, text='diagonal-back', command=highlight_diagonal_back).pack(fill='both', expand=1)
 Button(frame, text='diagonal-forward', command=highlight_diagonal_forward).pack(fill='both', expand=1)
-Button(frame, text='bishop', command=highlight_bishop).pack(fill='both', expand=1) # 
+Button(frame, text='bishop', command=highlight_bishop).pack(fill='both', expand=1) 
 Button(frame, text='queen', command=highlight_queen).pack(fill='both', expand=1)
 Button(frame, text='three-horizontal', command=highlight_three_horizontal).pack(fill='both', expand=1)
 Button(frame, text='three-vertical', command=highlight_three_vertical).pack(fill='both', expand=1)
