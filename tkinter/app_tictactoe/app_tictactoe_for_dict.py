@@ -4,16 +4,20 @@ from tkinter import *
 from tkinter.ttk import *
 from collections import defaultdict
 turn = 'X'
+count_turn = 0
 size_field = 3
-dict_combination = defaultdict(list)
+# dict_combination = defaultdict(list)
+# flag = True
 
 def set_button(button):
-    global turn
+    global turn, flag
     if button.cget('text'):
         return
     button.config(text=turn)
     check_match()
     turn = 'O' if turn == 'X' else 'X'
+    label_turn.config(text=f"Next turn player: {turn}")
+    # flag = not flag
 
 
 def disable_buttons():
@@ -30,8 +34,8 @@ def clear_fields():
     button_new_game.config(text='New Game')
 
 
-def fill_win_combinations():
-    dict_combination.clear()
+def fill_combinations():
+    dict_combination = defaultdict(list)
     for index_row, row in enumerate(button_array):
         for index_column, button in enumerate(row):
             value_button = button.cget('text')
@@ -45,30 +49,23 @@ def fill_win_combinations():
             diagonal_forward_true = index_column + index_row + 1 == size_field
             if diagonal_forward_true:
                 dict_combination['diagonal_forward'].append(value_button)
-
+    return dict_combination
 
 def check_match():
-    fill_win_combinations()
+    global count_turn
+    count_turn += 1
+    dict_combinations = fill_combinations()
     winner = ''
-    counter_turns = 0
-    amount_combinations = size_field * ( 2 * size_field + 2)
-    for list_values in dict_combination.values():
-        if len(list_values) != size_field: 
-            continue
-        elif len(set(list_values)) == 1:
+    for list_values in dict_combinations.values():
+        if len(list_values) == size_field and len(set(list_values)) == 1:
             winner = turn
-        elif len(list_values) == size_field:
-            counter_turns += size_field
-
-    if counter_turns == amount_combinations:
-        winner = 'draw'
-        print('draw')
-     
+    
+    winner = 'draw' if count_turn == size_field*size_field else winner
     if winner:
         button_new_game.config(text=f"{winner} won. Click here for a new game")
         count_wins(winner)
         disable_buttons()
-    label_turn.config(text=f"Next turn player: {turn}")
+        count_turn = 0
 
 
 def count_wins(player):
