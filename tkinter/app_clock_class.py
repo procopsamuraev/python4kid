@@ -1,7 +1,7 @@
 from tkinter import *
 import time 
 
-LIST_CLOCKS = [['moscow', 3],  ['london', 0], ['tokyo', 5]] # city, utc zone
+LIST_CLOCKS:list[str, int] = [['moscow', 3],  ['london', 0], ['tokyo', 5]] # city, utc zone
 
 class ClockWorld: 
     def __init__(self, city: str, utc_zone: float) ->  None:
