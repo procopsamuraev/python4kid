@@ -1,5 +1,9 @@
 from tkinter import *
 import time 
+"""
+show difirent city clocks
+Limitiations =  accepts only int as  utc time, no  fractional.
+"""
 
 LIST_CLOCKS:list[str, int] = [['moscow', 3],  ['london', 0], ['tokyo', 5]] # city, utc zone
 
