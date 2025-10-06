@@ -86,21 +86,46 @@ list_2d=[
 
 #ex5
 
-#Q from tkinter import *
-#Q list_eng = ['yes', 'no', 'maybe', 'ok', 'what']
-#Q list_rus = ["да", "нет", "наверно", "ок", "что"]
-#Q list_buttons = []
-#Q 
-#Q def translate_button(index):
-#Q     text=list_rus[index]
-#Q     list_buttons[index].config(text=text)
-#Q 
-#Q root = Tk()
-#Q root.title("for loop ex5")
-#Q for index in range(len(list_eng)):
-#Q     text=list_eng[index]
-#Q     button = Button(root, text=text, command=lambda index=index: translate_button(index))
-#Q     button.pack()
-#Q     list_buttons.append(button)
-#Q root.mainloop()
-#Q 
+# from tkinter import *
+# list_eng = ['yes', 'no', 'maybe', 'ok', 'what']
+# list_rus = ["да", "нет", "наверно", "ок", "что"]
+# list_buttons = []
+#
+# def translate_button(index):
+#     text=list_rus[index]
+#     list_buttons[index].config(text=text)
+#
+# root = Tk()
+# root.title("for loop ex5")
+# for index in range(len(list_eng)):
+#     text=list_eng[index]
+#     button = Button(root, text=text, command=lambda index=index: translate_button(index))
+#     button.pack()
+#     list_buttons.append(button)
+# root.mainloop()
+#
+
+
+#list_operators = [
+#    ['+', operator.add],
+#    ['-', operator.sub],
+#    ['*', operator.mul],
+#    ['**', operator.pow],
+#    ['/', operator.truediv],
+#    ['//', operator.floordiv],
+#    ['%', operator.mod],
+#]
+# for i in enumerate(list_operators):
+    # print(i)
+    # print(i[0], i[1])
+    # index, list_values = i[0], i[1]
+    # print(index, list_values)
+    # print(index, list_values[0], list_values[1])
+    # index, list_values = i
+    # index, sign, function = i[0], i[1][0], i[1][1]
+    # index, [sign, function] = i
+    # index, (sign, function) = i
+    # print(index, sign, function)
+
+# for index, (sign, function) in enumerate(list_operators):
+    # print(index, sign, function)

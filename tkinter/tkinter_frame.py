@@ -39,7 +39,6 @@ if __name__ == '__main__':
 """
 
 # Ex3
-'''
 from tkinter import *
 root = Tk()
 frame_top = Frame()
@@ -56,4 +55,3 @@ button_bottom_left.pack(side="left")
 button_bottom_right  = Button(frame_bottom, width=9, text="Bottom Right")
 button_bottom_right.pack(side="right")
 root.mainloop()
-'''

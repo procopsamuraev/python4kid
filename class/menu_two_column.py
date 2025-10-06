@@ -34,7 +34,7 @@ class MenuItem:
         return self.line
 
 
-WIDTH_PAGE = 71
+WIDTH_PAGE = 70
 width_gap = 0 if WIDTH_PAGE % 2 == 0 else 1
 MENU_SOURCE = [
     {'name': 'Tea', 'quantity': 150, 'means': 'ml','price': 2, 'type': 'drinks'},
@@ -55,16 +55,17 @@ MenuItem.symbol_indent='_'
 MenuItem.currency = '\u20BD'
 
 dict_item_groups = {}
-for dict_ in MENU_SOURCE:
-    item_type = dict_['type']
+for dict_menu in MENU_SOURCE:
+    item_type = dict_menu['type']
     dict_item_groups.setdefault(item_type, [])
-    dict_item_groups[item_type].append(dict_)
+    dict_item_groups[item_type].append(dict_menu)
+print(dict_item_groups)
 
 even_item_groups = len(dict_item_groups)%2 == 0
 
-for index, (group, list_dict) in enumerate(dict_item_groups.items()):
+for index, (group, list_dict_items) in enumerate(dict_item_groups.items()):
     label_frame = LabelFrame(root, text=group.title())
-    column_span=1
+    column_span = 1
     width_column = int((WIDTH_PAGE - width_gap) / 2)
     column = index % 2
     if not even_item_groups and index==0:
@@ -75,9 +76,8 @@ for index, (group, list_dict) in enumerate(dict_item_groups.items()):
         row = (index + 1) // 2
     else:
         row = index // 2
-
     label_frame.grid(row=row, column=column, sticky=NW, columnspan=column_span )
-    for dict_item in list_dict:
+    for dict_item in list_dict_items:
         line_menu = MenuItem()
         line_menu.name_item = dict_item['name']
         line_menu.quantity_item = dict_item['quantity']
@@ -85,37 +85,6 @@ for index, (group, list_dict) in enumerate(dict_item_groups.items()):
         line_menu.price_item = dict_item['price']
         line_menu.type_item = group
         line_menu.width = width_column
-        print(line_menu.get_line())
         Label(label_frame, font=('Ubuntu Mono', 10), text=line_menu.get_line()).grid()
 
 root.mainloop()
-
-# for dict_single in MENU_SOURCE:
-#     menu_item = MenuItem()
-#     menu_item.name_item = dict_single['item']
-#     menu_item.quantity_item = dict_single['quantity']
-#     menu_item.means = dict_single['means']
-#     menu_item.price_item = dict_single['price']
-#     menu_item.type = dict_single['type']
-#     if menu_item.type not in list_label_types:
-#         label_frame = LabelFrame(text=menu_item.type.title())
-#         list_label_types.append(menu_item.type)
-#         single_column = [menu_item.type] == list_label_types[0:1]
-#         if single_column and not even_amount_type:
-#             row = 0
-#             column = 0
-#             column_span = 2
-#             label_frame.grid(row=row, column=column, sticky=NW, columnspan=column_span)
-#         elif even_amount_type:
-#             row = list_label_types.index(menu_item.type) // 2
-#             column = list_label_types.index(menu_item.type) % 2
-#             label_frame.grid(row=row, column=column, sticky=NW)
-#         else:
-#             row = (list_label_types.index(menu_item.type)+1)//2
-#             column = list_label_types.index(menu_item.type)%2
-#             label_frame.grid(row=row, column=column, sticky=NW)
-#         list_label_frames.append(label_frame)
-#     else:
-#         label_frame = list_label_frames[list_label_types.index(menu_item.type)]
-#     menu_item.width = WIDTH_PAGE if not even_amount_type and menu_item.type == list_label_types[0] else width_column
-#     Label(label_frame, font=('Ubuntu Mono', 10), text=menu_item.get_line()).pack()

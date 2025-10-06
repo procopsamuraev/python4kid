@@ -107,6 +107,10 @@ Button(root, text="3", font=20, bg="#ffff00", command=display_yellow).pack(fill=
 Button(root, text="4", font=20, bg="#00ff00", command=display_green).pack(fill=X)
 Button(root, text="5", font=20, bg="#007dff", command=display_lightblue).pack(fill=X)
 Button(root, text="6", font=20, bg="#0000ff", command=display_blue).pack(fill=X)
+def display_purple():
+    color_code.set('#7d00ff')
+    label.config(text='purple', foreground='purple')
+    entry.config(background='purple')
 Button(root, text="7", font=20, bg="#7d00ff", command=display_purple).pack(fill=X)
 
 

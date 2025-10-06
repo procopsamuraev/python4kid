@@ -15,4 +15,4 @@ letter_ded_moroz=str("{0}\n Hi {1}.\n Long time no see".format(letter_label, let
 label_5 = Label(root, text=letter_ded_moroz)
 print(letter_ded_moroz)
 
-root.mainloop()
+root.mainloop

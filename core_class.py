@@ -78,61 +78,60 @@
 # Используя библиотеку tkinter и Canvas. Нарисовать 3 коробки на холсте с помощью задания 
 # координат и размеров через переменные.
 # """
-# import tkinter as tk
+# from tkinter import Canvas, Tk
 # 
 # # Создаем окно
-# root = tk.Tk()
+# root = Tk()
 # root.title("Три коробки на Canvas")
 # 
 # # Создаем холст
 # canvas_width = 400
 # canvas_height = 300
-# canvas = tk.Canvas(root, width=canvas_width, height=canvas_height, bg="white")
+# canvas = Canvas(root, width=canvas_width, height=canvas_height, bg="white")
 # canvas.pack()
 # 
 # # Параметры коробок
 # # Коробка 1
-# x1_1, y1_1 = 50, 50
-# width1, height1 = 100, 60
+# x, y = 50, 50
+# width, height = 100, 60
+# canvas.create_rectangle(x, y, x + width, y + height, fill="lightblue", outline="black")
 # 
 # # Коробка 2
-# x2_1, y2_1 = 200, 70
-# width2, height2 = 80, 120
+# x, y = 200, 70
+# width, height = 80, 120
+# canvas.create_rectangle(x, y, x + width, y + height, fill="lightgreen", outline="black")
 # 
 # # Коробка 3
-# x3_1, y3_1 = 120, 180
-# width3, height3 = 140, 50
+# x, y = 120, 180
+# width, height = 140, 50
+# canvas.create_rectangle(x, y, x + width, y + height, fill="salmon", outline="black")
 # 
-# # Рисуем коробки
-# canvas.create_rectangle(x1_1, y1_1, x1_1 + width1, y1_1 + height1, fill="lightblue", outline="black")
-# canvas.create_rectangle(x2_1, y2_1, x2_1 + width2, y2_1 + height2, fill="lightgreen", outline="black")
-# canvas.create_rectangle(x3_1, y3_1, x3_1 + width3, y3_1 + height3, fill="salmon", outline="black")
 # 
 # # Запуск главного цикла
 # root.mainloop()
+
 
 # """
 # Используя библиотеку tkinter и Canvas. Нарисовать 3 коробки на холсте
 # с помощью задания координат и размеров через список.
 # """
-# import tkinter as tk
-# root = tk.Tk()
-# root.title('3 box_list')
-# 
-# canvas = tk.Canvas(root, width=400, height=300, bg="lightgrey")
-# canvas.pack()
-# # x, y , w , h 
-# boxes = [
-# [10, 20, 30, 30, 'salmon'], 
-# [70, 100, 100, 20, 'red'], 
-# [100, 200, 34, 70, 'yellow']
+#import tkinter as tk
+#root = tk.Tk()
+#root.title('3 box_list')
+#
+#canvas = tk.Canvas(root, width=400, height=300, bg="lightgrey")
+#canvas.pack()
+## x, y , w , h 
+#boxes = [
+#[10, 20, 30, 30, 'salmon'], 
+#[70, 100, 100, 20, 'red'], 
+#[100, 200, 34, 70, 'yellow']
 #]
-# for box in boxes:
-#     x, y, w, h, color = box
-#     print(x)
-#     canvas.create_rectangle(x, y, x+w, y+h, fill=color, outline='black')
-# 
-# root.mainloop()
+#for box in boxes:
+#    x, y, width, height, color = box
+#    canvas.create_rectangle(x, y, x+width, y+height, fill=color, outline='black')
+#
+#root.mainloop()
 
 """
 Используя библиотеку tkinter и Canvas. Нарисовать 3 коробки на холсте
@@ -147,19 +146,19 @@
 # canvas.pack()
 # # x, y , w , h 
 # boxes:list[dict] = [
-#     {'x':10, 'y':20, 'w':30, 'h':30, 'color':'salmon'},
-#     {'x':70, 'y':100, 'w':100, 'h':20, 'color':'red'},
-#     {'x':100, 'y':200, 'w':34, 'h':70, 'color':'yellow'},
+#     {'x':10, 'y':20, 'width':30, 'height':30, 'color':'salmon'},
+#     {'x':70, 'y':100, 'width':100, 'height':20, 'color':'red'},
+#     {'x':100, 'y':200, 'width':34, 'height':70, 'color':'yellow'},
 # ]
 # 
 # for box in boxes:
-#     x, y, w, h, color = box
+#     x, y, width, height, color = box
 #     x = box.get('x')
 #     y = box.get('y')
-#     w = box.get('w')
-#     h = box.get('h')
+#     width = box.get('width')
+#     height = box.get('height')
 #     color = box.get('color')
-#     canvas.create_rectangle(x, y, x+w, y+h, fill=color, outline='black')
+#     canvas.create_rectangle(x, y, x+width, y+height, fill=color, outline='black')
 # 
 # root.mainloop()
 
@@ -169,39 +168,32 @@
 """
 
 import tkinter as tk
+
+
+class Box:
+    x : int = 10
+    y = 20
+    width = 30
+    height = 30
+    color = 'salmon'
+    outline = 'grey'
+
+
 root = tk.Tk()
 root.title('3 box_list')
 
 canvas = tk.Canvas(root, width=400, height=300, bg="lightgrey")
 canvas.pack()
 
-class Box:
-    x = 10
-    y = 20
-    width = 30
-    height = 30
-    color = 'salmon'
-# x, y , w , h 
-# boxes:list[dict] = [
-    # {'x':10, 'y':20, 'w':30, 'h':30, 'color':'salmon'},
-    # {'x':70, 'y':100, 'w':100, 'h':20, 'color':'red'},
-    # {'x':100, 'y':200, 'w':34, 'h':70, 'color':'yellow'},
-# ]
+box = Box()
+canvas.create_rectangle(box.x, box.y, box.x+box.width, box.y+box.height, fill=box.color, outline=box.outline)
 
-# for box in boxes:
-#     x, y, w, h, color = box
-#     x = box.get('x')
-#     y = box.get('y')
-#     w = box.get('w')
-#     h = box.get('h')
-#     color = box.get('color')
-box1 = Box()
-box2 = Box()
-box3 = Box()
-box2.x, box2.y, box2.width, box2.height, box2.color = 70, 100, 100, 20, 'red'
-box3.x, box3.y, box3.width, box3.height, box3.color = 100, 200, 34, 70, 'yellow'
-canvas.create_rectangle(box1.x, box1.y, box1.x+box1.width, box1.y+box1.height, fill=box1.color, outline='black')
-canvas.create_rectangle(box2.x, box2.y, box2.x+box2.width, box2.y+box2.height, fill=box2.color, outline='black')
-canvas.create_rectangle(box3.x, box3.y, box3.x+box3.width, box3.y+box3.height, fill=box3.color, outline='black')
+box = Box()
+box.x, box.y, box.width, box.height, box.color = 70, 100, 100, 20, 'red'
+canvas.create_rectangle(box.x, box.y, box.x+box.width, box.y+box.height, fill=box.color, outline=box.outline)
+
+box = Box()
+box.x, box.y, box.width, box.height, box.color = 100, 200, 34, 70, 'yellow'
+canvas.create_rectangle(box.x, box.y, box.x+box.width, box.y+box.height, fill=box.color, outline=box.outline)
 
 root.mainloop()

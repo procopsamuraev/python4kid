@@ -34,7 +34,7 @@ def clear_fields():
     button_new_game.config(text='New Game')
 
 
-def fill_combinations():
+def fill_combinations()->dict:
     dict_combination = defaultdict(list)
     for index_row, row in enumerate(button_array):
         for index_column, button in enumerate(row):

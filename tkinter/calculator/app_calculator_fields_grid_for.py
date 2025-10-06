@@ -38,9 +38,9 @@ for index, list_op in enumerate(list_operators):
     Label(root, text=sign_operation).grid(column=1, row=index)
     entry2 = Entry(root, width=5)
     entry2.grid(column=2, row=index)
-    entry3 = Entry(root, width=10)
-    entry3.grid(column=4, row=index)
+    entry_result = Entry(root, width=10)
+    entry_result.grid(column=4, row=index)
     # Button(root, text='=', command=lambda e1=entry1, e2=entry2, e3=entry3, func_math = func: calculatate_result(e1, e2, e3, func_math)).grid(column=3, row=index)
-    Button(root, text='=', command=lambda _params = [entry1, entry2, entry3, func]:calculatate_result(*_params)).grid(column=3, row=index)
+    Button(root, text='=', command=lambda _params = [entry1, entry2, entry_result, func]:calculatate_result(*_params)).grid(column=3, row=index)
 
 root.mainloop()
