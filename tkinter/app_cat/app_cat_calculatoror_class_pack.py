@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter.ttk import *
 
 # number_items = 5 # amount of items in the table
-list_headers = ['Product', 'Amount', 'Price', 'Days', "", 'Daily cost']
+list_headers = ['Product', 'Amount', 'Price', 'Days', '', 'Daily cost']
 quantity_items = 3  
 """
 
@@ -21,47 +21,53 @@ list_product = []
 
 class ProductRow:
     def __init__(self):
-        list_entries_line = []
-        entry_name, entry_amount, entry_price, entry_days, entry_total_price, label_warning = Entry(), Entry(), Entry(), Entry(), Entry(), Label()
-        self.list_entries_line = [entry_name, entry_amount, entry_price, entry_days, entry_total_price]
-        button_calculate=Button(text='=', command=lambda line=self.list_entries_line: self.set_daily_cost(line))
-        self.list_entries_line.append(button_calculate)
-        list_entries.append(list_entries_line)
-        list_entries.append([label_warning])
+        # 1st line
+        self.row = 0
+        frame = Frame()
+        frame.pack()
+        self.entry_name = Entry(frame)
+        self.entry_name.grid(row=self.row, column=0)
+        self.entry_amount = Entry(frame)
+        self.entry_amount.grid(row=self.row, column=1)
+        self.entry_price = Entry(frame)
+        self.entry_price.grid(row=self.row, column=2)
+        self.entry_days = Entry(frame)
+        self.entry_days.grid(row=self.row, column=3)
+        Button(frame, text='=', command=self.set_daily_cost).grid(row=self.row, column=4)
+        self.entry_total_price = Entry(frame)
+        self.entry_total_price.grid(row=self.row, column=5)
+        # 2nd line
+        self.label_warning = Label(frame)
 
 
-    def set_daily_cost(index_row):
-        entry_name, entry_amount, entry_price, entry_day, _button_calculate, entry_total_price = list_entries[index_row]
-        label_warning = list_entries[index_row + 1][0]
-        entry_total_price.delete(0, 'end')
-        label_warning.config(text='')
+    def set_daily_cost(self):
+        self.entry_total_price.delete(0, 'end')
+        self.label_warning.config(text='')
 
-        name = entry_name.get().strip(' ')
-        amount = entry_amount.get().replace(' ', '').replace(',', '.', 1)
-        price = entry_price.get().replace(' ', '').replace(',', '.', 1)
-        day = entry_day.get().replace(' ', '').replace(',', '.', 1)
-        report_error = get_report_error(name, amount, price, day)
+        name = self.entry_name.get().strip(' ')
+        amount = self.entry_amount.get().replace(' ', '').replace(',', '.', 1)
+        price = self.entry_price.get().replace(' ', '').replace(',', '.', 1)
+        day = self.entry_days.get().replace(' ', '').replace(',', '.', 1)
+        report_error = self.get_report_error(name, amount, price, day)
         if not report_error and name:
-            label_warning.grid_remove()
-            entry_price.delete(0, 'end')
-            entry_price.insert(0, f"{float(price):.2f}")
-            entry_total_price.insert(0, f"{int(amount) * float(price) / float(day):.2f}")
+            self.label_warning.grid_remove()
+            self.entry_price.delete(0, 'end')
+            self.entry_price.insert(0, f"{float(price):.2f}")
+            self.entry_total_price.insert(0, f"{int(amount) * float(price) / float(day):.2f}")
         elif report_error:
-            label_warning.grid()
-            label_warning.config(text=report_error)
-            entry_total_price.insert(0, '')
-            label_bill.config(text='')
-        # return name, amount, price, day, entry_total_price.get(), report_error
+            self.label_warning.grid(row=self.row+1, column=0, columnspan=5)
+            self.label_warning.config(text=report_error)
+            self.entry_total_price.insert(0, '')
 
-
-    def get_report_error(name, amount, price, day)->str:
+    @staticmethod
+    def get_report_error(name: str, amount: str, price: str, day: str)->str:
         name_valid = name.replace(' ', '').replace('.', '').replace('-', '').replace('`', '').isalnum() and len(name) >= 2
         amount_valid = amount.isdigit() and amount >= '1'
         price_valid = len(price.rpartition('.')[-1]) < 3 and price.replace('.', '', 1).isdigit()
         day_valid = not day[day.find('.')+1:].rstrip('0').replace('5', '', 1) if day.find('.') !=-1 else day.strip('0').isdigit()
         report_error = ''
         if not name and not amount and not price and not day:
-            return
+            return f"{report_error}Fill up the line"
         if not name_valid:
             report_error = f"{report_error}Fill up 'Product' field with 2 or more alphabet symbols\n"
         if not amount_valid:
@@ -148,64 +154,73 @@ def print_bill():
 
 root = Tk()
 root.title('Calculator for cat')
-list_entries=[]
-list_labels_header = []
-for header in list_headers:
-    list_labels_header.append(Label(text=header))
+frame_header = Frame()
+frame_header.pack(fill='x', expand=True)
+for index_column, header in enumerate(list_headers):
+    if header:
+        Label(frame_header, text=header, width=20).grid (row=0, column=index_column)
+    else:
+        Label(frame_header, text=header, width=10).grid(row=0, column=index_column)
+product = ProductRow()
+print(product.entry_total_price)
+ProductRow()
 
-list_entries.append(list_labels_header)
-
-for index in range(quantity_items):
-    # list_entries_line = []
-    row = index*2 + 1
-    # entry_name, entry_amount, entry_price, entry_days, entry_total_price, label_warning = Entry(), Entry(), Entry(), Entry(), Entry(), Label()
-    # button_calculate=Button(text='=', command=lambda row_index=row: set_daily_cost(row_index))
-    # list_entries_line = [entry_name, entry_amount, entry_price, entry_days, button_calculate, entry_total_price]
-    # list_entries.append(list_entries_line)
-    # list_entries.append([label_warning])
-    product = ProductRow()
-    list_product.append(product)
-
-# draw tne table
-for index_row, list_entries_row in enumerate(list_entries):
-    for index_column, element in enumerate(list_entries_row):
-        element.grid(column=index_column, row=index_row)
-        warning_row = index_row%2 == 0 and index_row !=0
-        if warning_row:
-            element.grid(column = 0, row = index_row, columnspan=5, sticky='nsew')
-            element.grid_remove()
-        
-label_annual = Label(text="Total annual cost:", justify=RIGHT)
-label_annual.grid(column=0, row=row+2, columnspan=4)
-button_6 = Button(text="=", command=set_total_annual)
-button_6.grid(column=4, row=row+2)
-entry_cost_annual = Entry()
-entry_cost_annual.grid(column=5, row=row+2)
-
-label_years = Label(text="Period, years:", justify=RIGHT)
-label_years.grid(column=0, row=row+3, columnspan=4)
-entry_years = Entry()
-entry_years.grid(column=5, row=row+3)
-entry_years.insert(0, "15")
-label_warning_years = Label()
-label_warning_years.grid(column=0, columnspan=6, sticky='nsew', row=row+4)
-label_warning_years.grid_remove()
-
-label_cost_total = Label(text="Total cost for whole period:", justify=RIGHT)
-label_cost_total.grid(column=0, row=row+5, columnspan=4)
-button_6 = Button(text="=", command=set_total_cost)
-button_6.grid(column=4, row=row+5)
-entry_for_full= Entry()
-entry_for_full.grid(column=5, row=row+5)
-
-Label(text="Print bill with width(min 70):", anchor='e', justify="center").grid(column=0, row=row+6, columnspan=4)
-button_print_bill = Button(text="Print", command=print_bill)
-button_print_bill.grid(column=4, row=row+6)
-entry_bill_width = Entry()
-entry_bill_width.grid(column=3, row=row+6)
-entry_bill_width.insert(0, '100')
-
-label_bill = Label(font=('Ubuntu Mono', 10))
+# list_entries=[]
+    # list_labels_header.append(Label(text=header))
+#
+# list_entries.append(list_labels_header)
+#
+# for index in range(quantity_items):
+#     # list_entries_line = []
+#     row = index*2 + 1
+#     # entry_name, entry_amount, entry_price, entry_days, entry_total_price, label_warning = Entry(), Entry(), Entry(), Entry(), Entry(), Label()
+#     # button_calculate=Button(text='=', command=lambda row_index=row: set_daily_cost(row_index))
+#     # list_entries_line = [entry_name, entry_amount, entry_price, entry_days, button_calculate, entry_total_price]
+#     # list_entries.append(list_entries_line)
+#     # list_entries.append([label_warning])
+#     product = ProductRow()
+#     list_product.append(product)
+#
+# # draw tne table
+# for index_row, list_entries_row in enumerate(list_entries):
+#     for index_column, element in enumerate(list_entries_row):
+#         element.grid(column=index_column, row=index_row)
+#         warning_row = index_row%2 == 0 and index_row !=0
+#         if warning_row:
+#             element.grid(column = 0, row = index_row, columnspan=5, sticky='nsew')
+#             element.grid_remove()
+#
+# label_annual = Label(text="Total annual cost:", justify=RIGHT)
+# label_annual.grid(column=0, row=row+2, columnspan=4)
+# button_6 = Button(text="=", command=set_total_annual)
+# button_6.grid(column=4, row=row+2)
+# entry_cost_annual = Entry()
+# entry_cost_annual.grid(column=5, row=row+2)
+#
+# label_years = Label(text="Period, years:", justify=RIGHT)
+# label_years.grid(column=0, row=row+3, columnspan=4)
+# entry_years = Entry()
+# entry_years.grid(column=5, row=row+3)
+# entry_years.insert(0, "15")
+# label_warning_years = Label()
+# label_warning_years.grid(column=0, columnspan=6, sticky='nsew', row=row+4)
+# label_warning_years.grid_remove()
+#
+# label_cost_total = Label(text="Total cost for whole period:", justify=RIGHT)
+# label_cost_total.grid(column=0, row=row+5, columnspan=4)
+# button_6 = Button(text="=", command=set_total_cost)
+# button_6.grid(column=4, row=row+5)
+# entry_for_full= Entry()
+# entry_for_full.grid(column=5, row=row+5)
+#
+# Label(text="Print bill with width(min 70):", anchor='e', justify="center").grid(column=0, row=row+6, columnspan=4)
+# button_print_bill = Button(text="Print", command=print_bill)
+# button_print_bill.grid(column=4, row=row+6)
+# entry_bill_width = Entry()
+# entry_bill_width.grid(column=3, row=row+6)
+# entry_bill_width.insert(0, '100')
+#
+# label_bill = Label(font=('Ubuntu Mono', 10))
 
 root.mainloop()
 

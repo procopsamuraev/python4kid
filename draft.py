@@ -117,18 +117,22 @@ array_1d = [[0,1],[0,2],[0,1]]
 # print(a,b,c)
 # # a,b,c = *list_numbers
 # oprint(a,b,c)
-class Box:
-    property_class = 'class_box'
+# class Box:
+#     property_class = 'class_box'
+# 
+#     def __init__(self):
+#         self.property_object = 'object_box'
+# 
+# box_1 = Box()
+# print(box_1, box_1.property_class, box_1.property_object)
+# box_2 = Box()
+# print(box_2, box_2.property_class, box_2.property_object)
+# 
+# box_1.property_object = 'object_box_1'
+# Box.property_class = "class_box_1"
+# print(box_1, box_1.property_class, box_1.property_object)
+# print(box_2, box_2.property_class, box_2.property_object)
+x = [1, 3, 7, 4, 2]
+a, b, *rest = x
 
-    def __init__(self):
-        self.property_object = 'object_box'
-
-box_1 = Box()
-print(box_1, box_1.property_class, box_1.property_object)
-box_2 = Box()
-print(box_2, box_2.property_class, box_2.property_object)
-
-box_1.property_object = 'object_box_1'
-Box.property_class = "class_box_1"
-print(box_1, box_1.property_class, box_1.property_object)
-print(box_2, box_2.property_class, box_2.property_object)
+print(a, b, rest)
