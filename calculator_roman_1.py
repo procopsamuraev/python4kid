@@ -1,5 +1,4 @@
 # Напишите программу преобразования арабских целых чисел от 1 до 900 в римские.
-from calculator_roman import list_numbers_roman
 
 dict_numbers = {
     0: '',
@@ -31,16 +30,16 @@ dict_numbers = {
     800: 'DCCC',
     900: 'CM',
 }
-for value in 'VIII':
-    V in list_numbers_roman
-    if true:
-        int = 5
-    VI
-
-
-
-
-VIII
+# for value in 'VIII':
+#     V in list_numbers_roman
+#     if true:
+#         int = 5
+#     VI
+#
+#
+#
+#
+# VIII
 
 # list_numbers_roman=['', '', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', '11', '12', '13', '14l', 15', '16', '17',   '18','19',  '20', '21', '22l', '23', 24', '25', '26',   27' ]
 list_numbers_roman= ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC','C',  'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM' ]
@@ -62,9 +61,9 @@ def convert_arabic_roman(number_arabic: int)-> str:
     return f"{digit_hundred_roman}{digit_ten_roman}{digit_roman}"
 
 
-XI 10+1
-VI
-CCXI
+# XI 10+1
+# VI
+# CCXI
 
 def convert_roman_arabic(string_roman: str) -> int:
     number_arabic = 0
@@ -94,5 +93,5 @@ for string_number in list_string:
     else:
         print('E: Incorrect input. Vvedite 0< INT <900 in arabic')
 
-        LI - xx + v =  51-20+5
-        for
+        # LI - xx + v =  51-20+5
+        # for

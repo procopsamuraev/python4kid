@@ -132,7 +132,54 @@ array_1d = [[0,1],[0,2],[0,1]]
 # Box.property_class = "class_box_1"
 # print(box_1, box_1.property_class, box_1.property_object)
 # print(box_2, box_2.property_class, box_2.property_object)
-x = [1, 3, 7, 4, 2]
-a, b, *rest = x
+# x = [1, 3, 7, 4, 2]
+# a, b, *rest = x
+# 
+# print(a, b, rest)
+# import tkinter as tk
+# 
+# def handle_keypress(event):
+#     # This function runs when '1' is pressed
+#     label.config(text="1")
+#     print("User pressed 1")
+# 
+# # 1. Create the main window
+# root = tk.Tk()
+# root.title("Key Bind Example")
+# root.geometry("300x200")
+# 
+# # 2. Create the label
+# label = tk.Label(root, text="Press '1' on your keyboard", font=("Arial", 14))
+# label.pack(expand=True)
+# 
+# # 3. Bind the '1' key to the function
+# # The <Key-1> syntax tells Tkinter to listen for that specific key
+# root.bind("1", handle_keypress)
+# 
+# # 4. Start the application
+# root.mainloop()
 
-print(a, b, rest)
+import tkinter as tk
+
+def handle_keypress(event):
+    # Updates the label inside the frame
+    label.config(text="1")
+    print("1")
+
+root = tk.Tk()
+root.title("Frame Example")
+root.geometry("300x200")
+
+# 1. Create a LabelFrame named 'times'
+# 'relief' and 'borderwidth' make the frame visible
+times = tk.LabelFrame(root, text="times", padx=20, pady=20, borderwidth=2, relief="groove")
+times.pack(padx=10, pady=10, expand=True)
+
+# 2. Create the label INSIDE the 'times' frame
+label = tk.Label(times, text="Wait for key...", font=("Arial", 12))
+label.pack()
+
+# 3. Bind the '1' key to the root window
+root.bind("1", handle_keypress)
+
+root.mainloop()

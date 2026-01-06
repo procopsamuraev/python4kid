@@ -26,15 +26,8 @@ def convert_arabic_to_roman(number_arabic: int)-> str:
 
 
 def normalize_string(string:str)-> str:
-   string_normalized = string.replace(' ', '').upper()
-   string_normalized = string_normalized.replace('+', ' + ')
-   string_normalized = string_normalized.replace('-', ' - ')
-   string_normalized = string_normalized.removeprefix(' ').removeprefix(' ')
-   return string_normalized
-
-def check_roman_true(string:str) -> bool:
-    for item in list_roman_hundreds:
-        if 
+   string_normalized = string.replace(' ', '').strip().upper()
+   return string_normalized.replace('+', ' + ').replace('-', ' - ')
 
 
 def convert_roman_to_arabic(roman: str) -> int:
