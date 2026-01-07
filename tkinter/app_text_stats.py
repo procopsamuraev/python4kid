@@ -37,38 +37,71 @@ class Timer:
 
 def get_status():
     condition_words =  0
-    words_min_limit = entry_min_words.get()
-    words_max_limit = entry_max_words.get()
-    length_sentence = entry_sentence_len.get()
+    words_min_limit = int(entry_min_words.get())
+    words_max_limit = int(entry_max_words.get())
+    min_length_sentence = int(entry_sentence_len.get())
 
     string_text = text.get("1.0", END).strip()
     sum_words = len(string_text.split())
     sum_sentences = string_text.replace('!','.').replace('?', '.').replace('...', '.').count('.')
     label_written_words.config(text=f"Written words: {sum_words}")
     label_written_sentences.config(text=f"Written sentences: {sum_sentences}")
+    list_parts = string_text.split('\n')
+    max_index = len(list_parts)
+    for index, part in enumerate(list_parts):
+        if not part:
+            continue
+        sum_words_ = 0
+        sum_sentences_ = 0
+        for sentence in part.replace('!', '.').replace('?', '.').replace('...', '.').split('.'):
+            if not sentence:
+                continue
+            sum_words_+= len(sentence.split())
+            sum_sentences_ += 1
+
+        if index == 0:
+            label_ = label_written_sentence_start
+        elif index == max_index:
+            label_ = label_written_sentence_end
+        else:
+            label_ = label_written_sentence_main
+        text_= label_.cget('text').split(':')
+        text_head = text_[0]
+        text_tail = text_[1]
+        number_= label_.cget('text').split(':')[1]
+        label_.config(text=f"{text_head}: {sum_sentences_ + int(text_tail)}")
+
+        sum_words += sum_words_
+
+
+
+        list_sentences = part.split('.')
     timer.state_timer = 1
     timer.control_timer()
 
 
 
 def get_task():
-    pass
+    length_sentence = int(entry_sentence_len.get())
+    number_words_sentence =
+    number_of_start_sentences
 
 def set_result():
-    pass
+   pass
 
 def set_time():
     pass
 
 def control_timer():
     pass
-# def update_label_timer(dict_timer, time_start):
 
 
 root = Tk()
 root.title('Literary note')
 
 text = Text(wrap=WORD, width=30)
+# text.insert(INSERT, 'Здесь текст кнопки меняется как при клике по ней (событие <Button-1>), так и при нажатии клавиши Enter (событие <Return>). Однако Enter сработает, только если кнопка предварительно получила фокус. В данном случае для этого надо один раз нажать клавишу Tab. Иначе нажатие Enter будет относиться к окну, но не к кнопке.\n У функций-обработчиков, которые вызываются через bind(), а не через свойство command, должен быть обязательный параметр event, через который передается событие. Имя event – соглашение, идентификатор может иметь другое имя, но обязательно должен стоять на первом месте в функции, или может быть вторым в методе.')
+text.pack(fill='x')
 text.pack(side=LEFT, expand=1, fill=BOTH)
 scroll = Scrollbar(command=text.yview)
 scroll.pack(side=LEFT, fill=Y)
