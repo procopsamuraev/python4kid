@@ -73,5 +73,8 @@ def test():
 def positive(n):
     print("Positive")
 
-
-test()
+print(test)
+# test()
+line = 'test'
+ab = globals().get(line)
+print(ab)

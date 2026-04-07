@@ -4,6 +4,8 @@
 # print(a.rsplit("=")[0])
 # print(len(b))
 # string = "1.59090"
+import pprint
+
 string = "1500.55"
 year = "1500.5"
 # delimiters = ["+", "-", "*"]
@@ -158,28 +160,26 @@ array_1d = [[0,1],[0,2],[0,1]]
 # 
 # # 4. Start the application
 # root.mainloop()
+with open('tkinter/app_notepad/tkinter_menu.cfg', 'r') as file:
+    # line = file.readline().strip()
+    # if line == '[':
+    #     list_menu = []
+    # print(line)
+    for line in file:
+        line = line.rstrip()
+        if line == '[':
+            list_menu = []
+        elif line == '    [':
+            list_submenu = []
+            list_menu.append(list_submenu)
+            list_current = list_submenu
+        elif line == '        [':
+            list_submenu2 = []
+            list_submenu.append(list_submenu2)
+            list_current = list_submenu2
+        else:
+            list_current.append(line.strip(" ,'\n"))
+        # print(line)
+        # trasirovochnye tablicy
 
-import tkinter as tk
-
-def handle_keypress(event):
-    # Updates the label inside the frame
-    label.config(text="1")
-    print("1")
-
-root = tk.Tk()
-root.title("Frame Example")
-root.geometry("300x200")
-
-# 1. Create a LabelFrame named 'times'
-# 'relief' and 'borderwidth' make the frame visible
-times = tk.LabelFrame(root, text="times", padx=20, pady=20, borderwidth=2, relief="groove")
-times.pack(padx=10, pady=10, expand=True)
-
-# 2. Create the label INSIDE the 'times' frame
-label = tk.Label(times, text="Wait for key...", font=("Arial", 12))
-label.pack()
-
-# 3. Bind the '1' key to the root window
-root.bind("1", handle_keypress)
-
-root.mainloop()
+pprint.pprint(list_menu)

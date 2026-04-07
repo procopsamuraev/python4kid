@@ -41,6 +41,7 @@ for city, tz in LIST_CLOCKS:
     # print(clock.__dict__)
 root.mainloop()
 
+
 # 3 independent windows
 # for city, tz in LIST_CLOCKS:
 #     root = Tk()
